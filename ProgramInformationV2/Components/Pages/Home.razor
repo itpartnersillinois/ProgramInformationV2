@@ -1,0 +1,50 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<ilw-content width="auto">
+    <h1>Welcome to the IT Partners Program/Course Repository</h1>
+    <div class="iled-float">
+        <h2 id="sourcelabel">Choose a source</h2>
+        <div>
+            @if (Sources != null && Sources.Count > 1)
+            {
+                <select aria-labelledby="sourcelabel" @onchange="(ChangeEventArgs e) => ChangeSource(e)">
+                    <option value=""></option>
+                    @foreach (var source in Sources)
+                    {
+                        <option value="@source.Key">@source.Value (@source.Key)</option>
+                    }
+                </select>
+            }
+            <p>A source is a collection of programs, credentials, and courses on a web page. This is an artificial designation that may be by college (College of Education), department (Computer Science), or a subsection of a college (Gies Online Courses). This designation is created by the administrator of the repository, and a program or course may be in more than one repository represented differently.</p>
+            <p><a href="/configuration/sources">Create a source or request an existing source</a></p>
+        </div>
+    </div>
+    <p>This tool is used to edit programs, credentials, plans of study, requirement sets, courses, and sections. This information can be accessed via an API to search based on text and category. More information about this project.</p>
+    <p>Note that this is used for external marketing and websites, and should not take the place of a requirement checklist for a student (like DARS).</p>
+    @if (string.IsNullOrWhiteSpace(_source))
+    {
+        <p><strong>Select a source to begin.</strong></p>
+    } else
+    {
+        <h2>Source: "@_source"</h2>
+        <ilw-grid>
+            <ilw-card>
+                <h3>Edit Information</h3>
+            </ilw-card>
+            <ilw-card>
+                <h3>Search Information</h3>
+            </ilw-card>
+            <ilw-card>
+                <h3>Audit Screens</h3>
+            </ilw-card>
+            <ilw-card>
+                <h3>Configuration</h3>
+            </ilw-card>
+            <ilw-card>
+                <h3>Contact Us</h3>
+            </ilw-card>
+        </ilw-grid>
+    }
+</ilw-content>

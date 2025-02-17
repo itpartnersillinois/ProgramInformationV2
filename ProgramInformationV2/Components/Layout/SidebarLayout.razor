@@ -1,0 +1,45 @@
+﻿@inherits LayoutComponentBase
+<CascadingValue Value="this">
+<NavigationLock OnBeforeInternalNavigation=this.LocationChangingHandler ConfirmExternalNavigation=IsDirty />
+<ilw-page>
+<ilw-header slot="header">
+    <a slot="primary-unit" href="https://itpartners.illinois.edu/">IT Partners</a>
+    <a slot="site-name" href="/">Program / Course Repository</a>
+    <div slot="search">
+        <LoginDisplay />
+    </div>
+    <NavMenu />
+</ilw-header>
+
+<main>
+    <ilw-columns mode="1x2" gap="20px" width="page">
+        <div>
+            <Breadcrumb />
+            <Sidebar />
+            <LoginInformation />
+            <ilw-content><p>Source: @SourceCode</p></ilw-content>
+        </div>
+        <div>
+            @Body
+        </div>
+    </ilw-columns>
+    <ToastPopup />
+</main>
+
+<aside>
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+</aside>
+
+<ilw-footer slot="footer">
+    <a slot="primary-unit" href="https://itpartners.illinois.edu/">IT Partners</a>
+    <a slot="site-name" href="/">Program / Course Repository</a>
+    <div slot="actions">
+        <a href="#">Report a Problem</a>
+    </div>
+</ilw-footer>
+</ilw-page>
+</CascadingValue>

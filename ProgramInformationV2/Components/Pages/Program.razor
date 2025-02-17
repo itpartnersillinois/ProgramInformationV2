@@ -1,0 +1,38 @@
+﻿@page "/programcred/program/general"
+@layout SidebarLayout
+
+<PageTitle>Sidebar</PageTitle>
+
+<ilw-content>
+    <h1>Hello, world!</h1>
+    <p>Welcome to your new app.</p>
+    <p><a href="/">Back to main page</a></p>
+            <div class="iled-input-box-parent">
+            <div class="iled-input-box">
+
+    <label for="ed-room">Room Number</label>
+    <input id="ed-room" type="text" @bind="Room" @bind:after="Layout.SetDirty">
+    </div>
+            </div>
+    <p><button class="ilw-button" @onclick="Send" @onblur="Layout.RemoveMessage">Save Information</button></p>
+
+</ilw-content>
+
+@code {
+    [CascadingParameter]
+    public SidebarLayout Layout { get; set; }
+
+    public string Room { get; set; } = "";
+
+    protected override void OnInitialized()
+    {
+        Layout.CheckSource();
+        base.OnInitialized();
+    }
+
+    protected async Task Send()
+    {
+        await Layout.AddMessage("Information saved.");
+        Layout.RemoveDirty();
+    }
+}

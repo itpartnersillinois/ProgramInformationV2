@@ -1,0 +1,21 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ProgramInformationV2.Data.DataModels {
+
+    public class Log : BaseDataItem {
+        public CategoryType CategoryType { get; set; }
+        public string ChangedByNetId { get; set; } = "";
+        public string ChangeType { get; set; } = "";
+        public string Data { get; set; } = "";
+        public string DateCreated => LastUpdated.ToString("f");
+        public bool EmailSent { get; set; }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override int Id { get; set; }
+
+        public int SourceId { get; set; }
+        public string SubjectId { get; set; } = "";
+    }
+}

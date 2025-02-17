@@ -1,0 +1,24 @@
+﻿/* Float right box */
+.iled-float {
+    float: right;
+    width: 275px;
+    margin: 0 0 40px 20px;
+    border: 1px solid var(--il-blue);
+}
+
+    .iled-float h2 {
+        color: white;
+        background: var(--il-blue);
+        width: 100%;
+        text-align: center;
+        font-size: 1.4rem;
+    }
+
+    .iled-float div {
+        padding: 10px;
+    }
+
+    .iled-float span.iled-float-office {
+        padding-bottom: 10px;
+        display: inline-block;
+    }

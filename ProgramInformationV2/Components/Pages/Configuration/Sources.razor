@@ -1,0 +1,39 @@
+﻿@page "/configuration/sources"
+@layout SidebarLayout
+
+<PageTitle>Sources</PageTitle>
+
+<ilw-content>
+    <h1>Sources</h1>
+    <h2>Create a New Source</h2>
+    <p>You may create a new source below. Your source selection will change to the new source once created. Visit the home page to select a different source to edit.</p>
+    <div class="iled-input-box-parent">
+        <div class="iled-input-box">
+            <label for="source">Source Name</label>
+            <input id="source" type="text" @bind="NewSource">
+        </div>
+        <div class="iled-input-box">
+            <label for="code">Source Code</label>
+            <input id="code" type="text" @bind="NewSourceCode">
+        </div>
+    </div>
+    <p><button class="ilw-button" @onclick="CreateSource" @onblur="Layout.RemoveMessage">Create Source</button></p>
+</ilw-content>
+
+<ilw-content>
+    <h2>Source Owners</h2>
+    <p>If you wish to request access to a source, please request access below.</p>
+    @if (this.SourceEntries != null)
+    {
+        <ul>
+            @foreach (var entry in this.SourceEntries)
+            {
+                <li>
+                    <div>@entry.Value (@entry.Key) <button @onclick="@(e => RequestAccess(entry.Key))" @onblur="Layout.RemoveMessage" class="ilw-button" aria-label="Request access for @entry.Value">Request Access</button></div>
+                </li>
+            }
+        </ul>
+    }
+
+</ilw-content>
+

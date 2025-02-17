@@ -1,0 +1,9 @@
+﻿@if (Breadcrumbs != null && GoodBreadcrumbs.Any())
+{
+    <ilw-breadcrumbs>
+            @foreach (var breadcrumb in GoodBreadcrumbs)
+            {
+                <a href="@breadcrumb.Url">@breadcrumb.Text</a> 
+            }
+        </ilw-breadcrumbs>
+}
