@@ -3,12 +3,16 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 using ProgramInformationV2.Data.Cache;
+using ProgramInformationV2.Data.PageList;
 using ProgramInformationV2.Helpers;
 
 namespace ProgramInformationV2.Components.Layout {
 
     public partial class SidebarLayout {
         public bool IsDirty = false;
+
+        public required Breadcrumb BreadcrumbControl { get; set; }
+        public required Sidebar SidebarControl { get; set; }
 
         [Inject]
         protected AuthenticationStateProvider AuthenticationStateProvider { get; set; } = default!;
@@ -34,9 +38,29 @@ namespace ProgramInformationV2.Components.Layout {
             return source ?? "";
         }
 
+        public async Task<string> GetCachedId() {
+            var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
+            return cacheItem?.ItemId ?? "";
+        }
+
+        public async Task<string> GetNetId() => await AuthenticationStateProvider.GetUser();
+
+        public async Task ClearCacheId() => await SetCacheId("");
+
+        public async Task SetCacheId(string id) {
+            var netid = await AuthenticationStateProvider.GetUser();
+            var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
+            CacheHolder.SetCacheItem(netid, id, "");
+        }
+
         protected override async Task OnInitializedAsync() {
             SourceCode = CacheHolder.GetCacheSource(await AuthenticationStateProvider.GetUser()) ?? "";
             await base.OnInitializedAsync();
+        }
+
+        public void SetSidebar(SidebarEnum s) {
+            SidebarControl.Rebuild(s);
+            BreadcrumbControl.Rebuild(s);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender) {

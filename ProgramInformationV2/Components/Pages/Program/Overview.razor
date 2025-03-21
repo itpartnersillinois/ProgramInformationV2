@@ -1,0 +1,16 @@
+﻿@page "/program/overview"
+@layout SidebarLayout
+
+<PageTitle>Programs - Overview</PageTitle>
+
+<ilw-content>
+    <h1>Overview</h1>
+
+    @if (ProgramItem != null)
+    {
+        <RichTextEditor @ref="@_rteDescription" Title="Description" FieldItems="_fieldItems"></RichTextEditor>
+        <RichTextEditor @ref="@_rteWhoShouldApply" Title="Who Should Apply" FieldItems="_fieldItems"></RichTextEditor>
+        <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+    }
+
+</ilw-content>

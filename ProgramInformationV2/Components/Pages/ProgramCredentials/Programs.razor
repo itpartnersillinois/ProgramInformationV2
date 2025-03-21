@@ -1,0 +1,33 @@
+﻿@page "/programs"
+@layout SidebarLayout
+
+<PageTitle>Programs</PageTitle>
+
+<ilw-content>
+    <h1>Programs</h1>
+
+    <p>
+        Programs are a group of credentials connected by a common educational thread. For example, the Learning Design and Leadership program may have a Bachelor's Degree, Master's Degree, and Doctorate Degree.
+    </p>
+    <p>
+        A valid program must contain one or more credentials. A program may have only one credential. 
+    </p>
+
+
+    @if (ProgramList != null && ProgramList.Count > 0)
+    {
+        <h2 id="programlabel">Choose a program to edit</h2>
+        <select aria-labelledby="programlabel" @bind="SelectedId">
+            <option value=""></option>
+            @foreach (var program in ProgramList)
+            {
+                <option value="@program.Id">@program.Title</option>
+            }
+        </select>
+        <button class="ilw-button" @onclick="ChooseProgram">Edit Program</button>
+    }
+
+    <h2>Create a new program</h2>
+    <button class="ilw-button" @onclick="SetNewProgram">Create Program</button>
+
+</ilw-content>

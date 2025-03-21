@@ -1,0 +1,21 @@
+﻿@page "/program/link"
+@layout SidebarLayout
+
+<PageTitle>Programs - Link Information</PageTitle>
+
+<ilw-content>
+    <h1>Link Information</h1>
+</ilw-content>
+
+@if (ProgramItem != null)
+{
+    <UrlText Title="Link URL" FieldItems="FieldItems" @bind-Value="ProgramItem.Url"></UrlText>
+    <UrlText Title="Alternate Link URL" FieldItems="FieldItems" @bind-Value="ProgramItem.AlternateUrl"></UrlText>
+    <MediumText Title="Alternate Link Text" FieldItems="FieldItems" @bind-Value="ProgramItem.AlternateUrlTitle"></MediumText>
+    <ImageControl @ref="@_imageProgramImage" Title="Program Image" FieldItems="FieldItems" @bind-Value="ProgramItem.SummaryImageUrl" ItemId="@ProgramItem.Id"></ImageControl>
+    <MediumText Title="Program Image Alternative Text" FieldItems="FieldItems" @bind-Value="ProgramItem.SummaryImageAltText"></MediumText>
+    <ImageControl @ref="@_imageDetailProgramImage" Title="Detail Program Image" FieldItems="FieldItems" @bind-Value="ProgramItem.DetailImageUrl" ItemId="@ProgramItem.Id"></ImageControl>
+    <MediumText Title="Detail Program Image Alternative Text" FieldItems="FieldItems" @bind-Value="ProgramItem.DetailImageAltText"></MediumText>
+    <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+}
+

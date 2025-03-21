@@ -1,0 +1,56 @@
+﻿namespace ProgramInformationV2.Search.Models {
+    public class Credential : BasePublicObject {
+        public Credential() {
+            IsActive = true;
+            RequirementSetIds = [];
+            CreatedOn = DateTime.Now;
+            LastUpdated = DateTime.Now;
+        }
+
+        public string Cost { get; set; } = "";
+
+        public CredentialType CredentialType { get; set; }
+
+        public string CredentialTypeString => CredentialType.ConvertToSingleString();
+
+        public string DisclaimerText { get; set; } = "";
+
+        public string Enrollment { get; set; } = "";
+
+        public string ExternalUrl { get; set; } = "";
+
+        public FormatType FormatType { get; set; }
+
+        public IEnumerable<string> FormatTypeString => FormatType.ConvertFormatList();
+
+        public string HourText { get; set; } = "";
+
+        public string ImageAltText { get; set; } = "";
+
+        public string ImageUrl { get; set; } = "";
+
+        public bool IsTranscriptable { get; set; }
+
+        public string Length { get; set; } = "";
+
+        public string Notes { get; set; } = "";
+
+        public string ProgramId { get; set; } = "";
+
+        public string ProgramTitle { get; set; } = "";
+
+        public IEnumerable<string> RequirementSetIds { get; set; }
+
+        public string SummaryText { get; set; } = "";
+
+        public string SummaryTitle { get; set; } = "";
+
+        public string TranscriptableName { get; set; } = "";
+
+        public override void CleanHtmlFields() {
+            SummaryText = CleanHtml(SummaryText);
+            Description = CleanHtml(Description);
+            ProcessLists();
+        }
+    }
+}

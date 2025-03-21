@@ -78,15 +78,57 @@
         background-position-y: 10px;
     }
 
-.iled-instructions {
-    color: var(--il-gray-2);
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1.2rem;
-    padding-top: 3px;
+.instructions {
+    display: block;
+    font: 400 1.125rem / 1.667rem var(--il-font-sans);
+    color: var(--il-storm);
 }
 
 .iled-error {
     background: #fbb5b5;
 }
+
+
+textarea {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 14px;
+    color: #333;
+    width: 100%;
+    resize: vertical; 
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+    textarea::placeholder {
+        color: #bbb;
+    }
+
+    textarea:hover {
+        background-color: #eee;
+        border-color: #ccc;
+    }
+
+    textarea:focus {
+        border: 2px solid var(--il-blue);
+        outline: none;
+    }
+
+    textarea:focus-visible {
+        border: 2px solid var(--il-orange);
+        background-color: white;
+        outline: none;
+    }
+
+    textarea:active {
+        border: 2px solid var(--il-orange);
+        background-color: white;
+    }
+
+    textarea:disabled {
+        background-color: #e0e0e0;
+        border-color: #aaa;
+        color: #aaa;
+        cursor: not-allowed;
+    }

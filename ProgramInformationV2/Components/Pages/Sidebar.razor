@@ -1,4 +1,4 @@
-﻿@page "/sidebar"
+﻿@page "/sample"
 @layout SidebarLayout
 
 <PageTitle>Sidebar</PageTitle>
@@ -22,16 +22,30 @@
     [CascadingParameter]
     public SidebarLayout Layout { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = default!;
+
+    [Inject]
+    public Search.Setters.ProgramSetter Setter { get; set; } = default;
+
     public string Room { get; set; } = "";
 
     protected override void OnInitialized()
     {
+        Layout.CheckSource();
         base.OnInitialized();
     }
 
     protected async Task Send()
     {
         await Layout.AddMessage("Information saved.");
+        var program = new ProgramInformationV2.Search.Models.Program
+            {
+                Title = "Sample title",
+                Description = "Sample description"
+            };
+        var x = Setter.SetProgram(program);
+
         Layout.RemoveDirty();
     }
 }

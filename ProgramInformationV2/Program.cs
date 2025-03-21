@@ -2,10 +2,16 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using OpenSearch.Client;
 using ProgramInformationV2.Components;
 using ProgramInformationV2.Data.Cache;
 using ProgramInformationV2.Data.DataContext;
 using ProgramInformationV2.Data.DataHelpers;
+using ProgramInformationV2.Data.FieldList;
+using ProgramInformationV2.Data.Uploads;
+using ProgramInformationV2.Search;
+using ProgramInformationV2.Search.Getters;
+using ProgramInformationV2.Search.Setters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +33,19 @@ builder.Services.AddWebOptimizer(pipeline => {
     pipeline.AddCssBundle("/css/site.css", "/wwwroot/css/*.css").UseContentRoot();
 });
 
+builder.Services.AddScoped(b => new UploadStorage(builder.Configuration["AzureStorage"], builder.Configuration["AzureAccountName"], builder.Configuration["AzureAccountKey"], builder.Configuration["AzureImageContainerName"]));
+
 builder.Services.AddDbContextFactory<ProgramContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnection")).EnableSensitiveDataLogging(true));
 builder.Services.AddScoped<ProgramRepository>();
 builder.Services.AddSingleton<CacheHolder>();
 builder.Services.AddScoped<SourceHelper>();
+builder.Services.AddScoped<FilterHelper>();
+builder.Services.AddScoped<FieldManager>();
+builder.Services.AddScoped<ProgramFieldItemMultipleDelete>();
+builder.Services.AddSingleton(b => OpenSearchFactory.CreateClient(builder.Configuration["SearchUrl"], builder.Configuration["SearchAccessKey"], builder.Configuration["SearchSecretAccessKey"]));
+builder.Services.AddScoped<ProgramSetter>();
+builder.Services.AddScoped<ProgramGetter>();
+
 
 var app = builder.Build();
 
@@ -52,8 +67,12 @@ app.UseWebOptimizer();
 app.Lifetime.ApplicationStarted.Register(() => {
     var factory = app.Services.GetService<IServiceScopeFactory>() ?? throw new NullReferenceException("service scope factory is null");
     using var serviceScope = factory.CreateScope();
+    // Ensure the database is created
     var context = serviceScope.ServiceProvider.GetRequiredService<ProgramContext>();
     _ = context.Database.EnsureCreated();
+    // Ensure the search index is created
+    var openSearchClient = serviceScope.ServiceProvider.GetRequiredService<OpenSearchClient>();
+    Console.WriteLine(OpenSearchFactory.MapIndex(openSearchClient));
 });
 
 app.Run();

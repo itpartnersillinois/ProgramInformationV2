@@ -1,0 +1,8 @@
+﻿<p>Filter Editor</p>
+@if (Value != null)
+{
+    <input type="text" @bind="Value.Title" class="ils-input-long"/>
+}
+<button @onclick="MoveUp">Move Up</button>
+<button @onclick="MoveDown">Move Down</button>
+<button @onclick="Remove">Remove</button>

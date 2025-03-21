@@ -24,10 +24,12 @@ namespace ProgramInformationV2.Components.Pages {
 
         protected override async Task OnInitializedAsync() {
             var email = await UserHelper.GetUser(AuthenticationStateProvider);
-            Sources = await ProgramRepository.ReadAsync(c => c.SecurityEntries.Include(se => se.Source).Where(se => se.IsActive && !se.IsRequested && se.Email == email).ToDictionary(se => se.Source.Code, se2 => se2.Source.Title));
+            Sources = await ProgramRepository.ReadAsync(c => c.SecurityEntries.Include(se => se.Source).Where(se => se.IsActive && !se.IsRequested && se.Email == email).ToDictionary(se => se.Source?.Code ?? "", se2 => se2.Source?.Title ?? ""));
             if (Sources.Count == 1) {
                 _source = Sources.First().Key;
                 CacheHolder.SetCacheSource(email, _source);
+            } else if (CacheHolder.HasCachedItem(email)) {
+                _source = CacheHolder.GetCacheSource(email) ?? "";
             }
             base.OnInitialized();
         }

@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ProgramInformationV2.Data.DataModels {
 
     public class FieldSource : BaseDataItem {
+        public CategoryType CategoryType { get; set; }
         public string Description { get; set; } = "";
 
-        public virtual Field? Field { get; set; }
-
-        public int FieldId { get; set; }
+        public string Title { get; set; } = "";
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

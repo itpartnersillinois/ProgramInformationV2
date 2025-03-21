@@ -14,5 +14,9 @@ namespace ProgramInformationV2.Data.DataModels {
         public int SourceId { get; set; }
         public TagType TagType { get; set; }
         public string Title { get; set; } = "";
+        [NotMapped]
+        public string OldTitle { get; set; } = "";
+        [NotMapped]
+        public bool EnabledBySource { get; set; }
     }
 }

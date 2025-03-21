@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using ProgramInformationV2.Components.Layout;
 using ProgramInformationV2.Data.DataContext;
 using ProgramInformationV2.Data.DataHelpers;
-using ProgramInformationV2.Data.DataModels;
+using ProgramInformationV2.Data.PageList;
 using ProgramInformationV2.Helpers;
 
 namespace ProgramInformationV2.Components.Pages.Configuration {
@@ -28,36 +28,12 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
 
         protected override async Task OnInitializedAsync() {
             base.OnInitialized();
+            Layout.SetSidebar(SidebarEnum.Configuration);
             SourceEntries = await ProgramRepository.ReadAsync(c => c.Sources.Where(s => s.IsActive).OrderBy(s => s.Title).ToDictionary(s => s.Code, t => $"{t.Title} owned by {t.CreatedByEmail}"));
         }
 
-        protected async Task CreateSource() {
-            var email = await UserHelper.GetUser(AuthenticationStateProvider);
-            var message = await SourceHelper.CreateSource(NewSourceCode, NewSource, email);
-            await Layout.AddMessage(message);
-        }
+        protected async Task CreateSource() => await Layout.AddMessage(await SourceHelper.CreateSource(NewSourceCode, NewSource, await UserHelper.GetUser(AuthenticationStateProvider)));
 
-        protected async Task<int> RequestAccess(string key) {
-            var source = await ProgramRepository.ReadAsync(c => c.Sources.FirstOrDefault(s => s.Code == key));
-            if (source == null) {
-                await Layout.AddMessage($"Source Code not found");
-                return 0;
-            }
-
-            var email = await UserHelper.GetUser(AuthenticationStateProvider);
-            var existingItem = await ProgramRepository.ReadAsync(c => c.SecurityEntries.FirstOrDefault(s => s.SourceId == source.Id && s.Email == email));
-            if (existingItem != null) {
-                if (existingItem.IsActive) {
-                    await Layout.AddMessage($"You already have access");
-                } else if (existingItem.IsRequested) {
-                    await Layout.AddMessage($"You entry is pending");
-                }
-                return 0;
-            }
-
-            var value = await ProgramRepository.CreateAsync(new SecurityEntry(email, source.Id, true));
-            await Layout.AddMessage($"Requested access to code {key}");
-            return value;
-        }
+        protected async Task RequestAccess(string key) => await Layout.AddMessage(await SourceHelper.RequestAccess(key, await UserHelper.GetUser(AuthenticationStateProvider)));
     }
 }

@@ -5,8 +5,7 @@ namespace ProgramInformationV2.Data.DataModels {
 
     public class SecurityEntry : BaseDataItem {
 
-        public SecurityEntry() {
-        }
+        public SecurityEntry() { }
 
         public SecurityEntry(string netId, int sourceId, bool requestedOnly = false) {
             Email = TransformName(netId);
@@ -28,8 +27,8 @@ namespace ProgramInformationV2.Data.DataModels {
         public bool IsOwner { get; set; }
         public bool IsPublic { get; set; }
         public bool IsRequested { get; set; }
-        public int SourceId { get; set; }
-        public virtual Source Source { get; set; }
+        public int? SourceId { get; set; }
+        public virtual Source? Source { get; set; }
         public static string TransformName(string netid) => (netid.EndsWith("@illinois.edu") ? netid : netid + "@illinois.edu").ToLowerInvariant();
     }
 }

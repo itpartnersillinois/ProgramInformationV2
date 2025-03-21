@@ -17,5 +17,26 @@ namespace ProgramInformationV2.Data.DataHelpers {
             }
             return $"Added source {newTitle} with code {newSourceCode}";
         }
+
+        public async Task<string> RequestAccess(string sourceCode, string email) {
+            var source = await _programRepository.ReadAsync(c => c.Sources.FirstOrDefault(s => s.Code == sourceCode));
+            if (source == null) {
+                return "Source Code not found";
+            }
+
+            var existingItem = await _programRepository.ReadAsync(c => c.SecurityEntries.FirstOrDefault(s => s.SourceId == source.Id && s.Email == email));
+            if (existingItem != null) {
+                if (existingItem.IsActive) {
+                    return "You already have access";
+                } else if (existingItem.IsRequested) {
+                    return "You entry is pending";
+                } else {
+                    return "You entry has been rejected -- please contact the owner for more information";
+                }
+            }
+
+            var value = await _programRepository.CreateAsync(new SecurityEntry(email, source.Id, true));
+            return $"Requested access to code {sourceCode}";
+        }
     }
 }

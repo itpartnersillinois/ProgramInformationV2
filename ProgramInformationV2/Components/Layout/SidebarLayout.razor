@@ -14,8 +14,8 @@
 <main>
     <ilw-columns mode="1x2" gap="20px" width="page">
         <div>
-            <Breadcrumb />
-            <Sidebar />
+            <Breadcrumb @ref="BreadcrumbControl" />
+            <Sidebar @ref="SidebarControl"/>
             <LoginInformation />
             <ilw-content><p>Source: @SourceCode</p></ilw-content>
         </div>

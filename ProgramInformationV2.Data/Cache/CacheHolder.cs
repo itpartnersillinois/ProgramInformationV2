@@ -48,7 +48,7 @@ namespace ProgramInformationV2.Data.Cache {
         }
 
         private void ClearExpired() {
-            foreach (var items in _dictionary.Where(i => i.Value.Expired)) {
+            foreach (var items in _dictionary.Where(i => i.Value != null && i.Value.Expired)) {
                 _dictionary.Remove(items.Key);
             }
         }

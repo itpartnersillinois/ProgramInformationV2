@@ -15,16 +15,32 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazored.TextEditor" Version="1.1.0" />
+    <PackageReference Include="Blazored.TextEditor" Version="1.1.2" />
     <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.433" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Identity.Web" Version="3.5.0" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.5.0" />
+    <PackageReference Include="OpenSearch.Client" Version="1.8.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ProgramInformationV2.Data\ProgramInformationV2.Data.csproj" />
+    <ProjectReference Include="..\ProgramInformationV2.Search\ProgramInformationV2.Search.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Pages\ContactUs\" />
+    <Folder Include="Components\Pages\Course\" />
+    <Folder Include="Components\Pages\Audit\" />
+    <Folder Include="Components\Pages\Section\" />
+    <Folder Include="Components\Pages\RequirementSet\" />
+    <Folder Include="Components\Pages\Search\" />
+    <Folder Include="Components\Pages\Credential\" />
   </ItemGroup>
 
 </Project>

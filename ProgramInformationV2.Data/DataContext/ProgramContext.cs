@@ -17,7 +17,6 @@ namespace ProgramInformationV2.Data.DataContext {
             Debug.WriteLine($"{_id} context created.");
         }
 
-        public DbSet<Field> Fields { get; set; }
         public DbSet<FieldSource> FieldSources { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<SecurityEntry> SecurityEntries { get; set; }
@@ -38,14 +37,11 @@ namespace ProgramInformationV2.Data.DataContext {
             Debug.WriteLine($"{_id} context starting initial setup.");
             modelBuilder.Entity<Source>().HasData(new List<Source>
             {
-                new() { Id = -1, Code = "test", Title = "Test Entry", CreatedByEmail = "jonker@illinois.edu", IsTest = true },
+                new() { Id = -1, Code = "test", Title = "Test Entry", CreatedByEmail = "jonker@illinois.edu", IsTest = true, UseCourses = true, UseCredentials = true, UsePrograms = true, UseRequirementSets = true, UseSections = true },
             });
             modelBuilder.Entity<SecurityEntry>().HasData(new List<SecurityEntry>
             {
                 new("jonker", -1) { Id = -1, IsOwner = true }
-            });
-            modelBuilder.Entity<Field>().HasData(new List<Field> {
-                new() { Id = 1, Title = "Alternate Link URL & Name", InitialDescription = "This should link to an alternative page by another college involved in running/hosting the program. You must also add the text the link will be applied to.", FieldType = FieldType.Link, CategoryType = CategoryType.Program  }
             });
             Debug.WriteLine($"{_id} context finishing initial setup.");
         }

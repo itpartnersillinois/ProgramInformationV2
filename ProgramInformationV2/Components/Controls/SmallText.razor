@@ -1,0 +1,10 @@
+﻿@if (GetFieldItemActive())
+{
+<ilw-content>
+    <div class="ils-input-entry">
+        <label for="@Id">@Title</label>
+            <input id="@Id" type="text" @bind="Value" @bind:after="Layout.SetDirty" />
+        <p>@GetFieldItemDescription()</p>
+    </div>
+</ilw-content>
+}

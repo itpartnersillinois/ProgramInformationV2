@@ -13,7 +13,7 @@
                     <option value=""></option>
                     @foreach (var source in Sources)
                     {
-                        <option value="@source.Key">@source.Value (@source.Key)</option>
+                        <option value="@source.Key" selected="@(source.Key == _source)">@source.Value (@source.Key)</option>
                     }
                 </select>
             }

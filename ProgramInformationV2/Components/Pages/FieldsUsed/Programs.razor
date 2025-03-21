@@ -1,0 +1,53 @@
+﻿@page "/configuration/fieldsused/programs"
+@layout SidebarLayout
+
+<PageTitle>Fields Used - Programs</PageTitle>
+
+<ilw-content>
+    <h1>Fields Used - Programs</h1>
+    <p>Customize the fields used for programs.</p>
+    <p>@Instructions</p>
+</ilw-content>
+
+
+<ilw-content>
+    <fieldset class="heading">
+        <legend>Would you like to add Programs to your source?</legend>
+        <div class="ils-input-entry-compact">
+            <label for="isused-yes">Yes</label>
+            <input type="radio" name="isused" id="isused-yes" value="yes" checked="@IsUsed" @onchange="e => SaveUsedChange(true)" />
+        </div>
+        <div class="ils-input-entry-compact">
+            <label for="isused-no">No</label>
+            <input type="radio" name="isused" id="isused-no" value="no" checked="@(!IsUsed)" @onchange="e => SaveUsedChange(false)" />
+        </div>
+    </fieldset>
+</ilw-content>
+
+@if (IsUsed && FieldItems != null)
+{
+    @foreach (var group in FieldItems)
+    {
+        <ilw-content>
+        <h2>@group.Key Fields</h2>
+
+        <p>Instruction text to be filled out</p>
+
+            @foreach (var item in group)
+            {
+                <h3>@item.Title</h3>
+                <div class="ils-input-entry-checkbox">
+                    <label for="@item?.TitleLowerCase">Show Field?</label>
+                    <input type="checkbox" id="@item?.TitleLowerCase" @bind="item.ShowItem" @bind:after="Layout.SetDirty" />
+                </div>
+                <div class="ils-input-entry">
+                    <div>
+                        <label for="@item?.TitleLowerCase-description">Description?</label>
+                        <input id="@item?.TitleLowerCase-description" type="text" @bind="item.Description" @bind:after="Layout.SetDirty" class="ils-input-long" />
+                    </div>
+                </div>
+            }
+        </ilw-content>
+    }
+}
+<button class="ilw-button" @onclick="SaveChanges" @onblur="Layout.RemoveMessage">Save Changes</button>

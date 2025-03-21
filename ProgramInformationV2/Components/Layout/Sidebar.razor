@@ -1,10 +1,10 @@
-﻿@if (SidebarLinks != null && SidebarLinks.Any())
+﻿@if (_sidebarLinks != null && _sidebarLinks.Any())
 {
     <ilw-section-nav>
-        <a href="@TitleUrl" class="ilw-section-nav--root">@Title</a>
-        @foreach (var sidebarLink in SidebarLinks)
+        <a href="@_titleUrl" class="ilw-section-nav--root">@_title</a>
+        @foreach (var sidebarLink in _sidebarLinks)
         {
-            @if (BaseUrl == sidebarLink.Url)
+            @if (_baseUrl == sidebarLink.Url)
             {
                 <a href="@sidebarLink.Url" aria-current="page">@sidebarLink.Text</a>
             }

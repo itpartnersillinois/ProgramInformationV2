@@ -24,10 +24,13 @@
     <script src="https://cdn.brand.illinois.edu/components/il-header.mjs" type="module" async></script>
     <script src="https://cdn.brand.illinois.edu/components/il-footer.mjs" type="module" async></script>
     <script type="module" src="//cdn.toolkit.illinois.edu/3/toolkit.js" async></script>
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
 
     <script src="https://cdn.disability.illinois.edu/skipto.min.js"></script>
     <script>var SkipToConfig = { 'settings': { 'skipTo': { displayOption: 'static', colorTheme: 'illinois', headings: 'h1, h2, h3', } } };</script>
 
+    <link href="//contrib.webtheme.illinois.edu/ils-input/input3.css" rel="stylesheet">
     <link href="/css/site.css" rel="stylesheet" />
     <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
@@ -36,8 +39,11 @@
 </head>
 
 <body>
-    <Routes @rendermode="InteractiveServer" />
+    <Routes @rendermode="new InteractiveServerRenderMode(false)" />
     <script src="_framework/blazor.web.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="_content/Blazored.TextEditor/quill-blot-formatter.min.js"></script>
+    <script src="_content/Blazored.TextEditor/Blazored-BlazorQuill.js"></script>
 </body>
 
 </html>
