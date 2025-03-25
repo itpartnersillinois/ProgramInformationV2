@@ -42,10 +42,9 @@ builder.Services.AddScoped<SourceHelper>();
 builder.Services.AddScoped<FilterHelper>();
 builder.Services.AddScoped<FieldManager>();
 builder.Services.AddScoped<ProgramFieldItemMultipleDelete>();
-builder.Services.AddSingleton(b => OpenSearchFactory.CreateClient(builder.Configuration["SearchUrl"], builder.Configuration["SearchAccessKey"], builder.Configuration["SearchSecretAccessKey"]));
+builder.Services.AddSingleton(b => OpenSearchFactory.CreateClient(builder.Configuration["SearchUrl"], builder.Configuration["SearchAccessKey"], builder.Configuration["SearchSecretAccessKey"], bool.Parse(builder.Configuration["SearchDebug"] ?? "false")));
 builder.Services.AddScoped<ProgramSetter>();
 builder.Services.AddScoped<ProgramGetter>();
-
 
 var app = builder.Build();
 

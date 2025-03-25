@@ -5,29 +5,24 @@
 
 <ilw-content>
     <h1>Programs</h1>
-
-    <p>
-        Programs are a group of credentials connected by a common educational thread. For example, the Learning Design and Leadership program may have a Bachelor's Degree, Master's Degree, and Doctorate Degree.
-    </p>
-    <p>
-        A valid program must contain one or more credentials. A program may have only one credential. 
-    </p>
-
-
-    @if (ProgramList != null && ProgramList.Count > 0)
+    @if (_usePrograms.HasValue && _usePrograms.Value)
     {
-        <h2 id="programlabel">Choose a program to edit</h2>
-        <select aria-labelledby="programlabel" @bind="SelectedId">
-            <option value=""></option>
-            @foreach (var program in ProgramList)
-            {
-                <option value="@program.Id">@program.Title</option>
-            }
-        </select>
-        <button class="ilw-button" @onclick="ChooseProgram">Edit Program</button>
-    }
+        <p>
+            Programs are a group of credentials connected by a common educational thread. For example, the Learning Design and Leadership program may have a Bachelor's Degree, Master's Degree, and Doctorate Degree.
+        </p>
+        <p>
+            A valid program must contain one or more credentials. A program may have only one credential. 
+        </p>
 
-    <h2>Create a new program</h2>
-    <button class="ilw-button" @onclick="SetNewProgram">Create Program</button>
+        <SearchGenericItem @ref="@_searchGenericItem" GenericItems="@ProgramList" ItemTitle="Program" EditClicked="ChooseProgram" SearchClicked="GetPrograms"></SearchGenericItem>
+
+        <h2>Create a new program</h2>
+        <button class="ilw-button" @onclick="SetNewProgram">Create Program</button>
+    } else if (_usePrograms.HasValue && !_usePrograms.Value)
+    {
+        <p>
+            Your area does not use programs. Go to the Configuration section to enable programs.
+        </p>
+    }
 
 </ilw-content>

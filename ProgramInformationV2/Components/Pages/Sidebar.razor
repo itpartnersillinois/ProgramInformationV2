@@ -20,7 +20,7 @@
 
 @code {
     [CascadingParameter]
-    public SidebarLayout Layout { get; set; }
+    public SidebarLayout Layout { get; set; } = default!;
 
     [Inject]
     public NavigationManager NavigationManager { get; set; } = default!;
@@ -30,10 +30,10 @@
 
     public string Room { get; set; } = "";
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Layout.CheckSource();
-        base.OnInitialized();
+        await Layout.CheckSource();
+        await base.OnInitializedAsync();
     }
 
     protected async Task Send()

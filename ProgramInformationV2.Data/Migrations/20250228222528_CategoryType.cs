@@ -1,16 +1,12 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ProgramInformationV2.Data.Migrations
-{
+namespace ProgramInformationV2.Data.Migrations {
     /// <inheritdoc />
-    public partial class CategoryType : Migration
-    {
+    public partial class CategoryType : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.AddColumn<int>(
                 name: "CategoryType",
                 table: "FieldSources",
@@ -34,8 +30,7 @@ namespace ProgramInformationV2.Data.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropColumn(
                 name: "CategoryType",
                 table: "FieldSources");

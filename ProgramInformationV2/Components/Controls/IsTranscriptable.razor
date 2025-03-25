@@ -1,0 +1,19 @@
+﻿@if (GetFieldItemActive())
+{
+    <ilw-content>
+    <fieldset>
+        <legend>Is This Transcriptable?</legend>
+        <div style="display: flex;">
+            <div class="ils-input-entry-compact">
+                <label for="status-true">Yes</label>
+                <input type="radio" id="transcriptable-true" name="transcriptable" value="true" checked="@Value" @onchange="@(() => { Value = true; })">
+            </div>
+            <div class="ils-input-entry-compact">
+                <label for="status-false">No</label>
+                <input type="radio" id="transcriptable-false" name="transcriptable" value="false" checked="@(!Value)" @onchange="@(() => { Value = false; })">
+            </div>
+        </div>
+        <p>@GetFieldItemDescription()</p>
+    </fieldset>
+    </ilw-content>
+}

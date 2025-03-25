@@ -9,6 +9,6 @@ namespace ProgramInformationV2.Data.FieldList {
         public string Instructions { get; set; } = "";
 
         public List<IGrouping<FieldType, FieldItem>> FieldsItemsGrouped =>
-            FieldItems.GroupBy(f => f.FieldType).ToList();
+            [.. FieldItems.GroupBy(f => f.FieldType)];
     }
 }

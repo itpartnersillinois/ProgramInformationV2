@@ -1,6 +1,4 @@
-﻿using ProgramInformationV2.Data.DataModels;
-
-namespace ProgramInformationV2.Data.Cache {
+﻿namespace ProgramInformationV2.Data.Cache {
 
     public class CacheHolder {
         private readonly Dictionary<string, CacheThinObject> _dictionary = [];
@@ -22,17 +20,17 @@ namespace ProgramInformationV2.Data.Cache {
             ClearExpired();
         }
 
-        public void SetCacheItem(string netid, string id, string title) {
+        public void SetCacheItem(string netid, string id) {
             if (_dictionary.ContainsKey(netid)) {
                 _dictionary[netid].ItemId = id;
-                _dictionary[netid].ItemTitle = title;
                 _dictionary[netid].Reset();
             }
         }
 
-        public void SetCacheScreenType(string netid, ScreenType screenType) {
+        public void SetCacheParentItem(string netid, string parentId) {
             if (_dictionary.ContainsKey(netid)) {
-                _dictionary[netid].ScreenType = screenType;
+                _dictionary[netid].ParentId = parentId;
+                _dictionary[netid].ItemId = "";
                 _dictionary[netid].Reset();
             }
         }

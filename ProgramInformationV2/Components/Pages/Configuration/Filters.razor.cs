@@ -5,29 +5,37 @@ using ProgramInformationV2.Data.DataModels;
 using ProgramInformationV2.Data.PageList;
 
 namespace ProgramInformationV2.Components.Pages.Configuration {
+
     public partial class Filters {
+
         private readonly Dictionary<string, TagType> _translator = new() {
             { "", TagType.None },
             { "Departments", TagType.Department },
             { "Tags", TagType.Tag },
             { "Skills", TagType.Skill }
         };
+
         private int _sourceId;
 
+        public List<TagSource> FilterTags { get; set; } = [];
+        public List<TagSource> FilterTagsForDeletion { get; set; } = [];
         public string FilterType { get; set; } = "";
 
         public TagType FilterTypeEnum => _translator[FilterType];
 
         [CascadingParameter]
-        public required SidebarLayout Layout { get; set; }
+        public SidebarLayout Layout { get; set; } = default!;
 
         public string NewFilterName { get; set; } = "";
 
         [Inject]
         protected FilterHelper FilterHelper { get; set; } = default!;
 
-        public List<TagSource> FilterTags { get; set; } = [];
-        public List<TagSource> FilterTagsForDeletion { get; set; } = [];
+        public void Add() {
+            Layout.SetDirty();
+            FilterTags.Add(new TagSource { IsActive = true, LastUpdated = DateTime.Now, Title = NewFilterName, SourceId = _sourceId, TagType = FilterTypeEnum });
+            NewFilterName = "";
+        }
 
         public async Task ChangeFilter() {
             var sourceCode = await Layout.CheckSource();
@@ -35,19 +43,14 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
             FilterTagsForDeletion.Clear();
         }
 
-        protected override async Task OnInitializedAsync() {
-            base.OnInitialized();
-            Layout.SetSidebar(SidebarEnum.Configuration);
+        public void MoveDown(TagSource tagSource) {
+            Layout.SetDirty();
+            FilterTags.MoveItemDown(tagSource);
         }
 
         public void MoveUp(TagSource tagSource) {
             Layout.SetDirty();
             FilterTags.MoveItemUp(tagSource);
-        }
-
-        public void MoveDown(TagSource tagSource) {
-            Layout.SetDirty();
-            FilterTags.MoveItemDown(tagSource);
         }
 
         public void Remove(TagSource tagSource) {
@@ -56,18 +59,17 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
             FilterTagsForDeletion.Add(tagSource);
         }
 
-        public void Add() {
-            Layout.SetDirty();
-            FilterTags.Add(new TagSource { IsActive = true, LastUpdated = DateTime.Now, Title = NewFilterName, SourceId = _sourceId, TagType = FilterTypeEnum });
-            NewFilterName = "";
-        }
-
         public async Task<bool> Save() {
             await FilterHelper.SaveFilters(FilterTags, FilterTagsForDeletion);
             await Layout.AddMessage($"Filters for {FilterType} have been saved");
             Layout.RemoveDirty();
             FilterTagsForDeletion.Clear();
             return true;
+        }
+
+        protected override async Task OnInitializedAsync() {
+            await base.OnInitializedAsync();
+            Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
         }
     }
 }

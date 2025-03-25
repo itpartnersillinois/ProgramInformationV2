@@ -9,11 +9,7 @@
 
     public enum UrlTypes { Programs, Courses, RequirementSets }
 
-
     public static class ExtensionTypes {
-        private static readonly List<CredentialType> _certificates = [CredentialType.Base_Certificate, CredentialType.CAS, CredentialType.Graduate_Certificate, CredentialType.Illinois_Graduate_Certificate, CredentialType.Certificate_of_Specialization, CredentialType.Endorsement, CredentialType.MOOC_Specialization_Certificate];
-        private static readonly List<CredentialType> _graduateDegrees = [CredentialType.Base_Graduate, CredentialType.EdM, CredentialType.MA, CredentialType.MS, CredentialType.EdD, CredentialType.PhD, CredentialType.Graduate_Concentration, CredentialType.Graduate_Minor, CredentialType.MBA];
-        private static readonly List<CredentialType> _undergraduateDegrees = [CredentialType.Base_Undergraduate, CredentialType.BA, CredentialType.BS, CredentialType.Undergraduate_Minor];
 
         internal static Dictionary<DayOfWeek, string> daysList = new() {
             { DayOfWeek.Monday, "Mo" },
@@ -24,6 +20,10 @@
             { DayOfWeek.Saturday, "Sa" },
             { DayOfWeek.Sunday, "Su" }
         };
+
+        private static readonly List<CredentialType> _certificates = [CredentialType.Base_Certificate, CredentialType.CAS, CredentialType.Graduate_Certificate, CredentialType.Illinois_Graduate_Certificate, CredentialType.Certificate_of_Specialization, CredentialType.Endorsement, CredentialType.MOOC_Specialization_Certificate];
+        private static readonly List<CredentialType> _graduateDegrees = [CredentialType.Base_Graduate, CredentialType.EdM, CredentialType.MA, CredentialType.MS, CredentialType.EdD, CredentialType.PhD, CredentialType.Graduate_Concentration, CredentialType.Graduate_Minor, CredentialType.MBA];
+        private static readonly List<CredentialType> _undergraduateDegrees = [CredentialType.Base_Undergraduate, CredentialType.BA, CredentialType.BS, CredentialType.Undergraduate_Minor];
 
         public static IEnumerable<CredentialType> Certificates(this IEnumerable<CredentialType> e) => e.Where(ct => _certificates.Contains(ct));
 
@@ -43,6 +43,8 @@
         public static string ConvertToUrlString(this Enum e) => "pcr2_" + e.ToString().ToLowerInvariant();
 
         public static IEnumerable<CredentialType> GraduateDegrees(this IEnumerable<CredentialType> e) => e.Where(_graduateDegrees.Contains);
+
+        public static bool IsFormat(this FormatType? format, FormatType check) => format != null && format != FormatType.None && format.Value.HasFlag(check);
 
         public static IEnumerable<CredentialType> UndergraduateDegrees(this IEnumerable<CredentialType> e) => e.Where(_undergraduateDegrees.Contains);
 

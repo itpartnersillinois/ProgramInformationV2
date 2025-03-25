@@ -7,30 +7,30 @@ using ProgramInformationV2.Data.FieldList;
 using ProgramInformationV2.Data.PageList;
 
 namespace ProgramInformationV2.Components.Pages.FieldsUsed {
+
     public partial class Programs {
-        [CascadingParameter]
-        public required SidebarLayout Layout { get; set; }
-
-        [Inject]
-        public required FieldManager FieldManager { get; set; }
-
-        [Inject]
-        public required SourceHelper SourceHelper { get; set; }
+        public IEnumerable<IGrouping<FieldType, FieldItem>> FieldItems = default!;
 
         [Inject]
         public AuthenticationStateProvider AuthenticationStateProvider { get; set; } = default!;
 
-        public bool IsUsed { get; set; }
-        public IEnumerable<IGrouping<FieldType, FieldItem>> FieldItems = default!;
+        [Inject]
+        public FieldManager FieldManager { get; set; } = default!;
+
         public string Instructions { get; set; } = "";
 
-        protected override async Task OnInitializedAsync() {
-            Layout.SetSidebar(SidebarEnum.FieldsUsed);
-            var sourceCode = await Layout.CheckSource();
-            var targetGroup = new ProgramGroup();
-            Instructions = targetGroup.Instructions;
-            (IsUsed, FieldItems) = await FieldManager.MergeFieldItems(targetGroup, sourceCode);
-            await base.OnInitializedAsync();
+        public bool IsUsed { get; set; }
+
+        [CascadingParameter]
+        public SidebarLayout Layout { get; set; } = default!;
+
+        [Inject]
+        public SourceHelper SourceHelper { get; set; } = default!;
+
+        public async Task SaveChanges() {
+            Layout.RemoveDirty();
+            await FieldManager.SaveFieldItems(await Layout.CheckSource(), CategoryType.Program, IsUsed, FieldItems.SelectMany(a => a));
+            await Layout.AddMessage("Information saved");
         }
 
         public void SaveUsedChange(bool isUsed) {
@@ -38,12 +38,13 @@ namespace ProgramInformationV2.Components.Pages.FieldsUsed {
             Layout.SetDirty();
         }
 
-        public async Task SaveChanges() {
-            Layout.RemoveDirty();
-            await FieldManager.SaveFieldItems(await Layout.CheckSource(), CategoryType.Program, IsUsed, FieldItems.SelectMany(a => a));
-            await Layout.AddMessage("Information saved");
-
+        protected override async Task OnInitializedAsync() {
+            Layout.SetSidebar(SidebarEnum.FieldsUsed, "Fields Used");
+            var sourceCode = await Layout.CheckSource();
+            var targetGroup = new ProgramGroup();
+            Instructions = targetGroup.Instructions;
+            (IsUsed, FieldItems) = await FieldManager.MergeFieldItems(targetGroup, sourceCode);
+            await base.OnInitializedAsync();
         }
-
     }
 }

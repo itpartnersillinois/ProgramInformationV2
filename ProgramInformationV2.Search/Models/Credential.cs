@@ -1,5 +1,7 @@
 ﻿namespace ProgramInformationV2.Search.Models {
+
     public class Credential : BasePublicObject {
+
         public Credential() {
             IsActive = true;
             RequirementSetIds = [];
@@ -29,6 +31,7 @@
 
         public string ImageUrl { get; set; } = "";
 
+        public override string InternalTitle => string.IsNullOrWhiteSpace(ProgramTitle) ? Title : $"{Title} ({ProgramTitle})";
         public bool IsTranscriptable { get; set; }
 
         public string Length { get; set; } = "";

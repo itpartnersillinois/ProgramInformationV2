@@ -11,8 +11,11 @@ namespace ProgramInformationV2.Components.Layout {
     public partial class SidebarLayout {
         public bool IsDirty = false;
 
-        public required Breadcrumb BreadcrumbControl { get; set; }
-        public required Sidebar SidebarControl { get; set; }
+        public Breadcrumb BreadcrumbControl { get; set; } = default!;
+
+        public Sidebar SidebarControl { get; set; } = default!;
+
+        public string SourceCode { get; set; } = "";
 
         [Inject]
         protected AuthenticationStateProvider AuthenticationStateProvider { get; set; } = default!;
@@ -26,8 +29,6 @@ namespace ProgramInformationV2.Components.Layout {
         [Inject]
         protected NavigationManager NavigationManager { get; set; } = default!;
 
-        public string SourceCode { get; set; } = "";
-
         public async Task AddMessage(string s) => _ = await JsRuntime.InvokeAsync<bool>("alertOnScreen", s);
 
         public async Task<string> CheckSource() {
@@ -38,29 +39,42 @@ namespace ProgramInformationV2.Components.Layout {
             return source ?? "";
         }
 
+        public async Task ClearCacheId() => await SetCacheId("");
+
         public async Task<string> GetCachedId() {
             var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
             return cacheItem?.ItemId ?? "";
         }
 
+        public async Task<string> GetCachedParentId() {
+            var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
+            return cacheItem?.ParentId ?? "";
+        }
+
         public async Task<string> GetNetId() => await AuthenticationStateProvider.GetUser();
 
-        public async Task ClearCacheId() => await SetCacheId("");
+        public void RemoveDirty() => IsDirty = false;
+
+        public async Task RemoveMessage() => _ = await JsRuntime.InvokeAsync<bool>("removeAlertOnScreen");
 
         public async Task SetCacheId(string id) {
             var netid = await AuthenticationStateProvider.GetUser();
             var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
-            CacheHolder.SetCacheItem(netid, id, "");
+            CacheHolder.SetCacheItem(netid, id);
         }
 
-        protected override async Task OnInitializedAsync() {
-            SourceCode = CacheHolder.GetCacheSource(await AuthenticationStateProvider.GetUser()) ?? "";
-            await base.OnInitializedAsync();
+        public async Task SetCacheParentId(string parentId) {
+            var netid = await AuthenticationStateProvider.GetUser();
+            var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
+            CacheHolder.SetCacheParentItem(netid, parentId);
         }
 
-        public void SetSidebar(SidebarEnum s) {
-            SidebarControl.Rebuild(s);
+        public void SetDirty() => IsDirty = true;
+
+        public void SetSidebar(SidebarEnum s, string title) {
+            SidebarControl.Rebuild(s, title);
             BreadcrumbControl.Rebuild(s);
+            IsDirty = false;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender) {
@@ -69,11 +83,10 @@ namespace ProgramInformationV2.Components.Layout {
             }
         }
 
-        public void RemoveDirty() => IsDirty = false;
-
-        public async Task RemoveMessage() => _ = await JsRuntime.InvokeAsync<bool>("removeAlertOnScreen");
-
-        public void SetDirty() => IsDirty = true;
+        protected override async Task OnInitializedAsync() {
+            SourceCode = CacheHolder.GetCacheSource(await AuthenticationStateProvider.GetUser()) ?? "";
+            await base.OnInitializedAsync();
+        }
 
         private async Task LocationChangingHandler(LocationChangingContext arg) {
             if (IsDirty) {

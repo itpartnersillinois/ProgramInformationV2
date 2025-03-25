@@ -3,15 +3,16 @@ using ProgramInformationV2.Components.Layout;
 using ProgramInformationV2.Data.PageList;
 
 namespace ProgramInformationV2.Components.Pages.ProgramCredentials {
+
     public partial class Index {
+
         [CascadingParameter]
-        public required SidebarLayout Layout { get; set; }
+        public SidebarLayout Layout { get; set; } = default!;
 
         protected override async Task OnInitializedAsync() {
-            Layout.SetSidebar(SidebarEnum.ProgramCredential);
+            Layout.SetSidebar(SidebarEnum.ProgramCredential, "Programs and Credentials");
             var sourceCode = await Layout.CheckSource();
             await base.OnInitializedAsync();
         }
-
     }
 }

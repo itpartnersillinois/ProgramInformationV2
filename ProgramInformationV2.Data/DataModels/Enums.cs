@@ -19,16 +19,6 @@
         Technical
     }
 
-    public enum FieldInputType {
-        None,
-        ShortText,
-        LongText,
-        RichText,
-        Integer,
-        Url,
-        Image
-    }
-
     public enum ScreenType {
         None,
         Edit,

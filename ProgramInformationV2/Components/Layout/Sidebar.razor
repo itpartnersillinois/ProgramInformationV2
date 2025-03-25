@@ -1,7 +1,7 @@
 ﻿@if (_sidebarLinks != null && _sidebarLinks.Any())
 {
     <ilw-section-nav>
-        <a href="@_titleUrl" class="ilw-section-nav--root">@_title</a>
+        <span class="ilw-section-nav--root">@_title</span>
         @foreach (var sidebarLink in _sidebarLinks)
         {
             @if (_baseUrl == sidebarLink.Url)

@@ -39,8 +39,6 @@
     <Folder Include="Components\Pages\Audit\" />
     <Folder Include="Components\Pages\Section\" />
     <Folder Include="Components\Pages\RequirementSet\" />
-    <Folder Include="Components\Pages\Search\" />
-    <Folder Include="Components\Pages\Credential\" />
   </ItemGroup>
 
 </Project>

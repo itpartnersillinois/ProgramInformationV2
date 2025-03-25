@@ -2,6 +2,7 @@
 using ProgramInformationV2.Data.DataModels;
 
 namespace ProgramInformationV2.Data.DataHelpers {
+
     public class SourceHelper(ProgramRepository programRepository) {
         private readonly ProgramRepository _programRepository = programRepository;
 
@@ -16,6 +17,30 @@ namespace ProgramInformationV2.Data.DataHelpers {
                 _ = await _programRepository.CreateAsync(new SecurityEntry { SourceId = newSource.Id, IsActive = true, IsFullAdmin = true, IsOwner = true, IsPublic = true, IsRequested = false, Email = email });
             }
             return $"Added source {newTitle} with code {newSourceCode}";
+        }
+
+        public async Task<bool> DoesSourceUseItem(string sourceCode, CategoryType categoryType) {
+            var source = await _programRepository.ReadAsync(c => c.Sources.FirstOrDefault(s => s.Code == sourceCode));
+            if (source == null) {
+                return false;
+            }
+            switch (categoryType) {
+                case CategoryType.Program:
+                    return source.UsePrograms;
+
+                case CategoryType.Credential:
+                    return source.UseCredentials;
+
+                case CategoryType.Course:
+                    return source.UseCourses;
+
+                case CategoryType.Section:
+                    return source.UseSections;
+
+                case CategoryType.RequirementSet:
+                    return source.UseRequirementSets;
+            }
+            return false;
         }
 
         public async Task<string> RequestAccess(string sourceCode, string email) {

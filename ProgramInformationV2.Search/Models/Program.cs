@@ -1,5 +1,7 @@
 ﻿namespace ProgramInformationV2.Search.Models {
+
     public class Program : BasePublicObject {
+
         public Program() {
             Credentials = [];
             SkillList = [];
@@ -67,7 +69,11 @@
                     SkillList = SkillList.Union(Credentials.Where(c => c.SkillList != null).SelectMany(c => c.SkillList)).Distinct();
                 if (Credentials.Any(c => c.TagList != null && c.TagList.Any()))
                     TagList = TagList.Union(Credentials.Where(c => c.TagList != null).SelectMany(c => c.TagList)).Distinct();
-                Credentials?.ForEach(c => c.CleanHtmlFields());
+                Credentials?.ForEach(c => {
+                    c.ProgramId = Id;
+                    c.ProgramTitle = Title;
+                    c.CleanHtmlFields();
+                });
             }
         }
 
@@ -85,6 +91,5 @@
             base.SetId();
             Credentials.ForEach(c => { c.Source = Source; c.ProgramId = Id; c.ProgramTitle = Title; c.SetId(); });
         }
-
     }
 }

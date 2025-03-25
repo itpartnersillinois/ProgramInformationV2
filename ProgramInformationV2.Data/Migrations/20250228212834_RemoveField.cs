@@ -1,20 +1,15 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ProgramInformationV2.Data.Migrations
-{
+namespace ProgramInformationV2.Data.Migrations {
     /// <inheritdoc />
-    public partial class RemoveField : Migration
-    {
+    public partial class RemoveField : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
                 name: "Logs",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryType = table.Column<int>(type: "int", nullable: false),
@@ -27,15 +22,13 @@ namespace ProgramInformationV2.Data.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Logs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Sources",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -52,15 +45,13 @@ namespace ProgramInformationV2.Data.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Sources", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "FieldSources",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -70,8 +61,7 @@ namespace ProgramInformationV2.Data.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_FieldSources", x => x.Id);
                     table.ForeignKey(
                         name: "FK_FieldSources_Sources_SourceId",
@@ -83,8 +73,7 @@ namespace ProgramInformationV2.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SecurityEntries",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DepartmentTag = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -97,8 +86,7 @@ namespace ProgramInformationV2.Data.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_SecurityEntries", x => x.Id);
                     table.ForeignKey(
                         name: "FK_SecurityEntries_Sources_SourceId",
@@ -109,8 +97,7 @@ namespace ProgramInformationV2.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "TagSources",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Order = table.Column<int>(type: "int", nullable: false),
@@ -120,8 +107,7 @@ namespace ProgramInformationV2.Data.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_TagSources", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TagSources_Sources_SourceId",
@@ -158,8 +144,7 @@ namespace ProgramInformationV2.Data.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "FieldSources");
 
