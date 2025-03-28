@@ -1,5 +1,14 @@
-﻿<h3>Search</h3>
+﻿@page "/requirementsets"
+@layout SidebarLayout
 
-@code {
+<PageTitle>Requirement Sets</PageTitle>
 
-}
+<ilw-content>
+    <h1>Requirement Sets</h1>
+
+        <SearchGenericItem @ref="@_searchGenericItem" GenericItems="@RequirementSetList" ItemTitle="Program" EditClicked="ChooseRequirementSet" SearchClicked="GetRequirementSet"></SearchGenericItem>
+
+        <h2>Create a new requirement set</h2>
+        <button class="ilw-button" @onclick="SetNewRequirementSet">Create Requirement Set</button>
+
+</ilw-content>

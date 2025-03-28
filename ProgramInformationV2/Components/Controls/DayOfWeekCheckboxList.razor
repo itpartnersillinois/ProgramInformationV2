@@ -1,0 +1,41 @@
+﻿@using ProgramInformationV2.Search.Models
+@if (GetFieldItemActive())
+{
+    <ilw-content>
+        <fieldset>
+        <legend>@Title</legend>
+
+        <div class="ils-input-entry-checkbox">
+            <label for="day-s">Sunday</label>
+            <input id="day-s" type="checkbox" checked="@(Value?.Contains(DayOfWeek.Sunday))" @onchange="e => ChangeDate(DayOfWeek.Sunday, e)">
+        </div>
+        <div class="ils-input-entry-checkbox">
+            <label for="day-m">Monday</label>
+            <input id="day-m" type="checkbox" checked="@(Value?.Contains(DayOfWeek.Monday))" @onchange="e => ChangeDate(DayOfWeek.Monday, e)">
+        </div>
+        <div class="ils-input-entry-checkbox">
+            <label for="day-t">Tuesday</label>
+            <input id="day-t" type="checkbox" checked="@(Value?.Contains(DayOfWeek.Tuesday))" @onchange="e => ChangeDate(DayOfWeek.Tuesday, e)">
+        </div>
+        <div class="ils-input-entry-checkbox">
+            <label for="day-w">Wednesday</label>
+            <input id="day-w" type="checkbox" checked="@(Value?.Contains(DayOfWeek.Wednesday))" @onchange="e => ChangeDate(DayOfWeek.Wednesday, e)">
+        </div>
+        <div class="ils-input-entry-checkbox">
+            <label for="day-th">Thursday</label>
+            <input id="day-th" type="checkbox" checked="@(Value?.Contains(DayOfWeek.Thursday))" @onchange="e => ChangeDate(DayOfWeek.Thursday, e)">
+        </div>
+        <div class="ils-input-entry-checkbox">
+            <label for="day-f">Friday</label>
+            <input id="day-f" type="checkbox" checked="@(Value?.Contains(DayOfWeek.Friday))" @onchange="e => ChangeDate(DayOfWeek.Friday, e)">
+        </div>
+        <div class="ils-input-entry-checkbox">
+            <label for="day-sa">Saturday</label>
+            <input id="day-sa" type="checkbox" checked="@(Value?.Contains(DayOfWeek.Saturday))" @onchange="e => ChangeDate(DayOfWeek.Saturday, e)">
+        </div>
+        <div class="ils-input-entry">
+            <p>@GetFieldItemDescription()</p>
+        </div>
+        </fieldset>
+    </ilw-content>
+}

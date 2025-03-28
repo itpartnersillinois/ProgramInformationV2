@@ -32,7 +32,7 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
 
         protected override async Task OnInitializedAsync() {
             base.OnInitialized();
-            Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
+            await Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
             SourceEntries = await ProgramRepository.ReadAsync(c => c.Sources.Where(s => s.IsActive).OrderBy(s => s.Title).ToDictionary(s => s.Code, t => $"{t.Title} owned by {t.CreatedByEmail}"));
         }
 

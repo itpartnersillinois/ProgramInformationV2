@@ -41,8 +41,8 @@ namespace ProgramInformationV2.Components.Pages.Course {
             if (_rteWhoShouldApply != null) {
                 CourseItem.ExternalDetails = await _rteWhoShouldApply.GetValue();
             }
-
             _ = await CourseSetter.SetCourse(CourseItem);
+            await Layout.AddMessage("Course saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
@@ -56,7 +56,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             _rteDescription.InitialValue = CourseItem.Details;
             _rteWhoShouldApply.InitialValue = CourseItem.ExternalDetails;
             _fieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Overview);
-            Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             await base.OnInitializedAsync();
         }
     }

@@ -7,6 +7,9 @@
         public string? ItemId { get; set; }
         public string NetId { get; set; } = netid;
         public string? ParentId { get; set; }
+        public string? QuickLinkId { get; set; }
+        public string? QuickLinkText { get; set; }
+        public string? QuickLinkUrl { get; set; }
         public string? Source { get; set; }
         internal DateTime DateInvalid { get; set; } = DateTime.Now.AddMinutes(_minutesValid);
 

@@ -3,10 +3,7 @@ using ProgramInformationV2.Search.Models;
 
 namespace ProgramInformationV2.Search.Getters {
 
-    public class ProgramGetter : BaseGetter<Program> {
-
-        public ProgramGetter(OpenSearchClient? openSearchClient) : base(openSearchClient) {
-        }
+    public class ProgramGetter(OpenSearchClient? openSearchClient) : BaseGetter<Program>(openSearchClient) {
 
         public async Task<List<GenericItem>> GetAllCredentialsBySource(string source, string search) {
             var response = string.IsNullOrWhiteSpace(search) ?

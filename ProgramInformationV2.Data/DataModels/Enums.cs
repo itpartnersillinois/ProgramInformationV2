@@ -16,6 +16,7 @@
         Overview,
         Location_Time,
         Transcriptable,
+        Faculty,
         Technical
     }
 

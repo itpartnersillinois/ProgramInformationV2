@@ -29,7 +29,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
         protected SourceHelper SourceHelper { get; set; } = default!;
 
         protected override async Task OnInitializedAsync() {
-            Layout.SetSidebar(SidebarEnum.Courses, "Courses");
+            await Layout.SetSidebar(SidebarEnum.Courses, "Courses");
             _sourceCode = await Layout.CheckSource();
             _useCourses = await SourceHelper.DoesSourceUseItem(_sourceCode, Data.DataModels.CategoryType.Course);
             await base.OnInitializedAsync();

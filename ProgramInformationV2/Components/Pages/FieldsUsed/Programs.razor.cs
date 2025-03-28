@@ -39,7 +39,7 @@ namespace ProgramInformationV2.Components.Pages.FieldsUsed {
         }
 
         protected override async Task OnInitializedAsync() {
-            Layout.SetSidebar(SidebarEnum.FieldsUsed, "Fields Used");
+            await Layout.SetSidebar(SidebarEnum.FieldsUsed, "Fields Used");
             var sourceCode = await Layout.CheckSource();
             var targetGroup = new ProgramGroup();
             Instructions = targetGroup.Instructions;

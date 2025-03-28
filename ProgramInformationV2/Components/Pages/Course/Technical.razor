@@ -8,9 +8,7 @@
 </ilw-content>
 @if (CourseItem != null)
 {
-    <ilw-content>
-        <p>ID: <em>@CourseItem.Id</em></p>
-    </ilw-content>
+    <IdList Title="Id" FieldItems="FieldItems" Id="@CourseItem.Id"></IdList>
     <StatusOnSite @bind-Value="CourseItem.IsActive"></StatusOnSite>
     <MediumText Title="URL Fragment" FieldItems="FieldItems" @bind-Value="CourseItem.Url"></MediumText>
     <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>

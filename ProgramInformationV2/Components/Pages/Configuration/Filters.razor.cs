@@ -69,7 +69,7 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
 
         protected override async Task OnInitializedAsync() {
             await base.OnInitializedAsync();
-            Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
+            await Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace ProgramInformationV2.Search.Models {
+
     public class Section : BasePublicObject {
+
         public Section() {
             Identifier = new();
             FacultyNameList = [];
@@ -11,7 +13,9 @@
             LastUpdated = DateTime.Now;
         }
 
-        public DateTime BeginDate { get; set; }
+        public string AlternateTitle { get; set; } = "";
+
+        public DateTime? BeginDate { get; set; }
 
         public string Building { get; set; } = "";
 
@@ -21,13 +25,13 @@
 
         public string CRN { get; set; } = "";
 
-        public string DateString => BeginDate.AddYears(2) > EndDate && BeginDate.Year > 2000 ? $"{BeginDate.ToShortDateString()} - {EndDate.ToShortDateString()}" : string.Empty;
+        public string DateString => BeginDate.HasValue && EndDate.HasValue && BeginDate.Value.AddYears(2) > EndDate.Value && BeginDate.Value.Year > 2000 ? $"{BeginDate.Value.ToShortDateString()} - {EndDate.Value.ToShortDateString()}" : string.Empty;
 
         public List<DayOfWeek> DaysOfWeekList { get; set; } = default!;
 
         public string DaysOfWeekString => DaysOfWeekList.ConvertDaysToString();
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public List<SectionFaculty> FacultyNameList { get; set; } = default!;
 
@@ -79,6 +83,12 @@
                 _ = FacultyNameList.RemoveAll(fnl => fnl.Name == name);
             else if (!isAdded && !string.IsNullOrWhiteSpace(netid))
                 _ = FacultyNameList.RemoveAll(fnl => fnl.NetId == netid);
+        }
+
+        public override void SetId() {
+            base.SetId();
+            Title = string.IsNullOrWhiteSpace(DateString) || string.IsNullOrWhiteSpace(SectionCode) ? AlternateTitle :
+                (string.IsNullOrWhiteSpace(AlternateTitle) ? $"{DateString}: {SectionCode}" : $"{AlternateTitle} ({DateString}: {SectionCode})");
         }
     }
 }

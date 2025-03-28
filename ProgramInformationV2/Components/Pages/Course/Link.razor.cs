@@ -36,6 +36,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
                 _ = await _imageCourseImage.SaveFileToPermanent();
             }
             _ = await CourseSetter.SetCourse(CourseItem);
+            await Layout.AddMessage("Course saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
@@ -46,7 +47,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             }
             CourseItem = await CourseGetter.GetCourse(id);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Link);
-            Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             await base.OnInitializedAsync();
         }
     }

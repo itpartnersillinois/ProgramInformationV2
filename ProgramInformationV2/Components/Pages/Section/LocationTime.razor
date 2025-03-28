@@ -1,5 +1,23 @@
-﻿<h3>LocationTime</h3>
+﻿@page "/section/locationtime"
+@layout SidebarLayout
 
-@code {
+<PageTitle>Section - Location &amp; Time</PageTitle>
 
-}
+<ilw-content>
+    <h1>Location &amp; Time</h1>
+
+    @if (SectionItem != null)
+    {
+        <h2>Location</h2>
+        <MediumText Title="Building" FieldItems="FieldItems" @bind-Value="SectionItem.Building"></MediumText>
+        <MediumText Title="Room" FieldItems="FieldItems" @bind-Value="SectionItem.Room"></MediumText>
+
+        <h2>Time</h2>
+        <TermSelectList Title="Term" FieldItems="FieldItems" @bind-Value="SectionItem.Term"></TermSelectList>
+        <DateText Title="Begin Date" FieldItems="FieldItems" @bind-Value="SectionItem.BeginDate"></DateText>
+        <DateText Title="End Date" FieldItems="FieldItems" @bind-Value="SectionItem.EndDate"></DateText>
+        <DayOfWeekCheckboxList Title="Days" FieldItems="FieldItems" @bind-Value="SectionItem.DaysOfWeekList"></DayOfWeekCheckboxList>
+        <SmallText Title="Time" FieldItems="FieldItems" @bind-Value="SectionItem.Time"></SmallText>
+        <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+    }
+</ilw-content>

@@ -36,6 +36,10 @@
 
         public string Length { get; set; } = "";
 
+        public string MajorTitle { get; set; } = "";
+
+        public string MinorTitle { get; set; } = "";
+
         public string Notes { get; set; } = "";
 
         public string ProgramId { get; set; } = "";

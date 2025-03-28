@@ -10,7 +10,6 @@ namespace ProgramInformationV2.Components.Layout {
 
     public partial class SidebarLayout {
         public bool IsDirty = false;
-
         public Breadcrumb BreadcrumbControl { get; set; } = default!;
 
         public Sidebar SidebarControl { get; set; } = default!;
@@ -51,28 +50,49 @@ namespace ProgramInformationV2.Components.Layout {
             return cacheItem?.ParentId ?? "";
         }
 
+        public async Task<(string text, string url)> GetCachedQuickLink() {
+            var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
+            return (cacheItem?.QuickLinkText ?? "", cacheItem?.QuickLinkUrl ?? "");
+        }
+
         public async Task<string> GetNetId() => await AuthenticationStateProvider.GetUser();
 
         public void RemoveDirty() => IsDirty = false;
 
         public async Task RemoveMessage() => _ = await JsRuntime.InvokeAsync<bool>("removeAlertOnScreen");
 
-        public async Task SetCacheId(string id) {
+        public async Task ReplaceCacheIdWithQuickLink() {
             var netid = await AuthenticationStateProvider.GetUser();
             var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
+            var id = cacheItem?.QuickLinkId ?? "";
+            if (!string.IsNullOrWhiteSpace(id)) {
+                CacheHolder.SetCacheQuickLink(netid, "", "", "");
+                CacheHolder.SetCacheItem(netid, id);
+            }
+        }
+
+        public async Task SetCacheId(string id) {
+            var netid = await AuthenticationStateProvider.GetUser();
+            CacheHolder.SetCacheParentItem(netid, "");
             CacheHolder.SetCacheItem(netid, id);
         }
 
         public async Task SetCacheParentId(string parentId) {
             var netid = await AuthenticationStateProvider.GetUser();
-            var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
             CacheHolder.SetCacheParentItem(netid, parentId);
+        }
+
+        public async Task SetCacheQuickLink(string quickLinkText, string quickLinkUrl, string quickLinkId) {
+            var netid = await AuthenticationStateProvider.GetUser();
+            CacheHolder.SetCacheQuickLink(netid, quickLinkText, quickLinkUrl, quickLinkId);
+            IsDirty = false;
         }
 
         public void SetDirty() => IsDirty = true;
 
-        public void SetSidebar(SidebarEnum s, string title) {
-            SidebarControl.Rebuild(s, title);
+        public async Task SetSidebar(SidebarEnum s, string title, bool hideForNew = false) {
+            (var quickLinkText, var quickLinkUrl) = await GetCachedQuickLink();
+            SidebarControl.Rebuild(hideForNew ? SidebarEnum.None : s, title, quickLinkText, quickLinkUrl);
             BreadcrumbControl.Rebuild(s);
             IsDirty = false;
         }

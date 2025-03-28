@@ -39,6 +39,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             CourseItem.TagList = Tags?.Where(t => t.EnabledBySource).Select(t => t.Title).ToList() ?? new List<string>();
             Layout.RemoveDirty();
             _ = await CourseSetter.SetCourse(CourseItem);
+            await Layout.AddMessage("Course saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
@@ -49,7 +50,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
                 NavigationManager.NavigateTo("/");
             }
             CourseItem = await CourseGetter.GetCourse(id);
-            Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             foreach (var tag in FilterTags.SelectMany(x => x)) {
                 if (CourseItem.DepartmentList.Contains(tag.Title) && tag.TagType == TagType.Department) {
                     tag.EnabledBySource = true;

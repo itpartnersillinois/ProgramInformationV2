@@ -9,8 +9,6 @@ using ProgramInformationV2.Search.Setters;
 namespace ProgramInformationV2.Components.Pages.Credential {
 
     public partial class General {
-        private string _id = "";
-
         public Search.Models.Credential CredentialItem { get; set; } = default!;
         public IEnumerable<FieldItem> FieldItems { get; set; } = default!;
 
@@ -32,29 +30,25 @@ namespace ProgramInformationV2.Components.Pages.Credential {
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await ProgramSetter.SetCredential(CredentialItem);
-            if (string.IsNullOrEmpty(_id)) {
-                _id = CredentialItem.Id;
-                await Layout.SetCacheId(_id);
-            }
+            await Layout.SetCacheId(CredentialItem.Id);
+            await Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
+            await Layout.AddMessage("Credential saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
-            var title = "New Credential";
-            if (string.IsNullOrWhiteSpace(_id)) {
-                var sourceCode = await Layout.CheckSource();
-                _id = await Layout.GetCachedId();
-                if (!string.IsNullOrWhiteSpace(_id)) {
-                    CredentialItem = await ProgramGetter.GetCredential(_id);
-                    title = CredentialItem.Title;
-                } else {
-                    CredentialItem = new Search.Models.Credential() {
-                        Source = sourceCode,
-                        ProgramId = await Layout.GetCachedParentId()
-                    };
-                }
-                FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CredentialGroup(), FieldType.General);
+            var sourceCode = await Layout.CheckSource();
+            var id = await Layout.GetCachedId();
+            if (!string.IsNullOrWhiteSpace(id)) {
+                CredentialItem = await ProgramGetter.GetCredential(id);
+                await Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
+            } else {
+                CredentialItem = new Search.Models.Credential() {
+                    Source = sourceCode,
+                    ProgramId = await Layout.GetCachedParentId()
+                };
+                await Layout.SetSidebar(SidebarEnum.Credential, "New Credential", true);
             }
-            Layout.SetSidebar(SidebarEnum.Credential, title);
+            FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CredentialGroup(), FieldType.General);
             await base.OnInitializedAsync();
         }
     }

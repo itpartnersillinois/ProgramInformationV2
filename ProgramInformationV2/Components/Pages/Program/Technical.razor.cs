@@ -28,6 +28,12 @@ namespace ProgramInformationV2.Components.Pages.Program {
         [Inject]
         protected ProgramSetter ProgramSetter { get; set; } = default!;
 
+        public async Task Delete() {
+            Layout.RemoveDirty();
+            var result = await ProgramSetter.DeleteProgram(ProgramItem.Id);
+            await Layout.AddMessage(result);
+        }
+
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await ProgramSetter.SetProgram(ProgramItem);
@@ -39,7 +45,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
             var id = await Layout.GetCachedId();
             ProgramItem = await ProgramGetter.GetProgram(id);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.Technical);
-            Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
             await base.OnInitializedAsync();
         }
     }

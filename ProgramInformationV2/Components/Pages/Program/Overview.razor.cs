@@ -52,7 +52,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
             ProgramItem = await ProgramGetter.GetProgram(id);
             _rteDescription.InitialValue = ProgramItem.Description;
             _rteWhoShouldApply.InitialValue = ProgramItem.WhoShouldApply;
-            Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
             _fieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.Overview);
             await base.OnInitializedAsync();
         }

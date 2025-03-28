@@ -39,6 +39,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
             ProgramItem.SkillList = SkillTags?.Where(t => t.EnabledBySource).Select(t => t.Title).ToList() ?? new List<string>();
             ProgramItem.TagList = Tags?.Where(t => t.EnabledBySource).Select(t => t.Title).ToList() ?? new List<string>();
             Layout.RemoveDirty();
+            await Layout.AddMessage("Program saved successfully.");
             _ = await ProgramSetter.SetProgram(ProgramItem);
         }
 
@@ -50,7 +51,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
                 NavigationManager.NavigateTo("/");
             }
             ProgramItem = await ProgramGetter.GetProgram(id);
-            Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
             foreach (var tag in FilterTags.SelectMany(x => x)) {
                 if (ProgramItem.DepartmentList.Contains(tag.Title) && tag.TagType == TagType.Department) {
                     tag.EnabledBySource = true;

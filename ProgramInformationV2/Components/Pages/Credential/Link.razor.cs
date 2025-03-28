@@ -35,8 +35,8 @@ namespace ProgramInformationV2.Components.Pages.Credential {
             if (_imageUrl != null) {
                 _ = await _imageUrl.SaveFileToPermanent();
             }
-
             _ = await ProgramSetter.SetCredential(CredentialItem);
+            await Layout.AddMessage("Credential saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
@@ -47,7 +47,7 @@ namespace ProgramInformationV2.Components.Pages.Credential {
             }
             CredentialItem = await ProgramGetter.GetCredential(id);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CredentialGroup(), FieldType.Link);
-            Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
             await base.OnInitializedAsync();
         }
     }

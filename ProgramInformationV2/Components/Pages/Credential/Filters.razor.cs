@@ -36,10 +36,11 @@ namespace ProgramInformationV2.Components.Pages.Credential {
             CredentialItem.TagList = Tags?.Where(t => t.EnabledBySource).Select(t => t.Title).ToList() ?? [];
             Layout.RemoveDirty();
             _ = await ProgramSetter.SetCredential(CredentialItem);
+            await Layout.AddMessage("Credential saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
-            Layout.SetSidebar(SidebarEnum.Credential, "Configuration");
+            await Layout.SetSidebar(SidebarEnum.Credential, "Configuration");
             var sourceCode = await Layout.CheckSource();
             FilterTags = await FilterHelper.GetAllFilters(sourceCode);
             var id = await Layout.GetCachedId();

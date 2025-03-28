@@ -21,15 +21,17 @@
             { SidebarEnum.Course, new() { new ("Home", "/"),
                         new ("Courses", "/courses") } },
             { SidebarEnum.RequirementSets, new() { new ("Home", "/"),
-                        new ("Requirement Set", "/requirementset") } },
+                        new ("Requirement Sets", "/requirementsets") } },
             { SidebarEnum.RequirementSet, new() { new ("Home", "/"),
-                        new ("Requirement Set", "/requirementset") } },
+                        new ("Requirement Sets", "/requirementsets") } },
             { SidebarEnum.Section, new() { new ("Home", "/"),
                         new ("Courses", "/courses"),
+                        new ("Course", "/course"),
                         new ("Section", "/section") } }
         };
 
         private static readonly Dictionary<SidebarEnum, List<PageLink>> _sidebars = new() {
+            { SidebarEnum.None, [] },
             { SidebarEnum.EditInformation, new() { new ("Programs & Credentials", "/programcred"),
                                      new ("Courses & Sections", "/coursesection"),
                                      new ("Requirement Sets", "/requirementset") } },
@@ -63,9 +65,9 @@
                                  new ("Faculty", "/section/faculty"),
                                  new ("Technical Details", "/section/technical") } },
             { SidebarEnum.RequirementSets, new() { new ("Requirement Sets", "/requirementsets") } },
-            { SidebarEnum.RequirementSet, new() { new ("Details", "/requirementset/details"),
-                                 new ("Requirements", "/requirementset/requirements"),
-                                 new ("Courses", "/requirementset/courses") } },
+            { SidebarEnum.RequirementSet, new() { new ("General Information", "/requirementset/general"),
+                                 new ("Courses", "/requirementset/courses"),
+                                 new ("Technical Details", "/requirementset/technical") } },
             { SidebarEnum.Configuration, new() { new ("Sources", "/configuration/sources"),
                                  new ("Fields Used", "/configuration/fieldsused/programs"),
                                  new ("Manage Filters", "/configuration/filters"),
@@ -77,11 +79,12 @@
             { SidebarEnum.FieldsUsed, new() { new ("Programs", "/configuration/fieldsused/programs"),
                                  new ("Credentials", "/configuration/fieldsused/credentials"),
                                  new ("Courses", "/configuration/fieldsused/courses"),
-                                 new ("Sections", "/configuration/fieldsused/sections") } }
+                                 new ("Sections", "/configuration/fieldsused/sections"),
+                                 new ("Requirement Sets", "/configuration/fieldsused/requirementsets") } }
         };
 
-        public static List<PageLink>? GetBreadcrumbs(SidebarEnum s) => _breadcrumbs.ContainsKey(s) ? _breadcrumbs[s] : null;
+        public static List<PageLink>? GetBreadcrumbs(SidebarEnum s) => _breadcrumbs.TryGetValue(s, out var value) ? value : null;
 
-        public static List<PageLink>? GetSidebar(SidebarEnum s) => _sidebars.ContainsKey(s) ? _sidebars[s].ToList() : null;
+        public static List<PageLink>? GetSidebar(SidebarEnum s) => _sidebars.TryGetValue(s, out var value) ? [.. value] : null;
     }
 }

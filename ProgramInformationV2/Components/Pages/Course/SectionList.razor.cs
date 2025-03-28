@@ -33,10 +33,6 @@ namespace ProgramInformationV2.Components.Pages.Course {
             NavigationManager.NavigateTo($"/section/general");
         }
 
-        protected async Task DeleteSection() {
-            //TODO Delete section logic here
-        }
-
         protected async Task EditSection() {
             await Layout.SetCacheId(SectionId);
             NavigationManager.NavigateTo($"/section/general");
@@ -47,7 +43,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             _useSections = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section);
             var id = await Layout.GetCachedId();
             CourseItem = await CourseGetter.GetCourse(id);
-            Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             await base.OnInitializedAsync();
         }
     }

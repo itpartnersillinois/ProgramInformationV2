@@ -22,5 +22,16 @@ namespace ProgramInformationV2.Search.Getters {
             LogDebug(response);
             return response.IsValid ? response.Source : new Course();
         }
+
+        public async Task<Course> GetCourseBySection(string sectionId) {
+            var response = await _openSearchClient.SearchAsync<Course>(s => s.Index(UrlTypes.Courses.ConvertToUrlString()).Query(q => q.Match(m => m.Field(fld => fld.Sections.Select(ft => ft.Id)).Query(sectionId))));
+            LogDebug(response);
+            return response.IsValid ? response.Documents.FirstOrDefault() ?? new Course() : new Course();
+        }
+
+        public async Task<Section> GetSection(string sectionId) {
+            var program = await GetCourseBySection(sectionId);
+            return program.Sections?.SingleOrDefault(c => c.Id == sectionId) ?? new Section();
+        }
     }
 }

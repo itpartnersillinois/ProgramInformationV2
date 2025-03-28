@@ -3,11 +3,17 @@ using ProgramInformationV2.Components.Layout;
 using ProgramInformationV2.Data.FieldList;
 
 namespace ProgramInformationV2.Components.Controls {
+
     public partial class SmallText {
         private string? _value;
 
+        [Parameter]
+        public IEnumerable<FieldItem> FieldItems { get; set; } = default!;
+
+        public string Id => Title.Replace(" ", "_").ToLowerInvariant();
+
         [CascadingParameter]
-        public required SidebarLayout Layout { get; set; }
+        public SidebarLayout Layout { get; set; } = default!;
 
         [Parameter]
         public string Title { get; set; } = "";
@@ -24,15 +30,11 @@ namespace ProgramInformationV2.Components.Controls {
             }
         }
 
-        public string Id => Title.Replace(" ", "_").ToLowerInvariant();
-
-        [Parameter]
-        public IEnumerable<FieldItem> FieldItems { get; set; } = default!;
-
-        public string GetFieldItemDescription() => FieldItems == null ? "" : FieldItems.FirstOrDefault(f => f.Title == Title)?.Description ?? "";
-        public bool GetFieldItemActive() => FieldItems == null ? false : FieldItems.FirstOrDefault(f => f.Title == Title)?.ShowItem ?? true;
-
         [Parameter]
         public EventCallback<string> ValueChanged { get; set; }
+
+        public bool GetFieldItemActive() => FieldItems == null ? false : FieldItems.FirstOrDefault(f => f.Title == Title)?.ShowItem ?? true;
+
+        public string GetFieldItemDescription() => FieldItems == null ? "" : FieldItems.FirstOrDefault(f => f.Title == Title)?.Description ?? "";
     }
 }

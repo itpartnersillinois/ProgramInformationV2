@@ -34,10 +34,6 @@ namespace ProgramInformationV2.Components.Pages.Program {
             NavigationManager.NavigateTo($"/credential/general");
         }
 
-        protected async Task DeleteCredential() {
-            //TODO Delete credential logic here
-        }
-
         protected async Task EditCredential() {
             await Layout.SetCacheId(CredentialId);
             NavigationManager.NavigateTo($"/credential/general");
@@ -48,7 +44,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
             _useCredentials = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Credential);
             var id = await Layout.GetCachedId();
             ProgramItem = await ProgramGetter.GetProgram(id);
-            Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
             await base.OnInitializedAsync();
         }
     }

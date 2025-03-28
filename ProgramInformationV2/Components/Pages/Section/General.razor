@@ -1,5 +1,20 @@
-﻿<h3>General</h3>
+﻿@page "/section/general"
+@layout SidebarLayout
 
-@code {
+<PageTitle>Section - General Information</PageTitle>
 
+<ilw-content>
+    <h1>General Information</h1>
+</ilw-content>
+
+@if (SectionItem != null)
+{
+    <SmallText Title="Section Code" FieldItems="FieldItems" @bind-Value="SectionItem.SectionCode"></SmallText>
+    <MediumText Title="Alternate Title" FieldItems="FieldItems" @bind-Value="SectionItem.AlternateTitle"></MediumText>
+    <LargeText Title="Alternate Description" FieldItems="FieldItems" @bind-Value="SectionItem.Description"></LargeText>
+    <SmallText Title="CRN" FieldItems="FieldItems" @bind-Value="SectionItem.CRN"></SmallText>
+    <CheckboxList Title="Format Type" FieldItems="FieldItems" @bind-Value="SectionItem.FormatType"></CheckboxList>
+    <SmallText Title="Credit Hours" FieldItems="FieldItems" @bind-Value="SectionItem.CreditHours"></SmallText>
+    <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
 }
+

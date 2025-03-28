@@ -1,0 +1,17 @@
+﻿@if (GetFieldItemActive())
+{
+    <ilw-content>
+        <div class="ils-input-entry">
+            <label for="@Id">@Title</label>
+            <div class="ils-toggle-slider">
+                <input id="@Id" type="checkbox" @bind="Value" @bind:after="Layout.SetDirty" role="switch" />
+                <span>
+                    <span class="ils-container"></span>
+                    <span aria-hidden="true" class="ils-text-on">On</span>
+                    <span aria-hidden="true" class="ils-text-off">Off</span>
+                </span>
+            </div>
+            <p>@GetFieldItemDescription()</p>
+        </div>
+    </ilw-content>
+}

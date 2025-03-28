@@ -9,8 +9,6 @@ using FieldType = ProgramInformationV2.Data.DataModels.FieldType;
 namespace ProgramInformationV2.Components.Pages.Program {
 
     public partial class General {
-        private string _id = "";
-
         public IEnumerable<FieldItem> FieldItems { get; set; } = default!;
 
         [CascadingParameter]
@@ -33,28 +31,25 @@ namespace ProgramInformationV2.Components.Pages.Program {
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await ProgramSetter.SetProgram(ProgramItem);
-            if (string.IsNullOrEmpty(_id)) {
-                _id = ProgramItem.Id;
-                await Layout.SetCacheId(_id);
-            }
+            await Layout.SetCacheId(ProgramItem.Id);
+            await Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
+            await Layout.AddMessage("Program saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
-            var title = "New Program";
-            if (string.IsNullOrWhiteSpace(_id)) {
-                var sourceCode = await Layout.CheckSource();
-                _id = await Layout.GetCachedId();
-                if (!string.IsNullOrWhiteSpace(_id)) {
-                    ProgramItem = await ProgramGetter.GetProgram(_id);
-                    title = ProgramItem.Title;
-                } else {
-                    ProgramItem = new Search.Models.Program() {
-                        Source = sourceCode
-                    };
-                }
-                FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.General);
+            var sourceCode = await Layout.CheckSource();
+            var id = await Layout.GetCachedId();
+            if (!string.IsNullOrWhiteSpace(id)) {
+                ProgramItem = await ProgramGetter.GetProgram(id);
+                await Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
+            } else {
+                ProgramItem = new Search.Models.Program() {
+                    Source = sourceCode
+                };
+                await Layout.SetSidebar(SidebarEnum.Program, "New Program", true);
             }
-            Layout.SetSidebar(SidebarEnum.Program, title);
+            FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.General);
+
             await base.OnInitializedAsync();
         }
     }

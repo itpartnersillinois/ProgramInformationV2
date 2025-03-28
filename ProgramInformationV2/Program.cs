@@ -48,6 +48,8 @@ builder.Services.AddScoped<ProgramGetter>();
 builder.Services.AddScoped<ProgramSetter>();
 builder.Services.AddScoped<CourseGetter>();
 builder.Services.AddScoped<CourseSetter>();
+builder.Services.AddScoped<RequirementSetGetter>();
+builder.Services.AddScoped<RequirementSetSetter>();
 
 var app = builder.Build();
 

@@ -23,6 +23,7 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Video URL", CategoryType = CategoryType.Course, FieldType = FieldType.Link },
                 new() { Title = "Details", CategoryType = CategoryType.Course, FieldType = FieldType.Overview },
                 new() { Title = "External Details", CategoryType = CategoryType.Course, FieldType = FieldType.Overview },
+                new() { Title = "Id", CategoryType = CategoryType.Course, FieldType = FieldType.Technical },
                 new() { Title = "URL Fragment", CategoryType = CategoryType.Course, FieldType = FieldType.Technical }
             ];
         }

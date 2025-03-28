@@ -1,0 +1,16 @@
+﻿@page "/requirementset/technical"
+@layout SidebarLayout
+
+<PageTitle>Requirement Set - Technical Information</PageTitle>
+
+<ilw-content>
+    <h1>Technical Information</h1>
+</ilw-content>
+@if (RequirementSetItem != null)
+{
+    <IdList Title="Id" FieldItems="FieldItems" Id="@RequirementSetItem.Id"></IdList>
+    <StatusOnSite @bind-Value="RequirementSetItem.IsActive"></StatusOnSite>
+    <Toggle Title="Is This Shared?" FieldItems="FieldItems" @bind-Value="RequirementSetItem.IsReused"></Toggle>
+    <IdList Title="Credential Id" FieldItems="FieldItems" Id="@RequirementSetItem.CredentialId"></IdList>
+    <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+}

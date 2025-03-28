@@ -82,6 +82,7 @@
             ProcessLists();
             Sections?.ForEach(s => s.CleanHtmlFields());
             if (Sections?.Count > 0) {
+                Sections = [.. Sections.OrderBy(s => s.BeginDate).ThenBy(s => s.EndDate).ThenBy(s => s.SectionCode)];
                 Faculty = string.Join("; ", Sections.SelectMany(s => s.FacultyNameList).OrderBy(s => s.Name).Select(s => s.ToString()).Distinct());
                 FacultyNetId = Sections.SelectMany(s => s.FacultyNameList).OrderBy(s => s.NetId).Select(s => s.NetId).Distinct();
                 TermValues = Sections.Select(s => s.Term).Distinct().OrderBy(s => s).ToList();
@@ -102,11 +103,6 @@
                 if (Sections.Any(s => !string.IsNullOrWhiteSpace(s.Description)))
                     Description = Sections.First(s => !string.IsNullOrWhiteSpace(s.Description)).Description;
             }
-        }
-
-        public Course PrepareForJson() {
-            Sections = [.. Sections.OrderBy(s => s.BeginDate).ThenBy(s => s.EndDate).ThenBy(s => s.SectionCode)];
-            return this;
         }
 
         public override void SetId() {

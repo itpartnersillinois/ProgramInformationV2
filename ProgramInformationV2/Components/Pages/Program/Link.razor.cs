@@ -42,6 +42,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
                 _ = await _imageDetailProgramImage.SaveFileToPermanent();
             }
             _ = await ProgramSetter.SetProgram(ProgramItem);
+            await Layout.AddMessage("Program saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
@@ -51,7 +52,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
                 NavigationManager.NavigateTo("/");
             }
             ProgramItem = await ProgramGetter.GetProgram(id);
-            Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.Link);
             await base.OnInitializedAsync();
         }

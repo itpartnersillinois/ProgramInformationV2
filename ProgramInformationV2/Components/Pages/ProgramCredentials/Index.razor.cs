@@ -10,7 +10,7 @@ namespace ProgramInformationV2.Components.Pages.ProgramCredentials {
         public SidebarLayout Layout { get; set; } = default!;
 
         protected override async Task OnInitializedAsync() {
-            Layout.SetSidebar(SidebarEnum.ProgramCredential, "Programs and Credentials");
+            await Layout.SetSidebar(SidebarEnum.ProgramCredential, "Programs and Credentials");
             var sourceCode = await Layout.CheckSource();
             await base.OnInitializedAsync();
         }

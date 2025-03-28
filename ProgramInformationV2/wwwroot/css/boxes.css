@@ -1,0 +1,72 @@
+ilw-content .requirement-box, ilw-content .credential-box {
+    display: grid;
+    border: 2px solid var(--il-blue);
+    padding: 10px;
+    margin-bottom: 10px;
+    column-gap: 40px;
+}
+
+ilw-content .requirement-box {
+    grid-template-columns: 1fr 125px;
+}
+
+ilw-content .credential-box {
+    grid-template-columns: 1fr 225px;
+}
+
+    ilw-content .requirement-box p, ilw-content .credential-box p {
+        margin: 0 0 10px 0;
+        font: normal 700 1.25rem / 1.5rem var(--il-font-sans);
+    }
+
+    ilw-content .requirement-box .note, ilw-content .credential-box .note {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        grid-column: 1;
+    }
+
+    ilw-content .requirement-box .button-group, ilw-content .credential-box .button-group {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-content: center;
+    }
+
+    ilw-content .credential-box .button-group {
+        display: flex;
+        column-gap: 10px;
+    }
+
+div.search-box {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    column-gap: 10px;
+}
+
+    div.search-box .search-header {
+        grid-column: 1 / span 2;
+    }
+
+    div.search-box div.search-box-right {
+        border: 2px solid var(--il-storm-lighter-3);
+        background: var(--il-storm-lighter-4);
+        margin-left: 10px;
+        padding: 10px;
+    }
+
+        div.search-box div.search-box-right ilw-content h3 {
+            text-align: center;
+            font-size: 1.563rem;
+            line-height: 1.813rem;
+            background: var(--il-storm-lighter-4);
+        }
+
+ilw-icon.rotate {
+    transform: rotate(90deg);
+    display: block;
+    padding-top: 5px;
+}
+
+button.ilw-button.small {
+    padding: 0 5px;
+}

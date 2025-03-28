@@ -41,7 +41,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             }
             CourseItem = await CourseGetter.GetCourse(id);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Technical);
-            Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             await base.OnInitializedAsync();
         }
     }

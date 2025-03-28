@@ -30,6 +30,7 @@ namespace ProgramInformationV2.Components.Pages.Credential {
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await ProgramSetter.SetCredential(CredentialItem);
+            await Layout.AddMessage("Credential saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
@@ -40,7 +41,7 @@ namespace ProgramInformationV2.Components.Pages.Credential {
             }
             CredentialItem = await ProgramGetter.GetCredential(id);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CredentialGroup(), FieldType.Transcriptable);
-            Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
             await base.OnInitializedAsync();
         }
     }

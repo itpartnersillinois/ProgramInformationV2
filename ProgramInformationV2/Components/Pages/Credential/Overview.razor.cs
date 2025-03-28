@@ -40,8 +40,8 @@ namespace ProgramInformationV2.Components.Pages.Credential {
             if (_rteProgramNotes != null) {
                 CredentialItem.Notes = await _rteProgramNotes.GetValue();
             }
-
             _ = await ProgramSetter.SetCredential(CredentialItem);
+            await Layout.AddMessage("Credential saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
@@ -54,7 +54,7 @@ namespace ProgramInformationV2.Components.Pages.Credential {
             _rteDescription.InitialValue = CredentialItem.Description;
             _rteProgramNotes.InitialValue = CredentialItem.Notes;
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CredentialGroup(), FieldType.Overview);
-            Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
             await base.OnInitializedAsync();
         }
     }

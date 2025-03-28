@@ -9,6 +9,25 @@ namespace ProgramInformationV2.Search.Setters {
 
         private readonly ProgramGetter _programGetter = programGetter ?? default!;
 
+        public async Task<string> DeleteCredential(string id) {
+            var program = await _programGetter.GetProgramByCredential(id);
+            if (program == null) {
+                return "error";
+            }
+            program.Credentials.RemoveAll(c => c.Id == id);
+            if (program.Credentials.Count == 0) {
+                return await DeleteProgram(id);
+            } else {
+                var response = await _openSearchClient.IndexAsync(program, i => i.Index(UrlTypes.Programs.ConvertToUrlString()));
+                return response.IsValid ? $"Credential {id} deleted" : "error";
+            }
+        }
+
+        public async Task<string> DeleteProgram(string id) {
+            var response = await _openSearchClient.DeleteAsync<Program>(id, d => d.Index(UrlTypes.Programs.ConvertToUrlString()));
+            return response.IsValid ? $"Program {id} deleted" : "error";
+        }
+
         public async Task<string> SetCredential(Credential credential) {
             credential.Prepare();
             var program = string.IsNullOrWhiteSpace(credential.ProgramId) ? new Program() : await _programGetter.GetProgram(credential.ProgramId);

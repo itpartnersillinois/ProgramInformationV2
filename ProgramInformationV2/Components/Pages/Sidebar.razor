@@ -7,13 +7,10 @@
     <h1>Hello, world!</h1>
     <p>Welcome to your new app.</p>
     <p><a href="/">Back to main page</a></p>
-            <div class="iled-input-box-parent">
-            <div class="iled-input-box">
-
-    <label for="ed-room">Room Number</label>
+    <div class="ils-input-entry">
+        <label for="ed-room">Room Number</label>
     <input id="ed-room" type="text" @bind="Room" @bind:after="Layout.SetDirty">
     </div>
-            </div>
     <p><button class="ilw-button" @onclick="Send" @onblur="Layout.RemoveMessage">Save Information</button></p>
 
 </ilw-content>
@@ -26,7 +23,7 @@
     public NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject]
-    public Search.Setters.ProgramSetter Setter { get; set; } = default;
+    public Search.Setters.ProgramSetter Setter { get; set; } = default!;
 
     public string Room { get; set; } = "";
 

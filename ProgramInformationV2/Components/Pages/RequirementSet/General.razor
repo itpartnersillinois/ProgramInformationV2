@@ -1,0 +1,18 @@
+﻿@page "/requirementset/general"
+@layout SidebarLayout
+
+<PageTitle>Requirement Set - General Information</PageTitle>
+
+<ilw-content>
+    <h1>General Information</h1>
+</ilw-content>
+
+@if (RequirementSetItem != null)
+{
+    <MediumText Title="Title" FieldItems="FieldItems" @bind-Value="RequirementSetItem.Title"></MediumText>
+    <MediumText Title="Internal Title" FieldItems="FieldItems" @bind-Value="RequirementSetItem.InternalTitleOverride"></MediumText>
+    <LargeText Title="Description" FieldItems="FieldItems" @bind-Value="RequirementSetItem.Description"></LargeText>
+    <SmallInteger Title="Minimum Credit Hours" FieldItems="FieldItems" @bind-Value="RequirementSetItem.MinimumCreditHours"></SmallInteger>
+    <SmallInteger Title="Maxiumum Credit Hours" FieldItems="FieldItems" @bind-Value="RequirementSetItem.MaximumCreditHours"></SmallInteger>
+    <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+}

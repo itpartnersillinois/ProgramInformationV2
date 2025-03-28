@@ -6,6 +6,9 @@ namespace ProgramInformationV2.Components.Controls {
     public partial class SearchGenericItem {
 
         [Parameter]
+        public string ActionButtonTitle { get; set; } = "";
+
+        [Parameter]
         public EventCallback<string> EditClicked { get; set; }
 
         [Parameter]
@@ -22,8 +25,9 @@ namespace ProgramInformationV2.Components.Controls {
         [Parameter]
         public string SearchItem { get; set; } = "";
 
-        [Parameter]
         public string SelectedItemId { get; set; } = "";
+
+        public string SelectedItemTitle => GenericItems.FirstOrDefault(gi => gi.Id == SelectedItemId)?.Title ?? "";
 
         public void Edit() {
             EditClicked.InvokeAsync();
@@ -36,6 +40,13 @@ namespace ProgramInformationV2.Components.Controls {
         protected async Task FilterChange(ChangeEventArgs e) {
             SearchItem = e.Value?.ToString() ?? "";
             await SearchClicked.InvokeAsync();
+        }
+
+        protected override void OnInitialized() {
+            if (string.IsNullOrWhiteSpace(ActionButtonTitle)) {
+                ActionButtonTitle = "Edit " + ItemTitle;
+            }
+            base.OnInitialized();
         }
     }
 }

@@ -1,25 +1,29 @@
 ﻿@using ProgramInformationV2.Search.Models
 @if (GetFieldItemActive())
 {
-        <ilw-content>
-            <div class="ils-input-entry-checkbox">
-                <label for="online">Online </label>
-                        <input id="online" type="checkbox" checked="@(Value.IsFormat(FormatType.Online))" @onchange="e => ChangeFormat(FormatType.Online, e)">
-            </div>
-            <div class="ils-input-entry-checkbox">
-                <label for="oncampus">On-Campus </label>
-                <input id="oncampus" type="checkbox" checked="@(Value.IsFormat(FormatType.On__Campus))" @onchange="e => ChangeFormat(FormatType.On__Campus, e)">
-            </div>
-            <div class="ils-input-entry-checkbox">
-                <label for="offcampus">Off-Campus </label>
-                <input id="offcampus" type="checkbox" checked="@(Value.IsFormat(FormatType.Off__Campus))" @onchange="e => ChangeFormat(FormatType.Off__Campus, e)">
-            </div>
-            <div class="ils-input-entry-checkbox">
-                <label for="hybrid">Hybrid </label>
-                    <input id="hybrid" type="checkbox" checked="@(Value.IsFormat(FormatType.Hybrid))" @onchange="e => ChangeFormat(FormatType.Hybrid, e)">
-            </div>
-            <div class="ils-input-entry">
-                <p>@GetFieldItemDescription()</p>
-            </div>
-        </ilw-content>
+    <ilw-content>
+        <fieldset>
+        <legend>@Title</legend>
+
+        <div class="ils-input-entry-checkbox">
+            <label for="online">Online </label>
+                    <input id="online" type="checkbox" checked="@(Value.IsFormat(FormatType.Online))" @onchange="e => ChangeFormat(FormatType.Online, e)">
+        </div>
+        <div class="ils-input-entry-checkbox">
+            <label for="oncampus">On-Campus </label>
+            <input id="oncampus" type="checkbox" checked="@(Value.IsFormat(FormatType.On__Campus))" @onchange="e => ChangeFormat(FormatType.On__Campus, e)">
+        </div>
+        <div class="ils-input-entry-checkbox">
+            <label for="offcampus">Off-Campus </label>
+            <input id="offcampus" type="checkbox" checked="@(Value.IsFormat(FormatType.Off__Campus))" @onchange="e => ChangeFormat(FormatType.Off__Campus, e)">
+        </div>
+        <div class="ils-input-entry-checkbox">
+            <label for="hybrid">Hybrid </label>
+                <input id="hybrid" type="checkbox" checked="@(Value.IsFormat(FormatType.Hybrid))" @onchange="e => ChangeFormat(FormatType.Hybrid, e)">
+        </div>
+        <div class="ils-input-entry">
+            <p>@GetFieldItemDescription()</p>
+        </div>
+        </fieldset>
+    </ilw-content>
 }
