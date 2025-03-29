@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ProgramInformationV2.Components.Layout;
 using ProgramInformationV2.Data.PageList;
+using ProgramInformationV2.Search.Helpers;
 using ProgramInformationV2.Search.Models;
-using ProgramInformationV2.Search.Setters;
 
 namespace ProgramInformationV2.Components.Pages.Configuration {
 

@@ -4,7 +4,7 @@ using ProgramInformationV2.Components.Layout;
 using ProgramInformationV2.Data.DataHelpers;
 using ProgramInformationV2.Data.PageList;
 using ProgramInformationV2.Helpers;
-using ProgramInformationV2.Search.Setters;
+using ProgramInformationV2.Search.Helpers;
 
 namespace ProgramInformationV2.Components.Pages.Configuration {
 
@@ -23,9 +23,12 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
         [Inject]
         public SourceHelper SourceHelper { get; set; } = default!;
 
-        protected async Task DeleteSource() {
-            await SourceHelper.RequestDeletion(_sourceCode, await UserHelper.GetUser(AuthenticationStateProvider));
+        protected async Task DeleteItems() {
             await Layout.AddMessage(await BulkEditor.DeleteAllItems(_sourceCode));
+        }
+
+        protected async Task DeleteSource() {
+            await Layout.AddMessage(await SourceHelper.RequestDeletion(_sourceCode, await UserHelper.GetUser(AuthenticationStateProvider)));
         }
 
         protected override async Task OnInitializedAsync() {

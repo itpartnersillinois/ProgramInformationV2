@@ -1,10 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProgramInformationV2.Data.DataContext;
 using ProgramInformationV2.Data.DataModels;
+using ProgramInformationV2.Search.Helpers;
 
 namespace ProgramInformationV2.Data.DataHelpers {
-    public class FilterHelper(ProgramRepository programRepository) {
+
+    public class FilterHelper(ProgramRepository programRepository, BulkEditor bulkEditor) {
+        private readonly BulkEditor _bulkEditor = bulkEditor;
         private readonly ProgramRepository _programRepository = programRepository;
+
+        public async Task<IEnumerable<IGrouping<TagType, TagSource>>> GetAllFilters(string source) =>
+            await _programRepository.ReadAsync(c => c.TagSources.Include(c => c.Source).Where(ts => ts.Source != null && ts.Source.Code == source).OrderBy(ts => ts.Order).GroupBy(rv => rv.TagType));
 
         public async Task<(List<TagSource> TagSources, int SourceId)> GetFilters(string source, TagType tagType) {
             var returnValue = await _programRepository.ReadAsync(c => c.TagSources.Include(c => c.Source).Where(ts => ts.Source != null && ts.Source.Code == source && ts.TagType == tagType).OrderBy(ts => ts.Order).ToList());
@@ -18,10 +24,8 @@ namespace ProgramInformationV2.Data.DataHelpers {
             }
             return (returnValue, sourceId);
         }
-        public async Task<IEnumerable<IGrouping<TagType, TagSource>>> GetAllFilters(string source) =>
-            await _programRepository.ReadAsync(c => c.TagSources.Include(c => c.Source).Where(ts => ts.Source != null && ts.Source.Code == source).OrderBy(ts => ts.Order).GroupBy(rv => rv.TagType));
 
-        public async Task<bool> SaveFilters(IEnumerable<TagSource> tags, IEnumerable<TagSource> tagsForDeletion) {
+        public async Task<bool> SaveFilters(IEnumerable<TagSource> tags, IEnumerable<TagSource> tagsForDeletion, string sourceName) {
             var i = 1;
             foreach (var tag in tags) {
                 tag.Order = i++;
@@ -30,16 +34,15 @@ namespace ProgramInformationV2.Data.DataHelpers {
                 } else {
                     _ = await _programRepository.UpdateAsync(tag);
                     if (tag.Title != tag.OldTitle) {
-                        //TODO update existing items to replace tag
+                        await _bulkEditor.ChangeTags(sourceName, tag.OldTitle, tag.Title);
                     }
                 }
             }
             foreach (var tag in tagsForDeletion) {
                 _ = await _programRepository.DeleteAsync(tag);
-                //TODO update existing items to delete tag
+                await _bulkEditor.DeleteTags(sourceName, tag.OldTitle);
             }
             return true;
         }
-
     }
 }

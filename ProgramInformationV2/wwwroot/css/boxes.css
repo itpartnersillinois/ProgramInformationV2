@@ -1,4 +1,4 @@
-ilw-content .requirement-box, ilw-content .credential-box {
+ilw-content .requirement-box, ilw-content .credential-box, ilw-content .security-box {
     display: grid;
     border: 2px solid var(--il-blue);
     padding: 10px;
@@ -6,7 +6,7 @@ ilw-content .requirement-box, ilw-content .credential-box {
     column-gap: 40px;
 }
 
-ilw-content .requirement-box {
+ilw-content .requirement-box, ilw-content .security-box {
     grid-template-columns: 1fr 125px;
 }
 
@@ -14,28 +14,34 @@ ilw-content .credential-box {
     grid-template-columns: 1fr 225px;
 }
 
-    ilw-content .requirement-box p, ilw-content .credential-box p {
+    ilw-content .requirement-box p, ilw-content .credential-box p, ilw-content .security-box p {
         margin: 0 0 10px 0;
         font: normal 700 1.25rem / 1.5rem var(--il-font-sans);
     }
 
-    ilw-content .requirement-box .note, ilw-content .credential-box .note {
-        display: flex;
-        align-items: center;
-        column-gap: 10px;
-        grid-column: 1;
-    }
+ilw-content .security-box p {
+    display: flex;
+    align-self: center;
+    padding-left: 10px;
+}
 
-    ilw-content .requirement-box .button-group, ilw-content .credential-box .button-group {
-        grid-column: 2;
-        grid-row: 1 / span 2;
-        align-content: center;
-    }
+ilw-content .requirement-box .note, ilw-content .credential-box .note {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    grid-column: 1;
+}
 
-    ilw-content .credential-box .button-group {
-        display: flex;
-        column-gap: 10px;
-    }
+ilw-content .requirement-box .button-group, ilw-content .credential-box .button-group {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-content: center;
+}
+
+ilw-content .credential-box .button-group {
+    display: flex;
+    column-gap: 10px;
+}
 
 div.search-box {
     display: grid;

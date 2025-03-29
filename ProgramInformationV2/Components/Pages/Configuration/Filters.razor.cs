@@ -60,7 +60,7 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
         }
 
         public async Task<bool> Save() {
-            await FilterHelper.SaveFilters(FilterTags, FilterTagsForDeletion);
+            await FilterHelper.SaveFilters(FilterTags, FilterTagsForDeletion, await Layout.CheckSource());
             await Layout.AddMessage($"Filters for {FilterType} have been saved");
             Layout.RemoveDirty();
             FilterTagsForDeletion.Clear();
@@ -69,6 +69,7 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
 
         protected override async Task OnInitializedAsync() {
             await base.OnInitializedAsync();
+            await Layout.CheckSource();
             await Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
         }
     }

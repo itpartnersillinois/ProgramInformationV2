@@ -11,6 +11,7 @@ using ProgramInformationV2.Data.FieldList;
 using ProgramInformationV2.Data.Uploads;
 using ProgramInformationV2.Search;
 using ProgramInformationV2.Search.Getters;
+using ProgramInformationV2.Search.Helpers;
 using ProgramInformationV2.Search.Setters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +43,7 @@ builder.Services.AddScoped<SourceHelper>();
 builder.Services.AddScoped<FilterHelper>();
 builder.Services.AddScoped<CourseImportHelper>();
 builder.Services.AddScoped<LogHelper>();
+builder.Services.AddScoped<SecurityHelper>();
 builder.Services.AddScoped<FieldManager>();
 builder.Services.AddScoped<ProgramFieldItemMultipleDelete>();
 builder.Services.AddSingleton(b => OpenSearchFactory.CreateClient(builder.Configuration["SearchUrl"], builder.Configuration["SearchAccessKey"], builder.Configuration["SearchSecretAccessKey"], bool.Parse(builder.Configuration["SearchDebug"] ?? "false")));
