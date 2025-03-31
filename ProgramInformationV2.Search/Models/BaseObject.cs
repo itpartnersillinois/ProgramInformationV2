@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using OpenSearch.Client;
 
 namespace ProgramInformationV2.Search.Models {
 
@@ -10,6 +11,7 @@ namespace ProgramInformationV2.Search.Models {
 
         public string Fragment { get; set; } = "";
 
+        [Keyword]
         public string Id { get; set; } = "";
 
         [JsonIgnore]
@@ -20,12 +22,14 @@ namespace ProgramInformationV2.Search.Models {
         [JsonIgnore]
         public virtual bool IsIdValid => !string.IsNullOrWhiteSpace(Id) && !string.IsNullOrWhiteSpace(Source) && Id.StartsWith(Source + "-");
 
+        public bool IsSystemTagged { get; set; }
         public DateTime LastUpdated { get; set; }
 
         public string LastUpdatedBy { get; set; } = "";
 
         public int Order { get; set; }
 
+        [Keyword]
         public string Source { get; set; } = "";
 
         public string Title { get; set; } = "";

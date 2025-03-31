@@ -1,21 +1,20 @@
 ﻿namespace ProgramInformationV2.Search.Models {
 
-    public class Course : BasePublicObject {
+    public class Course : BaseTaggableObject {
 
         public Course() {
             AssociatedCourses = null;
             Sections = [];
-            Identifier = new();
             IsActive = true;
             CreatedOn = DateTime.Now;
             LastUpdated = DateTime.Now;
         }
 
-        public IEnumerable<CourseIdentifier>? AssociatedCourses { get; set; }
+        public IEnumerable<CourseRequirement>? AssociatedCourses { get; set; }
 
         public string Cost { get; set; } = "";
 
-        public string CourseNumber => Identifier.CourseNumber;
+        public string CourseNumber { get; set; } = "";
 
         public string CourseTitle { get; set; } = "";
 
@@ -37,8 +36,6 @@
 
         public IEnumerable<FormatType> FormatValues { get; set; } = [];
 
-        public CourseIdentifier Identifier { get; set; }
-
         public string ImageAltText { get; set; } = "";
 
         public string ImageUrl { get; set; } = "";
@@ -57,7 +54,7 @@
 
         public string Prerequisite { get; set; } = "";
 
-        public string Rubric => Identifier.Rubric;
+        public string Rubric { get; set; } = "";
 
         public string ScheduleInformation { get; set; } = "";
 
@@ -87,27 +84,17 @@
                 FacultyNetId = Sections.SelectMany(s => s.FacultyNameList).OrderBy(s => s.NetId).Select(s => s.NetId).Distinct();
                 TermValues = Sections.Select(s => s.Term).Distinct().OrderBy(s => s).ToList();
                 FormatValues = Sections.Select(s => s.FormatType).Distinct().OrderBy(s => s).ToList();
-                if (Sections.All(s => s.CreditHours != null && s.CreditHours.All(char.IsDigit))) {
-                    MinimumCreditHours = Sections.Where(s => s.CreditHours != null).Min(s => int.Parse(s.CreditHours));
-                    MaximumCreditHours = Sections.Where(s => s.CreditHours != null).Max(s => int.Parse(s.CreditHours));
+                if (Sections.All(s => s.CreditHours != null && s.CreditHours != "" && s.CreditHours.All(char.IsDigit))) {
+                    MinimumCreditHours = Sections.Where(s => s.CreditHours != null && s.CreditHours != "").Min(s => int.Parse(s.CreditHours));
+                    MaximumCreditHours = Sections.Where(s => s.CreditHours != null && s.CreditHours != "").Max(s => int.Parse(s.CreditHours));
                     CreditHours = MinimumCreditHours == MaximumCreditHours ? MinimumCreditHours.ToString() : $"{MinimumCreditHours} - {MaximumCreditHours}";
                 }
             }
         }
 
-        public void FilterBySection(string sectionCode) {
-            if (Sections != null) {
-                Sections = Sections.Where(s => s.SectionCode == sectionCode).OrderByDescending(s => s.BeginDate).ThenBy(s => s.SectionCode).ToList();
-                if (Sections.Any(s => !string.IsNullOrWhiteSpace(s.Title)))
-                    Title = Sections.First(s => !string.IsNullOrWhiteSpace(s.Title)).Title;
-                if (Sections.Any(s => !string.IsNullOrWhiteSpace(s.Description)))
-                    Description = Sections.First(s => !string.IsNullOrWhiteSpace(s.Description)).Description;
-            }
-        }
-
         public override void SetId() {
             base.SetId();
-            Title = string.IsNullOrWhiteSpace(Rubric) || string.IsNullOrWhiteSpace(CourseNumber) ? CourseTitle : $"{Identifier.Rubric} {Identifier.CourseNumber}: {CourseTitle}";
+            Title = string.IsNullOrWhiteSpace(Rubric) || string.IsNullOrWhiteSpace(CourseNumber) ? CourseTitle : $"{Rubric} {CourseNumber}: {CourseTitle}";
             Sections.ForEach(s => { s.Source = Source; s.CourseId = Id; s.SetId(); });
         }
     }

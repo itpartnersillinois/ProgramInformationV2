@@ -5,13 +5,10 @@
 
 <ilw-content>
     <h1>Import a Course</h1>
-    @if (_useCourses.HasValue && _useCourses.Value)
+    @if (_useCourses.HasValue && _useCourses.Value && _useSections.HasValue && _useSections.Value)
     {
         <p>
             This will schedule a course import from the Electronic Data Warehouse.
-        </p>
-        <p>
-            Note that this will overwrite any course information you have added already unless you choose “Yes” under ‘Import Title and Description Only?’.
         </p>
 
         <div class="ils-input-entry">
@@ -45,9 +42,9 @@
 
         <div class="ils-input-entry">
             <div class="ils-input-entry-compact">
-                <label for="titleonly">Import Title and Description Only?</label>
+                <label for="titleonly">Overwrite existing data?</label>
                 <div class="ils-toggle-slider">
-                    <input id="titleonly" type="checkbox" @bind="ImportTitleAndDescriptionOnly" role="switch" />
+                    <input id="titleonly" type="checkbox" @bind="Overwrite" role="switch" />
                     <span>
                         <span class="ils-container"></span>
                         <span aria-hidden="true" class="ils-text-on">Yes</span>
@@ -59,10 +56,10 @@
 
         <button class="ilw-button" @onclick="SendImport" @onblur="Layout.RemoveMessage">Schedule Import</button>
     }
-    else if (_useCourses.HasValue && !_useCourses.Value)
+    else if (_useCourses.HasValue && _useSections.HasValue)
     {
         <p>
-            Your area does not use courses. Go to the Configuration section to enable courses.
+            Your area does not use courses or sections. Go to the Configuration section to enable courses and sections.
         </p>
     }
 

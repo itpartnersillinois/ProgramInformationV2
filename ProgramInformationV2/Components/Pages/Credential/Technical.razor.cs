@@ -27,6 +27,12 @@ namespace ProgramInformationV2.Components.Pages.Credential {
         [Inject]
         protected ProgramSetter ProgramSetter { get; set; } = default!;
 
+        public async Task Delete() {
+            Layout.RemoveDirty();
+            _ = await ProgramSetter.DeleteCredential(CredentialItem.Id);
+            await Layout.Log(CategoryType.Credential, FieldType.Technical, CredentialItem, "Deletion");
+            NavigationManager.NavigateTo("/credentials");
+        }
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await ProgramSetter.SetCredential(CredentialItem);

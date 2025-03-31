@@ -28,6 +28,13 @@ namespace ProgramInformationV2.Components.Pages.Section {
         [Inject]
         protected NavigationManager NavigationManager { get; set; } = default!;
 
+        public async Task Delete() {
+            Layout.RemoveDirty();
+            _ = await CourseSetter.DeleteSection(SectionItem.Id);
+            await Layout.Log(CategoryType.Section, FieldType.Technical, SectionItem, "Deletion");
+            NavigationManager.NavigateTo("/courses");
+        }
+
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await CourseSetter.SetSection(SectionItem);

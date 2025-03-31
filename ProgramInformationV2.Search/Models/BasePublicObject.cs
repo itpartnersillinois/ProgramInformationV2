@@ -1,20 +1,9 @@
 ﻿namespace ProgramInformationV2.Search.Models {
-    public abstract class BasePublicObject : BaseObject {
-        public IEnumerable<string> DepartmentList { get; set; } = default!;
 
+    public abstract class BasePublicObject : BaseObject {
         public string Description { get; set; } = "";
 
-        public bool IsRemovedFromSitemap { get; set; }
-
-        public List<string> FixedFields { get; set; } = default!;
-
-        public bool IsDeletable { get; set; } = false;
-
-        public IEnumerable<string> SkillList { get; set; } = default!;
-
         public dynamic Suggest => new { input = Title, contexts = new { source = Source } };
-
-        public IEnumerable<string> TagList { get; set; } = default!;
 
         public string Url { get; set; } = "";
 
@@ -30,13 +19,5 @@
             }
             return href;
         }
-
-        internal void ProcessLists() {
-            TagList = TagList == null ? [] : TagList.Select(ProcessTagName).ToList();
-            DepartmentList = DepartmentList == null ? [] : DepartmentList.Select(ProcessTagName).ToList();
-            SkillList = SkillList == null ? [] : SkillList.Select(ProcessTagName).ToList();
-        }
-
-        public static string ProcessTagName(string tag) => tag.Replace("\"", "");
     }
 }

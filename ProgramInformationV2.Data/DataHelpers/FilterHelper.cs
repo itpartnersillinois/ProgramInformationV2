@@ -34,13 +34,13 @@ namespace ProgramInformationV2.Data.DataHelpers {
                 } else {
                     _ = await _programRepository.UpdateAsync(tag);
                     if (tag.Title != tag.OldTitle) {
-                        await _bulkEditor.ChangeTags(sourceName, tag.OldTitle, tag.Title);
+                        await _bulkEditor.UpdateTags(sourceName, tag.TagTypeSourceName, tag.OldTitle, tag.Title);
                     }
                 }
             }
             foreach (var tag in tagsForDeletion) {
                 _ = await _programRepository.DeleteAsync(tag);
-                await _bulkEditor.DeleteTags(sourceName, tag.OldTitle);
+                await _bulkEditor.DeleteTags(sourceName, tag.TagTypeSourceName, tag.OldTitle);
             }
             return true;
         }

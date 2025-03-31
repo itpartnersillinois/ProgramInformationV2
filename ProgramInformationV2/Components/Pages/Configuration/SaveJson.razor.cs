@@ -31,7 +31,7 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
                 var jsonText = await JsonHelper.GetJson(source, urlType);
                 var fileStream = new MemoryStream(Encoding.ASCII.GetBytes(jsonText));
                 using var streamRef = new DotNetStreamReference(fileStream);
-                await JsRuntime.InvokeVoidAsync("downloadFileFromStream", $"{source}_{DateTime.Now.ToString("yyyyMMddhhmmss")}_{FileType.ToLowerInvariant()}.json", streamRef);
+                await JsRuntime.InvokeVoidAsync("downloadFileFromStream", $"{source}_{DateTime.Now.ToString("yyyy_MM_dd")}_{FileType.ToLowerInvariant()}.json", streamRef);
                 await Layout.AddMessage("JSON file downloaded successfully.");
             }
         }

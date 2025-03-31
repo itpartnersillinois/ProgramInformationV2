@@ -13,4 +13,6 @@
     <StatusOnSite @bind-Value="SectionItem.IsActive"></StatusOnSite>
     <MediumText Title="URL Fragment" FieldItems="FieldItems" @bind-Value="SectionItem.Url"></MediumText>
     <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+    <DeleteNotice DeleteClicked="Delete" ItemTitle="@SectionItem.Title"></DeleteNotice>
+
 }

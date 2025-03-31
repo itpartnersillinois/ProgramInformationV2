@@ -1,6 +1,8 @@
-﻿namespace ProgramInformationV2.Search.Models {
+﻿using OpenSearch.Client;
 
-    public class Credential : BasePublicObject {
+namespace ProgramInformationV2.Search.Models {
+
+    public class Credential : BaseTaggableObject {
 
         public Credential() {
             IsActive = true;
@@ -13,6 +15,7 @@
 
         public CredentialType CredentialType { get; set; }
 
+        [Keyword]
         public string CredentialTypeString => CredentialType.ConvertToSingleString();
 
         public string DisclaimerText { get; set; } = "";
@@ -23,6 +26,7 @@
 
         public FormatType FormatType { get; set; }
 
+        [Keyword]
         public IEnumerable<string> FormatTypeString => FormatType.ConvertFormatList();
 
         public string HourText { get; set; } = "";
@@ -42,10 +46,12 @@
 
         public string Notes { get; set; } = "";
 
+        [Keyword]
         public string ProgramId { get; set; } = "";
 
         public string ProgramTitle { get; set; } = "";
 
+        [Keyword]
         public IEnumerable<string> RequirementSetIds { get; set; }
 
         public string SummaryText { get; set; } = "";

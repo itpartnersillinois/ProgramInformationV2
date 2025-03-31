@@ -6,11 +6,30 @@
 <ilw-content>
     <h1>Technical Information</h1>
 </ilw-content>
-@if (RequirementSetItem != null)
+@if (RequirementSetItem != null && CredentialsUsingRequirementSet != null)
 {
     <IdList Title="Id" FieldItems="FieldItems" Id="@RequirementSetItem.Id"></IdList>
     <StatusOnSite @bind-Value="RequirementSetItem.IsActive"></StatusOnSite>
-    <Toggle Title="Is This Shared?" FieldItems="FieldItems" @bind-Value="RequirementSetItem.IsReused"></Toggle>
-    <IdList Title="Credential Id" FieldItems="FieldItems" Id="@RequirementSetItem.CredentialId"></IdList>
+    <ilw-content>
+        <h2>Credentials using this Requirement Set</h2>
+        <ul>
+            @foreach (var cred in CredentialsUsingRequirementSet)
+            {
+                <li>@cred.Title</li>
+            }
+        </ul>
+    </ilw-content>
+    @if (CredentialsUsingRequirementSet.Count() == 1)
+    {
+        <Toggle Title="Is This Shared?" FieldItems="FieldItems" @bind-Value="RequirementSetItem.IsReused"></Toggle>
+    } else {
+        <ilw-content><p>Requirement Sets must be used by one and only one credential before making it private.</p></ilw-content>
+    }
     <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+    @if (CredentialsUsingRequirementSet.Count() == 0)
+    {
+        <DeleteNotice DeleteClicked="Delete" ItemTitle="@RequirementSetItem.InternalTitle"></DeleteNotice>
+    } else {
+        <ilw-content><p>Requirement Sets used by a credential cannot be deleted.</p></ilw-content>
+    }
 }

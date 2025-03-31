@@ -1,6 +1,8 @@
-﻿namespace ProgramInformationV2.Search.Models {
+﻿using OpenSearch.Client;
 
-    public class Program : BasePublicObject {
+namespace ProgramInformationV2.Search.Models {
+
+    public class Program : BaseTaggableObject {
 
         public Program() {
             Credentials = [];
@@ -36,6 +38,7 @@
 
         public string DetailImageUrl { get; set; } = "";
 
+        [Keyword]
         public IEnumerable<string> Formats => Credentials.Where(c => c.CredentialType != CredentialType.None && c.IsActive).Select(c => c.FormatType.ConvertToSingleString()).Distinct();
 
         public string ProgramGroupDescription { get; set; } = "";

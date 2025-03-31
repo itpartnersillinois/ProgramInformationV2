@@ -5,18 +5,22 @@ using ProgramInformationV2.Data.DataModels;
 using ProgramInformationV2.Data.FieldList;
 using ProgramInformationV2.Data.PageList;
 using ProgramInformationV2.Search.Getters;
+using ProgramInformationV2.Search.Helpers;
 using ProgramInformationV2.Search.Setters;
 
 namespace ProgramInformationV2.Components.Pages.Course {
 
     public partial class Link {
         private ImageControl _imageCourseImage = default!;
-
+        private string _oldUrl = "";
         public ProgramInformationV2.Search.Models.Course CourseItem { get; set; } = default!;
         public IEnumerable<FieldItem> FieldItems { get; set; } = default!;
 
         [CascadingParameter]
         public SidebarLayout Layout { get; set; } = default!;
+
+        [Inject]
+        protected BulkEditor BulkEditor { get; set; } = default!;
 
         [Inject]
         protected CourseGetter CourseGetter { get; set; } = default!;
@@ -36,6 +40,10 @@ namespace ProgramInformationV2.Components.Pages.Course {
                 _ = await _imageCourseImage.SaveFileToPermanent();
             }
             _ = await CourseSetter.SetCourse(CourseItem);
+            if (_oldUrl != CourseItem.Url) {
+                _ = await BulkEditor.UpdateRequirementSets(CourseItem.Id, CourseItem.Title, CourseItem.Url);
+                _oldUrl = CourseItem.Url;
+            }
             await Layout.Log(CategoryType.Course, FieldType.Link, CourseItem);
             await Layout.AddMessage("Course saved successfully.");
         }
@@ -47,6 +55,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
                 NavigationManager.NavigateTo("/");
             }
             CourseItem = await CourseGetter.GetCourse(id);
+            _oldUrl = CourseItem.Url;
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Link);
             await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             await base.OnInitializedAsync();

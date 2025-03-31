@@ -27,6 +27,13 @@ namespace ProgramInformationV2.Components.Pages.Course {
         [Inject]
         protected NavigationManager NavigationManager { get; set; } = default!;
 
+        public async Task Delete() {
+            Layout.RemoveDirty();
+            _ = await CourseSetter.DeleteCourse(CourseItem.Id);
+            await Layout.Log(CategoryType.Course, FieldType.Technical, CourseItem, "Deletion");
+            NavigationManager.NavigateTo("/courses");
+        }
+
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await CourseSetter.SetCourse(CourseItem);

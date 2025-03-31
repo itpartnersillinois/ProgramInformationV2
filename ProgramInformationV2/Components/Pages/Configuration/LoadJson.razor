@@ -16,6 +16,6 @@
             </select>
         </div>
     </ilw-content>
-    <InputFile OnChange="@LoadFile" />
+    <InputFile OnChange="@LoadFile" style="width: calc(100% - 60px); height: initial; padding: 20px 30px; font: 700 1.188rem / 1.25rem var(--il-font-sans);" />
     <p><button class="ilw-button" @onclick="Load" @onblur="Layout.RemoveMessage">Load JSON File</button></p>
 </ilw-content>

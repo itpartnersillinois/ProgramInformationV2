@@ -16,6 +16,7 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Building", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
                 new() { Title = "Room", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
                 new() { Title = "Term", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
+                new() { Title = "Semester Year", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
                 new() { Title = "Begin Date", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
                 new() { Title = "End Date", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
                 new() { Title = "Days", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },

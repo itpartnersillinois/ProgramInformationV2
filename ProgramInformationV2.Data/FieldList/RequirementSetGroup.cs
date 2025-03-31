@@ -13,7 +13,6 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Minimum Credit Hours", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.General },
                 new() { Title = "Maximum Credit Hours", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.General },
                 new() { Title = "Id", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.Technical },
-                new() { Title = "Credential Id", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.Technical },
                 new() { Title = "Is This Shared?", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.Technical }
             ];
         }

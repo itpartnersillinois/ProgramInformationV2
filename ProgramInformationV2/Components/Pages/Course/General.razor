@@ -9,8 +9,8 @@
 
 @if (CourseItem != null) {
     <MediumText Title="Title" FieldItems="FieldItems" @bind-Value="CourseItem.CourseTitle"></MediumText>
-    <SmallText Title="Rubric" FieldItems="FieldItems" @bind-Value="CourseItem.Identifier.Rubric"></SmallText>
-    <SmallText Title="Course Number" FieldItems="FieldItems" @bind-Value="CourseItem.Identifier.CourseNumber"></SmallText>
+    <SmallText Title="Rubric" FieldItems="FieldItems" @bind-Value="CourseItem.Rubric"></SmallText>
+    <SmallText Title="Course Number" FieldItems="FieldItems" @bind-Value="CourseItem.CourseNumber"></SmallText>
     <LargeText Title="Summary" FieldItems="FieldItems" @bind-Value="CourseItem.SummaryText"></LargeText>
     <LargeText Title="Description" FieldItems="FieldItems" @bind-Value="CourseItem.Description"></LargeText>
     <LargeText Title="Information" FieldItems="FieldItems" @bind-Value="CourseItem.Information"></LargeText>

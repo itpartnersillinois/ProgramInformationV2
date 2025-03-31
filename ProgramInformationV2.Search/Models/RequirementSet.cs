@@ -1,4 +1,6 @@
-﻿namespace ProgramInformationV2.Search.Models {
+﻿using OpenSearch.Client;
+
+namespace ProgramInformationV2.Search.Models {
 
     public class RequirementSet : BaseObject {
 
@@ -7,13 +9,11 @@
             LastUpdated = DateTime.Now;
             CourseRequirements = [];
             IsReused = false;
-            SetId();
         }
 
-        public IEnumerable<string> CourseProgramIdList => CourseRequirements.Where(c => c.IsActive).Select(c => c.Id);
+        public List<CourseRequirement> CourseRequirements { get; set; } = default!;
 
-        public IEnumerable<CourseRequirement> CourseRequirements { get; set; } = default!;
-
+        [Keyword]
         public string CredentialId { get; set; } = "";
 
         public string Description { get; set; } = "";
@@ -33,6 +33,11 @@
             if (CourseRequirements != null && CourseRequirements?.Count() > 0) {
                 CourseRequirements = [.. CourseRequirements.OrderBy(s => s.Title)];
             }
+        }
+
+        public override void SetId() {
+            base.SetId();
+            CourseRequirements.ForEach(c => { c.Source = Source; c.ParentId = Id; c.SetId(); });
         }
     }
 }

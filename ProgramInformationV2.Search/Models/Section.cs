@@ -3,7 +3,6 @@
     public class Section : BasePublicObject {
 
         public Section() {
-            Identifier = new();
             FacultyNameList = [];
             DaysOfWeekList = [];
             IsActive = true;
@@ -39,8 +38,6 @@
 
         public IEnumerable<string> FormatTypeString => FormatType.ConvertFormatList();
 
-        public CourseIdentifier Identifier { get; set; } = default!;
-
         public string Information { get; set; } = "";
 
         public bool IsCurrent => BeginDate <= DateTime.Today && EndDate >= DateTime.Today;
@@ -56,17 +53,14 @@
         public string SectionCode { get; set; } = "";
 
         public Terms Term { get; set; }
-
         public string Time { get; set; } = "";
-
         public int TimeNumeric { get; set; }
-
         public string Type { get; set; } = "";
+        public string SemesterYear { get; set; } = "";
 
         public override void CleanHtmlFields() {
             Information = CleanHtml(Information);
             Description = CleanHtml(Description);
-            ProcessLists();
         }
 
         public void ManageDayOfWeek(DayOfWeek day, bool isAdded) {

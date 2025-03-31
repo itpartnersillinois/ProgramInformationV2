@@ -5,6 +5,7 @@ using Microsoft.Identity.Web.UI;
 using OpenSearch.Client;
 using ProgramInformationV2.Components;
 using ProgramInformationV2.Data.Cache;
+using ProgramInformationV2.Data.CourseImport;
 using ProgramInformationV2.Data.DataContext;
 using ProgramInformationV2.Data.DataHelpers;
 using ProgramInformationV2.Data.FieldList;
@@ -45,6 +46,7 @@ builder.Services.AddScoped<CourseImportHelper>();
 builder.Services.AddScoped<LogHelper>();
 builder.Services.AddScoped<SecurityHelper>();
 builder.Services.AddScoped<FieldManager>();
+builder.Services.AddScoped<CourseImportManager>();
 builder.Services.AddScoped<ProgramFieldItemMultipleDelete>();
 builder.Services.AddSingleton(b => OpenSearchFactory.CreateClient(builder.Configuration["SearchUrl"], builder.Configuration["SearchAccessKey"], builder.Configuration["SearchSecretAccessKey"], bool.Parse(builder.Configuration["SearchDebug"] ?? "false")));
 builder.Services.AddSingleton(b => OpenSearchFactory.CreateLowLevelClient(builder.Configuration["SearchUrl"], builder.Configuration["SearchAccessKey"], builder.Configuration["SearchSecretAccessKey"], bool.Parse(builder.Configuration["SearchDebug"] ?? "false")));
@@ -70,6 +72,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.MapControllers();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 app.UseWebOptimizer();

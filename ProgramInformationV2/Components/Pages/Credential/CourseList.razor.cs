@@ -81,7 +81,7 @@ namespace ProgramInformationV2.Components.Pages.Credential {
         protected async Task Edit(string requirementId) {
             await SetQuickCacheLink();
             await Layout.SetCacheId(requirementId);
-            NavigationManager.NavigateTo("/requirementset/general", true);
+            NavigationManager.NavigateTo("/requirementset/technical", true);
         }
 
         protected async Task GetRequirementSet() {

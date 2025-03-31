@@ -15,6 +15,13 @@ namespace ProgramInformationV2.Search.Getters {
             return response.IsValid ? response.Documents.SelectMany(c => c.Credentials).Select(r => r.GetGenericItem()).OrderBy(g => g.Title).ToList() : new List<GenericItem>();
         }
 
+        public async Task<List<GenericItem>> GetAllCredentialsByRequirementId(string requirementId) {
+            var response =
+                await _openSearchClient.SearchAsync<Program>(s => s.Index(UrlTypes.Programs.ConvertToUrlString()).Query(q => q.Bool(b => b.Filter(f => f.Term(t => t.Field(fld => fld.Credentials.Select(c => c.RequirementSetIds)).Value(requirementId))))));
+            LogDebug(response);
+            return response.IsValid ? response.Documents.SelectMany(c => c.Credentials).Where(c => c.RequirementSetIds.Contains(requirementId)).Select(r => r.GetGenericItem()).OrderBy(g => g.Title).ToList() : new List<GenericItem>();
+        }
+
         public async Task<List<GenericItem>> GetAllProgramsBySource(string source, string search) {
             var response = string.IsNullOrWhiteSpace(search) ?
                 await _openSearchClient.SearchAsync<Program>(s => s.Index(UrlTypes.Programs.ConvertToUrlString()).Query(q => q.Match(m => m.Field(fld => fld.Source).Query(source)))) :

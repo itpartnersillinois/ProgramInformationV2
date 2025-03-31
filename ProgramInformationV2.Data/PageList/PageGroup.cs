@@ -26,8 +26,7 @@
                         new ("Requirement Sets", "/requirementsets") } },
             { SidebarEnum.Section, new() { new ("Home", "/"),
                         new ("Courses", "/courses"),
-                        new ("Course", "/course"),
-                        new ("Section", "/section") } }
+                        new ("Course", "/course/general") } }
         };
 
         private static readonly Dictionary<SidebarEnum, List<PageLink>> _sidebars = new() {
@@ -57,7 +56,7 @@
                                  new ("Link Information", "/course/link"),
                                  new ("Overview", "/course/overview"),
                                  new ("Filters", "/course/filters"),
-                                 new ("Associated Courses", "/course/associated"),
+//                                 new ("Associated Courses", "/course/associated"),
                                  new ("Section List", "/course/sectionlist"),
                                  new ("Technical Details", "/course/technical") } },
             { SidebarEnum.Section, new() { new ("General Information", "/section/general"),

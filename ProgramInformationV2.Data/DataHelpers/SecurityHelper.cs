@@ -23,6 +23,10 @@ namespace ProgramInformationV2.Data.DataHelpers {
             return isSuccessful ? UpdateNetId(netId) : "";
         }
 
+        public async Task<bool> ConfirmNetIdCanAccessSource(string sourceName, string netId) {
+            return await _programRepository.ReadAsync(c => c.SecurityEntries.Include(c => c.Source).Any(se => se.Source != null && se.Source.Code == sourceName && se.Email == netId));
+        }
+
         public async Task<List<string>> GetNames(string sourceName) {
             return await _programRepository.ReadAsync(c => c.SecurityEntries.Include(c => c.Source).Where(se => se.Source != null && se.Source.Code == sourceName).OrderBy(se => se.Email).Select(se => se.Email).ToList());
         }

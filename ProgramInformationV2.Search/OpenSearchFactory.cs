@@ -22,17 +22,14 @@ namespace ProgramInformationV2.Search {
         public static string MapIndex(OpenSearchClient openSearchClient) {
             var returnValue = "Mapping: ";
             var indexPrograms = openSearchClient.Indices.Create(UrlTypes.Programs.ConvertToUrlString(), c => c.Map(m => m.AutoMap<Program>().Properties<Program>(p => p
-                .Keyword(k => k.Name(f => f.TagList))
-                .Keyword(k => k.Name(f => f.Source))
-                .Keyword(k => k.Name(f => f.Credentials.Select(f => f.ProgramId))))));
+                .Keyword(k => k.Name(f => f.Credentials.Select(f => f.FormatType)))
+                .Keyword(k => k.Name(f => f.Credentials.Select(f => f.CredentialType)))
+                .Keyword(k => k.Name(f => f.Credentials.Select(f => f.ProgramId)))
+                .Keyword(k => k.Name(f => f.Credentials.Select(f => f.DepartmentList))))));
             returnValue += $"Program {(indexPrograms.IsValid ? "created" : "failed")} - {indexPrograms.DebugInformation}; ";
-            var indexCourses = openSearchClient.Indices.Create(UrlTypes.Courses.ConvertToUrlString(), c => c.Map(m => m.AutoMap<Course>().Properties<Course>(p => p
-                .Keyword(k => k.Name(f => f.Source))
-                .Keyword(k => k.Name(f => f.TagList)))));
+            var indexCourses = openSearchClient.Indices.Create(UrlTypes.Courses.ConvertToUrlString(), c => c.Map(m => m.AutoMap<Course>()));
             returnValue += $"Course {(indexCourses.IsValid ? "created" : "failed")} - {indexCourses.DebugInformation}; ";
-            var indexRequirementSets = openSearchClient.Indices.Create(UrlTypes.RequirementSets.ConvertToUrlString(), c => c.Map(m => m.AutoMap<RequirementSet>().Properties<RequirementSet>(p => p
-                .Keyword(k => k.Name(f => f.Source))
-                .Keyword(k => k.Name(f => f.CredentialId)))));
+            var indexRequirementSets = openSearchClient.Indices.Create(UrlTypes.RequirementSets.ConvertToUrlString(), c => c.Map(m => m.AutoMap<RequirementSet>()));
             returnValue += $"Req Set {(indexRequirementSets.IsValid ? "created" : "failed")}; - {indexRequirementSets.DebugInformation}; ";
             return returnValue;
         }
