@@ -30,6 +30,8 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
 
         protected override async Task OnInitializedAsync() {
             await base.OnInitializedAsync();
+            var sidebar = string.IsNullOrWhiteSpace(await Layout.CheckSource(false)) ? SidebarEnum.ConfigurationNoSource : SidebarEnum.Configuration;
+            await Layout.SetSidebar(sidebar, "Configuration");
             _email = await UserHelper.GetUser(AuthenticationStateProvider);
             await Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
         }

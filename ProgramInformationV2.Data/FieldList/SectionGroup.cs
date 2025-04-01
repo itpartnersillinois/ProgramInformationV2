@@ -6,6 +6,12 @@ namespace ProgramInformationV2.Data.FieldList {
 
         public SectionGroup() {
             CategoryType = CategoryType.Section;
+            Instructions = "Customize the fields used for sections.";
+            FieldTypeInstructions = new Dictionary<FieldType, string> {
+                [FieldType.General] = "General information about the source.",
+                [FieldType.Location_Time] = "This information is date and room information",
+                [FieldType.Technical] = "Technical details used for internal purposes."
+            };
             FieldItems = [
                 new() { Title = "Section Code", CategoryType = CategoryType.Section, FieldType = FieldType.General, IsRequired = true },
                 new() { Title = "Alternate Title", CategoryType = CategoryType.Section, FieldType = FieldType.General },

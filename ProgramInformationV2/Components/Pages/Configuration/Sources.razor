@@ -22,13 +22,13 @@
 <ilw-content>
     <h2>Source Owners</h2>
     <p>If you wish to request access to a source, please request access below.</p>
-    @if (this.SourceEntries != null)
+    @if (SourceEntries != null)
     {
         <ul>
-            @foreach (var entry in this.SourceEntries)
+            @foreach (var entry in SourceEntries)
             {
                 <li>
-                    <div>@entry.Value (@entry.Key)</div>
+                    <div>@entry.Item2 (email <a href="mailto:@entry.Item1">@entry.Item1</a> to get access)</div>
                 </li>
             }
         </ul>

@@ -36,9 +36,9 @@ namespace ProgramInformationV2.Components.Layout {
 
         public async Task AddMessage(string s) => _ = await JsRuntime.InvokeAsync<bool>("alertOnScreen", s);
 
-        public async Task<string> CheckSource() {
+        public async Task<string> CheckSource(bool redirectIfNoSource = true) {
             var source = CacheHolder.GetCacheSource(await AuthenticationStateProvider.GetUser());
-            if (string.IsNullOrWhiteSpace(source)) {
+            if (string.IsNullOrWhiteSpace(source) && redirectIfNoSource) {
                 NavigationManager.NavigateTo("/");
             }
             return source ?? "";

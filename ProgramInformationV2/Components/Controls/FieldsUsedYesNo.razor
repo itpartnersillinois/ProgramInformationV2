@@ -1,0 +1,13 @@
+﻿<ilw-content>
+    <fieldset class="heading fields-used-yes-no">
+        <legend>@Title</legend>
+        <div class="ils-input-entry-compact">
+            <label for="isused-yes">Yes</label>
+            <input type="radio" name="isused" id="isused-yes" value="yes" checked="@Value" @onchange="e => SaveUsedChange(true)" />
+        </div>
+        <div class="ils-input-entry-compact">
+            <label for="isused-no">No</label>
+            <input type="radio" name="isused" id="isused-no" value="no" checked="@(!Value)" @onchange="e => SaveUsedChange(false)" />
+        </div>
+    </fieldset>
+</ilw-content>

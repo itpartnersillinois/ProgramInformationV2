@@ -1,14 +1,15 @@
-﻿@page "/configuration/fieldsused/courses"
+﻿@page "/configuration/fieldsused/requirementsets"
 @layout SidebarLayout
 
-<PageTitle>Fields Used - Courses</PageTitle>
+<PageTitle>Fields Used - Requirement Sets</PageTitle>
 
 <ilw-content>
-    <h1>Fields Used - Courses</h1>
-    <p>Customize the fields used for courses.</p>
+    <h1>Fields Used - Requirement Sets</h1>
+    <p>@Instructions</p>
 </ilw-content>
 
-<FieldsUsedYesNo Title="Would you like to add courses to your source?" @bind-value="IsUsed"></FieldsUsedYesNo>
+
+<FieldsUsedYesNo Title="Would you like to add requirement sets to your source?" @bind-value="IsUsed"></FieldsUsedYesNo>
 
 @if (IsUsed && FieldItems != null)
 {

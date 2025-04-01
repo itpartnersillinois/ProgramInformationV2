@@ -2,6 +2,7 @@
 using ProgramInformationV2.Components.Controls;
 using ProgramInformationV2.Components.Layout;
 using ProgramInformationV2.Data.DataHelpers;
+using ProgramInformationV2.Data.DataModels;
 using ProgramInformationV2.Data.PageList;
 using ProgramInformationV2.Search.Getters;
 using ProgramInformationV2.Search.Models;
@@ -10,8 +11,9 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
 
     public partial class Search {
         private SearchGenericItem _searchGenericItem = default!;
-
         private string _sourceCode = "";
+        private bool? _useCredentials;
+        private bool? _useRequirementSets;
 
         [CascadingParameter]
         public SidebarLayout Layout { get; set; } = default!;
@@ -42,6 +44,8 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
         protected override async Task OnInitializedAsync() {
             await Layout.SetSidebar(SidebarEnum.RequirementSets, "Requirement Sets");
             _sourceCode = await Layout.CheckSource();
+            _useRequirementSets = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.RequirementSet);
+            _useCredentials = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.Credential);
             await GetRequirementSet();
             await base.OnInitializedAsync();
         }

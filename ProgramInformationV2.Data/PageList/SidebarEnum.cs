@@ -14,6 +14,7 @@
         CourseWithSection,
         Section,
         Configuration,
+        ConfigurationNoSource,
         Audit,
         FieldsUsed
     }

@@ -6,6 +6,14 @@ namespace ProgramInformationV2.Data.FieldList {
 
         public CourseGroup() {
             CategoryType = CategoryType.Course;
+            Instructions = "Customize the fields used for courses.";
+            FieldTypeInstructions = new Dictionary<FieldType, string> {
+                [FieldType.General] = "General information about the course.",
+                [FieldType.Link] = "Control what links, images, and videos are added to the course page.",
+                [FieldType.Overview] = "This information will be displayed on the credential page.",
+                [FieldType.Location_Time] = "This information is time and room if sections are not available",
+                [FieldType.Technical] = "Technical details used for internal purposes."
+            };
             FieldItems = [
                 new() { Title = "Title", CategoryType = CategoryType.Course, FieldType = FieldType.General, IsRequired = true },
                 new() { Title = "Rubric", CategoryType = CategoryType.Course, FieldType = FieldType.General },
@@ -27,9 +35,6 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Building", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
                 new() { Title = "Room", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
                 new() { Title = "Term", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
-                new() { Title = "Semester Year", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
-                new() { Title = "Begin Date", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
-                new() { Title = "End Date", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
                 new() { Title = "Days", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
                 new() { Title = "Time", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
                 new() { Title = "URL Fragment", CategoryType = CategoryType.Course, FieldType = FieldType.Technical },

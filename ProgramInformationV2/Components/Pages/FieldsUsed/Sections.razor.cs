@@ -8,7 +8,7 @@ using ProgramInformationV2.Data.PageList;
 
 namespace ProgramInformationV2.Components.Pages.FieldsUsed {
 
-    public partial class Programs {
+    public partial class Sections {
         public Dictionary<FieldType, string> FieldGroupInstructions = default!;
         public IEnumerable<IGrouping<FieldType, FieldItem>> FieldItems = default!;
 
@@ -30,7 +30,7 @@ namespace ProgramInformationV2.Components.Pages.FieldsUsed {
 
         public async Task SaveChanges() {
             Layout.RemoveDirty();
-            await FieldManager.SaveFieldItems(await Layout.CheckSource(), CategoryType.Program, IsUsed, FieldItems.SelectMany(a => a));
+            await FieldManager.SaveFieldItems(await Layout.CheckSource(), CategoryType.Section, IsUsed, FieldItems.SelectMany(a => a));
             await Layout.AddMessage("Information saved");
         }
 
@@ -42,7 +42,7 @@ namespace ProgramInformationV2.Components.Pages.FieldsUsed {
         protected override async Task OnInitializedAsync() {
             await Layout.SetSidebar(SidebarEnum.FieldsUsed, "Fields Used");
             var sourceCode = await Layout.CheckSource();
-            var targetGroup = new ProgramGroup();
+            var targetGroup = new SectionGroup();
             Instructions = targetGroup.Instructions;
             FieldGroupInstructions = targetGroup.FieldTypeInstructions;
             (IsUsed, FieldItems) = await FieldManager.MergeFieldItems(targetGroup, sourceCode);

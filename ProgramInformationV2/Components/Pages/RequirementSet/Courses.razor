@@ -5,41 +5,51 @@
 
 <ilw-content>
     <h1>Courses</h1>
+</ilw-content>
 
-@if (RequirementSetItem != null && CourseRequirements != null)
+@if (_useCourses.HasValue && _useCourses.Value)
 {
-    @foreach (var course in CourseRequirements.Select((v, i) => (v, i)))
+    @if (RequirementSetItem != null && CourseRequirements != null)
     {
-        <div class="requirement-box">
-                <p><a @onclick="() => EditCourse(course.v.CourseId)">@course.v.Title</a></p>
-            <div class="note">
-                <label for="note-@course.i">Note: </label>
-                <input id="netid-@course.i" class="ils-input-long" type="text" @bind="@course.v.Description">
-            </div>
-             <div class="button-group">
-                <button class="ilw-button" @onclick="() => RemoveCourse(course.i)">Remove</button>
-            </div>
-        </div>
-    }
-}
-</ilw-content>
-
-<div class="search-box">
-    <ilw-content class="search-header">
-        <h2>Add Courses</h2>
-    </ilw-content>
-    <div>
-        <SearchGenericItem @ref="@_searchGenericItem" GenericItems="@CourseList" ActionButtonTitle="Add to Requirement Set" ItemTitle="Course" EditClicked="ChooseCourse" SearchClicked="GetCourses"></SearchGenericItem>
-    </div>
-    <div class="search-box-right">
         <ilw-content>
-            <h3>Quick Launch</h3>
+            @foreach (var course in CourseRequirements.Select((v, i) => (v, i)))
+            {
+                <div class="requirement-box">
+                    <p><a @onclick="() => EditCourse(course.v.CourseId)">@course.v.Title</a></p>
+                    <div class="note">
+                        <label for="note-@course.i">Note: </label>
+                        <input id="netid-@course.i" class="ils-input-long" type="text" @bind="@course.v.Description">
+                    </div>
+                    <div class="button-group">
+                        <button class="ilw-button" @onclick="() => RemoveCourse(course.i)">Remove</button>
+                    </div>
+                </div>
+            }
         </ilw-content>
-        <button class="ilw-button" @onclick="CreateNewCourse">Create New Course</button>
-    </div>
-</div>
+    }
 
-<ilw-content>
-<h2>Save Changes</h2>
-<button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
-</ilw-content>
+    <div class="search-box">
+        <ilw-content class="search-header">
+            <h2>Add Courses</h2>
+        </ilw-content>
+        <div>
+            <SearchGenericItem @ref="@_searchGenericItem" GenericItems="@CourseList" ActionButtonTitle="Add to Requirement Set" ItemTitle="Course" EditClicked="ChooseCourse" SearchClicked="GetCourses"></SearchGenericItem>
+        </div>
+        <div class="search-box-right">
+            <ilw-content>
+                <h3>Quick Launch</h3>
+            </ilw-content>
+            <button class="ilw-button" @onclick="CreateNewCourse">Create New Course</button>
+        </div>
+    </div>
+
+    <ilw-content>
+        <h2>Save Changes</h2>
+        <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+    </ilw-content>
+} else if (_useCourses.HasValue)
+{
+    <ilw-content>
+        <p><em>To connect requirement sets to courses, <a href="/configuration/fieldsused/courses">courses must be enabled</a>.</em></p>
+    </ilw-content>
+}

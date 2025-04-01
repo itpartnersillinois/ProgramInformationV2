@@ -10,19 +10,7 @@
 </ilw-content>
 
 
-<ilw-content>
-    <fieldset class="heading">
-        <legend>Would you like to add Programs to your source?</legend>
-        <div class="ils-input-entry-compact">
-            <label for="isused-yes">Yes</label>
-            <input type="radio" name="isused" id="isused-yes" value="yes" checked="@IsUsed" @onchange="e => SaveUsedChange(true)" />
-        </div>
-        <div class="ils-input-entry-compact">
-            <label for="isused-no">No</label>
-            <input type="radio" name="isused" id="isused-no" value="no" checked="@(!IsUsed)" @onchange="e => SaveUsedChange(false)" />
-        </div>
-    </fieldset>
-</ilw-content>
+<FieldsUsedYesNo Title="Would you like to add Programs to your source?" @bind-value="IsUsed"></FieldsUsedYesNo>
 
 @if (IsUsed && FieldItems != null)
 {
@@ -31,20 +19,30 @@
         <ilw-content>
             <h2>@group.Key Fields</h2>
 
-            <p>Instruction text to be filled out</p>
+            <p>@FieldGroupInstructions[group.Key]</p>
 
             @foreach (var item in group)
             {
-                <h3>@item.Title</h3>
-                <div class="ils-input-entry-checkbox">
-                    <label for="@item?.TitleLowerCase">Show Field?</label>
-                    <input type="checkbox" id="@item?.TitleLowerCase" @bind="item.ShowItem" @bind:after="Layout.SetDirty" />
-                </div>
-                <div class="ils-input-entry">
-                    <div>
-                        <label for="@item?.TitleLowerCase-description">Description?</label>
-                        <input id="@item?.TitleLowerCase-description" type="text" @bind="item.Description" @bind:after="Layout.SetDirty" class="ils-input-long" />
-                    </div>
+                <div class="fields-used-entry">
+                    <label class="title-label" for="@item?.TitleLowerCase-description">@item?.Title</label>
+                    @if (item?.IsRequired ?? false)
+                    {
+                        <div class="ils-input-entry input-toggle"></div>
+                    } else
+                    {
+                        <div class="ils-input-entry input-toggle">
+                            <label for="@item?.TitleLowerCase">Show Item</label>
+                            <div class="ils-toggle-slider">
+                                <input id="@item?.TitleLowerCase" type="checkbox" @bind="item.ShowItem" @bind:after="Layout.SetDirty" role="switch" />
+                                <span>
+                                    <span class="ils-container"></span>
+                                    <span aria-hidden="true" class="ils-text-on">On</span>
+                                    <span aria-hidden="true" class="ils-text-off">Off</span>
+                                </span>
+                            </div>
+                        </div>
+                    }
+                    <input id="@item?.TitleLowerCase-description" type="text" @bind="item.Description" @bind:after="Layout.SetDirty" class="ils-input-long input-item" />
                 </div>
             }
         </ilw-content>

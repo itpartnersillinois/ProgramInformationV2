@@ -6,9 +6,24 @@
 <ilw-content>
     <h1>Requirement Sets</h1>
 
+    @if (_useRequirementSets.HasValue && _useRequirementSets.Value)
+    {
         <SearchGenericItem @ref="@_searchGenericItem" GenericItems="@RequirementSetList" ItemTitle="Requirement Set" EditClicked="ChooseRequirementSet" SearchClicked="GetRequirementSet"></SearchGenericItem>
 
         <h2>Create a new requirement set</h2>
         <button class="ilw-button" @onclick="SetNewRequirementSet">Create Requirement Set</button>
+
+        @if (_useCredentials.HasValue && !_useCredentials.Value)
+        {
+            <p><em>Note -- any requirement sets created will not be able to be used unless <a href="/configuration/fieldsused/credentials">credentials are enabled</a>.</em></p>
+        }
+
+    }
+    else if (_useRequirementSets.HasValue)
+    {
+    <p>
+        Your area does not use requirement sets. Go to the Configuration section to <a href="/configuration/fieldsused/requirementsets">enable requirement sets</a>.
+    </p>
+    }
 
 </ilw-content>

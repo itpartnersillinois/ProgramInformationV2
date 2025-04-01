@@ -7,3 +7,44 @@
     <h1>Fields Used - Sections</h1>
     <p>Customize the fields used for sections.</p>
 </ilw-content>
+
+<FieldsUsedYesNo Title="Would you like to add sections to your source?" @bind-value="IsUsed"></FieldsUsedYesNo>
+
+@if (IsUsed && FieldItems != null)
+{
+    @foreach (var group in FieldItems)
+    {
+        <ilw-content>
+            <h2>@group.Key Fields</h2>
+
+            <p>@FieldGroupInstructions[group.Key]</p>
+
+            @foreach (var item in group)
+            {
+                <div class="fields-used-entry">
+                    <label class="title-label" for="@item?.TitleLowerCase-description">@item?.Title</label>
+                    @if (item?.IsRequired ?? false)
+                    {
+                        <div class="ils-input-entry input-toggle"></div>
+                    }
+                    else
+                    {
+                        <div class="ils-input-entry input-toggle">
+                            <label for="@item?.TitleLowerCase">Show Item</label>
+                            <div class="ils-toggle-slider">
+                                <input id="@item?.TitleLowerCase" type="checkbox" @bind="item.ShowItem" @bind:after="Layout.SetDirty" role="switch" />
+                                <span>
+                                    <span class="ils-container"></span>
+                                    <span aria-hidden="true" class="ils-text-on">On</span>
+                                    <span aria-hidden="true" class="ils-text-off">Off</span>
+                                </span>
+                            </div>
+                        </div>
+                    }
+                    <input id="@item?.TitleLowerCase-description" type="text" @bind="item.Description" @bind:after="Layout.SetDirty" class="ils-input-long input-item" />
+                </div>
+            }
+        </ilw-content>
+    }
+}
+<button class="ilw-button" @onclick="SaveChanges" @onblur="Layout.RemoveMessage">Save Changes</button>

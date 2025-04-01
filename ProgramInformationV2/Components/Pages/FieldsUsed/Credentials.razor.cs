@@ -9,6 +9,7 @@ using ProgramInformationV2.Data.PageList;
 namespace ProgramInformationV2.Components.Pages.FieldsUsed {
 
     public partial class Credentials {
+        public Dictionary<FieldType, string> FieldGroupInstructions = default!;
         public IEnumerable<IGrouping<FieldType, FieldItem>> FieldItems = default!;
 
         [Inject]
@@ -43,6 +44,7 @@ namespace ProgramInformationV2.Components.Pages.FieldsUsed {
             var sourceCode = await Layout.CheckSource();
             var targetGroup = new CredentialGroup();
             Instructions = targetGroup.Instructions;
+            FieldGroupInstructions = targetGroup.FieldTypeInstructions;
             (IsUsed, FieldItems) = await FieldManager.MergeFieldItems(targetGroup, sourceCode);
             await base.OnInitializedAsync();
         }

@@ -5,6 +5,8 @@
         private static readonly Dictionary<SidebarEnum, List<PageLink>> _breadcrumbs = new() {
             { SidebarEnum.Configuration, new() { new ("Home", "/"),
                                  new ("Configuration", "/configuration/sources") } },
+            { SidebarEnum.ConfigurationNoSource, new() { new ("Home", "/"),
+                                 new ("Configuration", "/configuration/sources") } },
             { SidebarEnum.FieldsUsed, new() { new ("Home", "/"),
                                  new ("Configuration", "/configuration/sources"),
                                  new ("Fields Used", "/configuration/fieldsused/programs") } },
@@ -90,6 +92,8 @@
                                  new ("Testing Access", "/configuration/testing"),
                                  new ("Save Information to JSON", "/configuration/savejson"),
                                  new ("Load JSON Information to the Server", "/configuration/loadjson") } },
+            { SidebarEnum.ConfigurationNoSource, new() { new ("Sources", "/configuration/sources"),
+                                 new ("Testing Access", "/configuration/testing") } },
             { SidebarEnum.FieldsUsed, new() { new ("Programs", "/configuration/fieldsused/programs"),
                                  new ("Credentials", "/configuration/fieldsused/credentials"),
                                  new ("Courses", "/configuration/fieldsused/courses"),

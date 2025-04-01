@@ -23,7 +23,7 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
         [Inject]
         public ProgramRepository ProgramRepository { get; set; } = default!;
 
-        public Dictionary<string, string> SourceEntries { get; set; } = default!;
+        public IEnumerable<Tuple<string, string>> SourceEntries { get; set; } = default!;
 
         [Inject]
         public SourceHelper SourceHelper { get; set; } = default!;
@@ -32,8 +32,9 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
 
         protected override async Task OnInitializedAsync() {
             base.OnInitialized();
-            await Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
-            SourceEntries = await ProgramRepository.ReadAsync(c => c.Sources.Where(s => s.IsActive).OrderBy(s => s.Title).ToDictionary(s => s.Code, t => $"{t.Title} owned by {t.CreatedByEmail}"));
+            var sidebar = string.IsNullOrWhiteSpace(await Layout.CheckSource(false)) ? SidebarEnum.ConfigurationNoSource : SidebarEnum.Configuration;
+            await Layout.SetSidebar(sidebar, "Configuration");
+            SourceEntries = await SourceHelper.GetSourcesAndOwners();
         }
 
         protected async Task RequestAccess(string key) => await Layout.AddMessage(await SourceHelper.RequestAccess(key, await UserHelper.GetUser(AuthenticationStateProvider)));

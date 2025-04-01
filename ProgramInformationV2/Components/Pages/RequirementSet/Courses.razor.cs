@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ProgramInformationV2.Components.Controls;
 using ProgramInformationV2.Components.Layout;
+using ProgramInformationV2.Data.DataHelpers;
 using ProgramInformationV2.Data.DataModels;
 using ProgramInformationV2.Data.PageList;
 using ProgramInformationV2.Search.Getters;
@@ -13,7 +14,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
         private SearchGenericItem _searchGenericItem = default!;
 
         private string _sourceCode = "";
-
+        private bool? _useCourses;
         public List<GenericItem> CourseList { get; set; } = default!;
 
         public List<CourseRequirement> CourseRequirements { get; set; } = default!;
@@ -38,6 +39,9 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
 
         [Inject]
         protected RequirementSetSetter RequirementSetSetter { get; set; } = default!;
+
+        [Inject]
+        protected SourceHelper SourceHelper { get; set; } = default!;
 
         public async Task EditCourse(string courseId) {
             await SetQuickCacheLink();
@@ -91,6 +95,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
             }
             RequirementSetItem = await RequirementSetGetter.GetRequirementSet(id);
             CourseRequirements = [.. RequirementSetItem.CourseRequirements];
+            _useCourses = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.Course);
             await GetCourses();
             await Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
             await base.OnInitializedAsync();
