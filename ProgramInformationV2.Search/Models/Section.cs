@@ -1,4 +1,6 @@
-﻿namespace ProgramInformationV2.Search.Models {
+﻿using OpenSearch.Client;
+
+namespace ProgramInformationV2.Search.Models {
 
     public class Section : BasePublicObject {
 
@@ -30,6 +32,9 @@
 
         public string DaysOfWeekString => DaysOfWeekList.ConvertDaysToString();
 
+        [Keyword]
+        public override string EditLink => _editLink + "section/" + Id;
+
         public DateTime? EndDate { get; set; }
 
         public List<SectionFaculty> FacultyNameList { get; set; } = default!;
@@ -52,15 +57,16 @@
 
         public string SectionCode { get; set; } = "";
 
+        public string SemesterYear { get; set; } = "";
         public Terms Term { get; set; }
         public string Time { get; set; } = "";
         public int TimeNumeric { get; set; }
         public string Type { get; set; } = "";
-        public string SemesterYear { get; set; } = "";
 
         public override void CleanHtmlFields() {
             Information = CleanHtml(Information);
             Description = CleanHtml(Description);
+            FacultyNameList = [.. FacultyNameList.OrderBy(s => s.Name)];
         }
 
         public void ManageDayOfWeek(DayOfWeek day, bool isAdded) {

@@ -1,20 +1,23 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ProgramInformationV2.Components.Layout;
-using ProgramInformationV2.Data.DataHelpers;
 using ProgramInformationV2.Data.DataModels;
-using ProgramInformationV2.Data.FieldList;
 using ProgramInformationV2.Data.PageList;
 using ProgramInformationV2.Search.Getters;
+using ProgramInformationV2.Search.Models;
 using ProgramInformationV2.Search.Setters;
 
 namespace ProgramInformationV2.Components.Pages.Course {
 
-    public partial class Technical {
-        public ProgramInformationV2.Search.Models.Course CourseItem { get; set; } = default!;
-        public IEnumerable<FieldItem> FieldItems { get; set; } = default!;
+    public partial class Faculty {
+        public ProgramInformationV2.Search.Models.Course CourseItem { get; set; } = new();
 
         [CascadingParameter]
         public SidebarLayout Layout { get; set; } = default!;
+
+        public string NewName { get; set; } = "";
+        public string NewNetId { get; set; } = "";
+        public string NewProfileUrl { get; set; } = "";
+        public bool NewShowInProfile { get; set; }
 
         [Inject]
         protected CourseGetter CourseGetter { get; set; } = default!;
@@ -23,39 +26,36 @@ namespace ProgramInformationV2.Components.Pages.Course {
         protected CourseSetter CourseSetter { get; set; } = default!;
 
         [Inject]
-        protected FieldManager FieldManager { get; set; } = default!;
-
-        [Inject]
         protected NavigationManager NavigationManager { get; set; } = default!;
 
-        [Inject]
-        protected SourceHelper SourceHelper { get; set; } = default!;
+        public void Add() {
+            Layout.SetDirty();
+            CourseItem.FacultyNameList.Add(new SectionFaculty {
+                Name = NewName,
+                NetId = NewNetId,
+                Url = NewProfileUrl,
+                ShowInProfile = NewShowInProfile
+            });
+        }
 
-
-        public async Task Delete() {
-            Layout.RemoveDirty();
-            _ = await CourseSetter.DeleteCourse(CourseItem.Id);
-            await Layout.Log(CategoryType.Course, FieldType.Technical, CourseItem, "Deletion");
-            NavigationManager.NavigateTo("/courses");
+        public void Remove(int i) {
+            CourseItem.FacultyNameList.RemoveAt(i);
         }
 
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await CourseSetter.SetCourse(CourseItem);
-            await Layout.Log(CategoryType.Course, FieldType.Technical, CourseItem);
+            await Layout.Log(CategoryType.Course, FieldType.Faculty, CourseItem);
             await Layout.AddMessage("Course saved successfully.");
         }
 
         protected override async Task OnInitializedAsync() {
-            var sourceCode = await Layout.CheckSource();
             var id = await Layout.GetCachedId();
             if (string.IsNullOrWhiteSpace(id)) {
                 NavigationManager.NavigateTo("/");
             }
             CourseItem = await CourseGetter.GetCourse(id);
-            FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Technical);
-            var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section) ? SidebarEnum.CourseWithSection : SidebarEnum.Course;
-            await Layout.SetSidebar(sidebar, CourseItem.Title);
+            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             await base.OnInitializedAsync();
         }
     }

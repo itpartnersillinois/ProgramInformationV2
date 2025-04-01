@@ -6,9 +6,10 @@ namespace ProgramInformationV2.Search.Models {
 
     public abstract class BaseObject {
         private static readonly string[] _badHtmlItems = ["<br>", "<p></p>", "<p><br></p>", "<p>&nbsp;</p>", "&nbsp;"];
-
+        protected static readonly string _editLink = "https://test-itp-program.azurewebsites.net/quicklink/"; // this is the base URL for the edit link
         public DateTime CreatedOn { get; set; }
 
+        public abstract string EditLink { get; }
         public string Fragment { get; set; } = "";
 
         [Keyword]

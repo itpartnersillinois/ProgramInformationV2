@@ -5,8 +5,10 @@
 
 <ilw-content>
     <h1>Testing Access</h1>
-    <p>Go to the Testing area for Security. From here, you can add yourself. </p>
+    <p>You can either temporarily give yourself access to the testing area, or you can go to the security area and add yourself as a user permanently.</p>
 
-    <button class="ilw-button" @onclick="SwitchToTesting">Testing Area Security</button>
+    <button class="ilw-button" @onclick="e => { SwitchToTesting(false); }">Testing Area Main Page</button>
+
+    <button class="ilw-button" @onclick="e => { SwitchToTesting(true); }">Testing Area Security</button>
 
 </ilw-content>

@@ -21,8 +21,9 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "End Date", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
                 new() { Title = "Days", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
                 new() { Title = "Time", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
+                new() { Title = "URL Fragment", CategoryType = CategoryType.Section, FieldType = FieldType.Technical },
                 new() { Title = "Id", CategoryType = CategoryType.Section, FieldType = FieldType.Technical },
-                new() { Title = "URL Fragment", CategoryType = CategoryType.Section, FieldType = FieldType.Technical }
+                new() { Title = "Edit Link", CategoryType = CategoryType.Section, FieldType = FieldType.Technical }
             ];
         }
     }

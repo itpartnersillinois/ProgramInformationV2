@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using ProgramInformationV2.Data.FieldList;
 
 namespace ProgramInformationV2.Components.Controls {
@@ -13,6 +14,14 @@ namespace ProgramInformationV2.Components.Controls {
 
         [Parameter]
         public string Title { get; set; } = "";
+
+        [Inject]
+        protected IJSRuntime JsRuntime { get; set; } = default!;
+
+        public async Task CopyToClipboard() {
+            _ = await JsRuntime.InvokeAsync<bool>("copyToClipboard", Id);
+            _ = await JsRuntime.InvokeAsync<bool>("alertOnScreen", Title + " copied to clipboard and can be pasted to your document");
+        }
 
         public bool GetFieldItemActive() => FieldItems == null ? false : FieldItems.FirstOrDefault(f => f.Title == Title)?.ShowItem ?? true;
 

@@ -20,6 +20,9 @@ namespace ProgramInformationV2.Search.Models {
 
         public string DisclaimerText { get; set; } = "";
 
+        [Keyword]
+        public override string EditLink => _editLink + "credential/" + Id;
+
         public string Enrollment { get; set; } = "";
 
         public string ExternalUrl { get; set; } = "";

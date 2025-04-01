@@ -15,6 +15,7 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Information", CategoryType = CategoryType.Course, FieldType = FieldType.General },
                 new() { Title = "Course Length", CategoryType = CategoryType.Course, FieldType = FieldType.General },
                 new() { Title = "Course Cost", CategoryType = CategoryType.Course, FieldType = FieldType.General },
+                new() { Title = "Credit Hours", CategoryType = CategoryType.Course, FieldType = FieldType.General },
                 new() { Title = "Enrollment Date", CategoryType = CategoryType.Course, FieldType = FieldType.General },
                 new() { Title = "Summary Link (URL)", CategoryType = CategoryType.Course, FieldType = FieldType.Link },
                 new() { Title = "Apply Now / Get More Information Link (URL)", CategoryType = CategoryType.Course, FieldType = FieldType.Link },
@@ -23,8 +24,17 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Video URL", CategoryType = CategoryType.Course, FieldType = FieldType.Link },
                 new() { Title = "Details", CategoryType = CategoryType.Course, FieldType = FieldType.Overview },
                 new() { Title = "External Details", CategoryType = CategoryType.Course, FieldType = FieldType.Overview },
+                new() { Title = "Building", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
+                new() { Title = "Room", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
+                new() { Title = "Term", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
+                new() { Title = "Semester Year", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
+                new() { Title = "Begin Date", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
+                new() { Title = "End Date", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
+                new() { Title = "Days", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
+                new() { Title = "Time", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
+                new() { Title = "URL Fragment", CategoryType = CategoryType.Course, FieldType = FieldType.Technical },
                 new() { Title = "Id", CategoryType = CategoryType.Course, FieldType = FieldType.Technical },
-                new() { Title = "URL Fragment", CategoryType = CategoryType.Course, FieldType = FieldType.Technical }
+                new() { Title = "Edit Link", CategoryType = CategoryType.Course, FieldType = FieldType.Technical }
             ];
         }
     }

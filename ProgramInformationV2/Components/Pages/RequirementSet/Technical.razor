@@ -8,7 +8,6 @@
 </ilw-content>
 @if (RequirementSetItem != null && CredentialsUsingRequirementSet != null)
 {
-    <IdList Title="Id" FieldItems="FieldItems" Id="@RequirementSetItem.Id"></IdList>
     <StatusOnSite @bind-Value="RequirementSetItem.IsActive"></StatusOnSite>
     <ilw-content>
         <h2>Credentials using this Requirement Set</h2>
@@ -26,6 +25,9 @@
         <ilw-content><p>Requirement Sets must be used by one and only one credential before making it private.</p></ilw-content>
     }
     <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+        <ilw-content><h2>Information to Copy</h2></ilw-content>
+    <IdList Title="Id" FieldItems="FieldItems" Id="@RequirementSetItem.Id"></IdList>
+    <IdList Title="Edit Link" FieldItems="FieldItems" Id="@RequirementSetItem.EditLink"></IdList>
     @if (CredentialsUsingRequirementSet.Count() == 0)
     {
         <DeleteNotice DeleteClicked="Delete" ItemTitle="@RequirementSetItem.InternalTitle"></DeleteNotice>

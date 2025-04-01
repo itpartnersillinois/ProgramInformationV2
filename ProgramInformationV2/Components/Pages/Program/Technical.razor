@@ -8,9 +8,11 @@
 </ilw-content>
 @if (ProgramItem != null)
 {
-    <IdList Title="Id" FieldItems="FieldItems" Id="@ProgramItem.Id"></IdList>
     <StatusOnSite @bind-Value="ProgramItem.IsActive"></StatusOnSite>
     <MediumText Title="URL Fragment" FieldItems="FieldItems" @bind-Value="ProgramItem.Url"></MediumText>
     <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+    <ilw-content><h2>Information to Copy</h2></ilw-content>
+    <IdList Title="Id" FieldItems="FieldItems" Id="@ProgramItem.Id"></IdList>
+    <IdList Title="Edit Link" FieldItems="FieldItems" Id="@ProgramItem.EditLink"></IdList>
     <DeleteNotice DeleteClicked="Delete" ItemTitle="@ProgramItem.Title"></DeleteNotice>
 }

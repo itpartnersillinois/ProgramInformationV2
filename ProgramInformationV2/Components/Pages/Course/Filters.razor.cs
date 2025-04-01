@@ -33,6 +33,9 @@ namespace ProgramInformationV2.Components.Pages.Course {
         [Inject]
         protected NavigationManager NavigationManager { get; set; } = default!;
 
+        [Inject]
+        protected SourceHelper SourceHelper { get; set; } = default!;
+
         public async Task Save() {
             CourseItem.DepartmentList = DepartmentTags?.Where(t => t.EnabledBySource).Select(t => t.Title).ToList() ?? [];
             CourseItem.SkillList = SkillTags?.Where(t => t.EnabledBySource).Select(t => t.Title).ToList() ?? [];
@@ -53,7 +56,8 @@ namespace ProgramInformationV2.Components.Pages.Course {
                 NavigationManager.NavigateTo("/");
             }
             CourseItem = await CourseGetter.GetCourse(id);
-            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section) ? SidebarEnum.CourseWithSection : SidebarEnum.Course;
+            await Layout.SetSidebar(sidebar, CourseItem.Title);
             foreach (var tag in FilterTags.SelectMany(x => x)) {
                 if (CourseItem.DepartmentList.Contains(tag.Title) && tag.TagType == TagType.Department) {
                     tag.EnabledBySource = true;

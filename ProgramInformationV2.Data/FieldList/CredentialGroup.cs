@@ -26,8 +26,9 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Minor Title", CategoryType = CategoryType.Credential, FieldType = FieldType.Transcriptable },
                 new() { Title = "Disclaimer Text", CategoryType = CategoryType.Credential, FieldType = FieldType.Transcriptable },
                 new() { Title = "Display Order", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical },
+                new() { Title = "URL Fragment", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical },
                 new() { Title = "Id", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical },
-                new() { Title = "URL Fragment", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical }
+                new() { Title = "Edit Link", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical }
             ];
         }
     }

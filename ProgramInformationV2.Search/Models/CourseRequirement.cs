@@ -11,7 +11,11 @@ namespace ProgramInformationV2.Search.Models {
 
         [Keyword]
         public string CourseId { get; set; } = "";
+
         public string Description { get; set; } = "";
+
+        [Keyword]
+        public override string EditLink => "";
 
         public override bool IsIdValid => true;
 

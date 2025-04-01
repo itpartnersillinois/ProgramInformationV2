@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ProgramInformationV2.Components.Layout;
+using ProgramInformationV2.Data.DataHelpers;
 using ProgramInformationV2.Data.DataModels;
 using ProgramInformationV2.Data.FieldList;
 using ProgramInformationV2.Data.PageList;
@@ -28,6 +29,9 @@ namespace ProgramInformationV2.Components.Pages.Program {
         [Inject]
         protected ProgramSetter ProgramSetter { get; set; } = default!;
 
+        [Inject]
+        protected SourceHelper SourceHelper { get; set; } = default!;
+
         public async Task Delete() {
             Layout.RemoveDirty();
             _ = await ProgramSetter.DeleteProgram(ProgramItem.Id);
@@ -47,7 +51,8 @@ namespace ProgramInformationV2.Components.Pages.Program {
             var id = await Layout.GetCachedId();
             ProgramItem = await ProgramGetter.GetProgram(id);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.Technical);
-            await Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
+            var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Credential) ? SidebarEnum.ProgramWithCredential : SidebarEnum.Program;
+            await Layout.SetSidebar(sidebar, ProgramItem.Title);
             await base.OnInitializedAsync();
         }
     }

@@ -39,6 +39,9 @@ namespace ProgramInformationV2.Search.Models {
         public string DetailImageUrl { get; set; } = "";
 
         [Keyword]
+        public override string EditLink => _editLink + "program/" + Id;
+
+        [Keyword]
         public IEnumerable<string> Formats => Credentials.Where(c => c.CredentialType != CredentialType.None && c.IsActive).Select(c => c.FormatType.ConvertToSingleString()).Distinct();
 
         public string ProgramGroupDescription { get; set; } = "";
@@ -65,13 +68,10 @@ namespace ProgramInformationV2.Search.Models {
             Description = CleanHtml(Description);
             VideoUrl = ConvertVideoToEmbed(VideoUrl);
             ProcessLists();
-            if (Credentials != null) {
-                if (Credentials.Any(c => c.DepartmentList != null && c.DepartmentList.Any()))
-                    DepartmentList = DepartmentList.Union(Credentials.Where(c => c.DepartmentList != null).SelectMany(c => c.DepartmentList)).Distinct();
-                if (Credentials.Any(c => c.SkillList != null && c.SkillList.Any()))
-                    SkillList = SkillList.Union(Credentials.Where(c => c.SkillList != null).SelectMany(c => c.SkillList)).Distinct();
-                if (Credentials.Any(c => c.TagList != null && c.TagList.Any()))
-                    TagList = TagList.Union(Credentials.Where(c => c.TagList != null).SelectMany(c => c.TagList)).Distinct();
+            if (Credentials != null && Credentials?.Count > 0) {
+                DepartmentList = DepartmentList.Union(Credentials.Where(c => c.DepartmentList != null).SelectMany(c => c.DepartmentList)).Distinct();
+                SkillList = SkillList.Union(Credentials.Where(c => c.SkillList != null).SelectMany(c => c.SkillList)).Distinct();
+                TagList = TagList.Union(Credentials.Where(c => c.TagList != null).SelectMany(c => c.TagList)).Distinct();
                 Credentials?.ForEach(c => {
                     c.ProgramId = Id;
                     c.ProgramTitle = Title;

@@ -1,4 +1,6 @@
-﻿namespace ProgramInformationV2.Search.Models {
+﻿using OpenSearch.Client;
+
+namespace ProgramInformationV2.Search.Models {
 
     public class Course : BaseTaggableObject {
 
@@ -20,54 +22,42 @@
 
         public string CreditHours { get; set; } = "";
 
+        public List<DayOfWeek> DaysOfWeekList { get; set; } = default!;
+        public string DaysOfWeekString => DaysOfWeekList.ConvertDaysToString();
+        public string DefaultBuilding { get; set; } = "";
+        public string DefaultRoom { get; set; } = "";
+        public string DefaultTime { get; set; } = "";
         public string Details { get; set; } = "";
 
+        [Keyword]
+        public override string EditLink => _editLink + "course/" + Id;
+
         public string EnrollmentDate { get; set; } = "";
-
         public string ExternalDetails { get; set; } = "";
-
         public string ExternalUrl { get; set; } = "";
-
         public string Faculty { get; set; } = "";
-
-        public IEnumerable<string> FacultyNetId { get; set; } = [];
-
+        public List<SectionFaculty> FacultyNameList { get; set; } = default!;
         public IEnumerable<string> Formats => FormatValues.Select(t => t.ConvertToSingleString());
-
         public IEnumerable<FormatType> FormatValues { get; set; } = [];
-
         public string ImageAltText { get; set; } = "";
-
         public string ImageUrl { get; set; } = "";
-
         public string Information { get; set; } = "";
-
         public bool IsCurrent => Sections.Any(s => s.IsCurrent);
-
         public bool IsUpcoming => Sections.Any(s => s.IsUpcoming);
-
         public string Length { get; set; } = "";
-
         public int MaximumCreditHours { get; set; }
-
         public int MinimumCreditHours { get; set; }
-
         public string Prerequisite { get; set; } = "";
-
         public string Rubric { get; set; } = "";
-
         public string ScheduleInformation { get; set; } = "";
-
         public List<Section> Sections { get; set; }
-
         public string SummaryText { get; set; } = "";
-
+        public Terms Term { get; set; }
         public IEnumerable<string> Terms => TermValues.Select(t => t.ConvertToSingleString());
 
         public IEnumerable<Terms> TermValues { get; set; } = [];
 
         public string VideoUrl { get; set; } = "";
-
         internal override string CreateId => Id = string.IsNullOrWhiteSpace(Rubric) && string.IsNullOrWhiteSpace(CourseNumber) ? Source + "-" + Guid.NewGuid().ToString() : Source + "-" + Rubric + "-" + CourseNumber;
 
         public override void CleanHtmlFields() {
@@ -76,12 +66,11 @@
             Description = CleanHtml(Description);
             ExternalDetails = CleanHtml(ExternalDetails);
             VideoUrl = ConvertVideoToEmbed(VideoUrl);
+            TermValues = [Term];
             ProcessLists();
-            Sections?.ForEach(s => s.CleanHtmlFields());
-            if (Sections?.Count > 0) {
+            if (Sections != null && Sections?.Count > 0) {
                 Sections = [.. Sections.OrderBy(s => s.BeginDate).ThenBy(s => s.EndDate).ThenBy(s => s.SectionCode)];
-                Faculty = string.Join("; ", Sections.SelectMany(s => s.FacultyNameList).OrderBy(s => s.Name).Select(s => s.ToString()).Distinct());
-                FacultyNetId = Sections.SelectMany(s => s.FacultyNameList).OrderBy(s => s.NetId).Select(s => s.NetId).Distinct();
+                FacultyNameList = [.. Sections.SelectMany(s => s.FacultyNameList).Distinct().OrderBy(s => s.Name)];
                 TermValues = Sections.Select(s => s.Term).Distinct().OrderBy(s => s).ToList();
                 FormatValues = Sections.Select(s => s.FormatType).Distinct().OrderBy(s => s).ToList();
                 if (Sections.All(s => s.CreditHours != null && s.CreditHours != "" && s.CreditHours.All(char.IsDigit))) {
@@ -89,7 +78,9 @@
                     MaximumCreditHours = Sections.Where(s => s.CreditHours != null && s.CreditHours != "").Max(s => int.Parse(s.CreditHours));
                     CreditHours = MinimumCreditHours == MaximumCreditHours ? MinimumCreditHours.ToString() : $"{MinimumCreditHours} - {MaximumCreditHours}";
                 }
+                Sections?.ForEach(s => s.CleanHtmlFields());
             }
+            Faculty = string.Join("; ", FacultyNameList.Distinct().OrderBy(s => s.Name).Select(s => s.ToString()));
         }
 
         public override void SetId() {

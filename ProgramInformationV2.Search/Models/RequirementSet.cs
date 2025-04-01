@@ -25,6 +25,8 @@ namespace ProgramInformationV2.Search.Models {
         public bool IsReused { get; set; }
 
         public int MaximumCreditHours { get; set; }
+        [Keyword]
+        public override string EditLink => _editLink + "requirementset/" + Id;
 
         public int MinimumCreditHours { get; set; }
 

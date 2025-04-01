@@ -9,6 +9,8 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
 
     public partial class Testing {
 
+        private string _email = "";
+
         [Inject]
         public AuthenticationStateProvider AuthenticationStateProvider { get; set; } = default!;
 
@@ -21,14 +23,14 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
         [Inject]
         protected NavigationManager NavigationManager { get; set; } = default!;
 
-        public async Task SwitchToTesting() {
-            var email = await UserHelper.GetUser(AuthenticationStateProvider);
-            CacheHolder.SetCacheSource(email, "test");
-            NavigationManager.NavigateTo("/", true);
+        public void SwitchToTesting(bool gotoSecurity) {
+            CacheHolder.SetCacheSource(_email, "test");
+            NavigationManager.NavigateTo(gotoSecurity ? "/configuration/security" : "/", true);
         }
 
         protected override async Task OnInitializedAsync() {
             await base.OnInitializedAsync();
+            _email = await UserHelper.GetUser(AuthenticationStateProvider);
             await Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
         }
     }

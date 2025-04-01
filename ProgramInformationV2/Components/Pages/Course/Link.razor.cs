@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ProgramInformationV2.Components.Controls;
 using ProgramInformationV2.Components.Layout;
+using ProgramInformationV2.Data.DataHelpers;
 using ProgramInformationV2.Data.DataModels;
 using ProgramInformationV2.Data.FieldList;
 using ProgramInformationV2.Data.PageList;
@@ -34,6 +35,9 @@ namespace ProgramInformationV2.Components.Pages.Course {
         [Inject]
         protected NavigationManager NavigationManager { get; set; } = default!;
 
+        [Inject]
+        protected SourceHelper SourceHelper { get; set; } = default!;
+
         public async Task Save() {
             Layout.RemoveDirty();
             if (_imageCourseImage != null) {
@@ -57,7 +61,8 @@ namespace ProgramInformationV2.Components.Pages.Course {
             CourseItem = await CourseGetter.GetCourse(id);
             _oldUrl = CourseItem.Url;
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Link);
-            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section) ? SidebarEnum.CourseWithSection : SidebarEnum.Course;
+            await Layout.SetSidebar(sidebar, CourseItem.Title);
             await base.OnInitializedAsync();
         }
     }
