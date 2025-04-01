@@ -28,7 +28,7 @@
             @foreach (var entry in this.SourceEntries)
             {
                 <li>
-                    <div>@entry.Value (@entry.Key) <button @onclick="@(e => RequestAccess(entry.Key))" @onblur="Layout.RemoveMessage" class="ilw-button" aria-label="Request access for @entry.Value">Request Access</button></div>
+                    <div>@entry.Value (@entry.Key)</div>
                 </li>
             }
         </ul>

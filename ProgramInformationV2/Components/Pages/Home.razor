@@ -2,7 +2,7 @@
 
 <PageTitle>Home</PageTitle>
 
-<ilw-content width="auto">
+<ilw-content width="page">
     <h1>Welcome to the IT Partners Program/Course Repository</h1>
     <div class="iled-float">
         <h2 id="sourcelabel">Choose a source</h2>
@@ -23,28 +23,67 @@
     </div>
     <p>This tool is used to edit programs, credentials, plans of study, requirement sets, courses, and sections. This information can be accessed via an API to search based on text and category. More information about this project.</p>
     <p>Note that this is used for external marketing and websites, and should not take the place of a requirement checklist for a student (like DARS).</p>
-    @if (string.IsNullOrWhiteSpace(_source))
-    {
+</ilw-content>
+@if (string.IsNullOrWhiteSpace(_source))
+{
+    <ilw-content width="page">
         <p><strong>Select a source to begin.</strong></p>
-    } else
-    {
-        <h2>Source: "@_source"</h2>
         <ilw-grid>
             <ilw-card>
-                <h3>Edit Information</h3>
+                <h3>Create a Source</h3>
+                <p>A source is a collection of programs, credentials, and courses on a web page. Create a new source.</p>
+                <div slot="footer"><a href="/configuration/sources" class="ilw-button">Create a New Source</a></div>
             </ilw-card>
             <ilw-card>
-                <h3>Search Information</h3>
-            </ilw-card>
-            <ilw-card>
-                <h3>Audit Screens</h3>
-            </ilw-card>
-            <ilw-card>
-                <h3>Configuration</h3>
-            </ilw-card>
-            <ilw-card>
-                <h3>Contact Us</h3>
+                <h3>Access Test Source</h3>
+                <p>We have a test source that you can add yourself to. This will allow you to experiment.</p>
+                <div slot="footer"><a href="/configuration/testing" class="ilw-button">Access Test Source</a></div>
             </ilw-card>
         </ilw-grid>
-    }
-</ilw-content>
+    </ilw-content>
+} else
+{
+    <ilw-content width="page">
+        <h2>Source: <em>@_source</em></h2>
+        <ilw-grid>
+            @if (UsePrograms)
+            {
+                <ilw-card>
+                    <h3>Programs</h3>
+                    <p>Programs are a group of credentials grouped together by a common thread.</p>
+                    <div slot="footer"><a href="/programs" class="ilw-button">Edit Programs</a></div>
+                </ilw-card>
+            }
+            @if (UseCredentials)
+            {
+                <ilw-card>
+                    <h3>Credentials</h3>
+                    <p>Credentials are certifications issued by a university that verifies an individual's academic achievement. </p>
+                    <div slot="footer"><a href="/credentials" class="ilw-button">Edit Credentials</a></div>
+                </ilw-card>
+            }
+            @if (UseRequirementSets)
+            {
+                <ilw-card>
+                    <h3>Requirement Sets</h3>
+                    <p>Requirement sets determine which courses are required to get a credential. This is also known as a plan of study.</p>
+                    <div slot="footer"><a href="/requirementsets" class="ilw-button">Edit Requirement Sets</a></div>
+                </ilw-card>
+            }
+            @if (UseCourses)
+            {
+                <ilw-card>
+                    <h3>Courses and Sections</h3>
+                    <p>Courses and sections are individual classes that are taught. These may have individual sections.</p>
+                    <div slot="footer"><a href="/courses" class="ilw-button">Edit Courses</a></div>
+                </ilw-card>
+            }
+        <ilw-card>
+            <h3>Configuration</h3>
+            <p>The configuration section allows you to edit the back-end of your source.</p>
+            <div slot="footer"><a href="/configuration/sources" class="ilw-button">Edit Configuration</a></div>
+        </ilw-card>
+    </ilw-grid>
+    </ilw-content>
+
+}

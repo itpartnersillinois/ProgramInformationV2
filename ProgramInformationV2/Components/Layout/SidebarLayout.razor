@@ -11,10 +11,10 @@
     <NavMenu />
 </ilw-header>
 
-<main>
+<main id="app-main">
+    <Breadcrumb @ref="BreadcrumbControl" />
     <ilw-columns mode="1x2" gap="20px" width="page">
         <div>
-            <Breadcrumb @ref="BreadcrumbControl" />
             <Sidebar @ref="SidebarControl"/>
             <LoginInformation />
             <ilw-content>

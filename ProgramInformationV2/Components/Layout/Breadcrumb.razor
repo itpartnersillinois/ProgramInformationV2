@@ -1,6 +1,6 @@
 ﻿@if (_breadcrumbs != null && _breadcrumbs.Any())
 {
-    <ilw-breadcrumbs>
+    <ilw-breadcrumbs width="page">
         @foreach (var breadcrumb in _breadcrumbs)
             {
                 <a href="@breadcrumb.Url">@breadcrumb.Text</a> 
