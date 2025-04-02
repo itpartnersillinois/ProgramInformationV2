@@ -19,8 +19,8 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Minimum Credit Hours", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.General },
                 new() { Title = "Maximum Credit Hours", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.General },
                 new() { Title = "Is This Shared?", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.Technical },
-                new() { Title = "Id", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.Technical },
-                new() { Title = "Edit Link", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.Technical }
+                new() { Title = "Id", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.Technical, InitialDescription = "The ID of the item, which may be used in a CMS to pull the item and display it on a webpage" },
+                new() { Title = "Edit Link", CategoryType = CategoryType.RequirementSet, FieldType = FieldType.Technical, InitialDescription = "This is a quick link to edit this item directly" }
             ];
         }
     }

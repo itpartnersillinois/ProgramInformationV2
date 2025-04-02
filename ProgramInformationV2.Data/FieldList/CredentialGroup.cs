@@ -16,7 +16,7 @@ namespace ProgramInformationV2.Data.FieldList {
             };
             FieldItems = [
                 new() { Title = "Title", CategoryType = CategoryType.Credential, FieldType = FieldType.General, IsRequired = true },
-                new() { Title = "Summary Text", CategoryType = CategoryType.Credential, FieldType = FieldType.General, InitialDescription = "" },
+                new() { Title = "Summary Text", CategoryType = CategoryType.Credential, FieldType = FieldType.General, InitialDescription = "Text that is displayed in the program finder" },
                 new() { Title = "Credit Hours", CategoryType = CategoryType.Credential, FieldType = FieldType.General, InitialDescription = "" },
                 new() { Title = "Cost", CategoryType = CategoryType.Credential, FieldType = FieldType.General },
                 new() { Title = "Credential Length", CategoryType = CategoryType.Credential, FieldType = FieldType.General },
@@ -35,8 +35,8 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Disclaimer Text", CategoryType = CategoryType.Credential, FieldType = FieldType.Transcriptable },
                 new() { Title = "Display Order", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical },
                 new() { Title = "URL Fragment", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical },
-                new() { Title = "Id", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical },
-                new() { Title = "Edit Link", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical }
+                new() { Title = "Id", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical, InitialDescription = "The ID of the item, which may be used in a CMS to pull the item and display it on a webpage" },
+                new() { Title = "Edit Link", CategoryType = CategoryType.Credential, FieldType = FieldType.Technical, InitialDescription = "This is a quick link to edit this item directly" }
             ];
         }
     }

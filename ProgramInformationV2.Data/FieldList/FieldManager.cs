@@ -15,6 +15,8 @@ namespace ProgramInformationV2.Data.FieldList {
                 if (savedItem != null) {
                     item.Description = savedItem.Description;
                     item.ShowItem = savedItem.ShowItem;
+                } else {
+                    item.Description = item.InitialDescription;
                 }
             }
 
@@ -57,6 +59,8 @@ namespace ProgramInformationV2.Data.FieldList {
                 if (savedItem != null) {
                     item.Description = savedItem.Description;
                     item.ShowItem = savedItem.ShowItem;
+                } else {
+                    item.Description = item.InitialDescription;
                 }
             }
 

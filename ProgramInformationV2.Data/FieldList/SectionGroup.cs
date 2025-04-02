@@ -28,8 +28,8 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Days", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
                 new() { Title = "Time", CategoryType = CategoryType.Section, FieldType = FieldType.Location_Time },
                 new() { Title = "URL Fragment", CategoryType = CategoryType.Section, FieldType = FieldType.Technical },
-                new() { Title = "Id", CategoryType = CategoryType.Section, FieldType = FieldType.Technical },
-                new() { Title = "Edit Link", CategoryType = CategoryType.Section, FieldType = FieldType.Technical }
+                new() { Title = "Id", CategoryType = CategoryType.Section, FieldType = FieldType.Technical, InitialDescription = "The ID of the item, which may be used in a CMS to pull the item and display it on a webpage" },
+                new() { Title = "Edit Link", CategoryType = CategoryType.Section, FieldType = FieldType.Technical, InitialDescription = "This is a quick link to edit this item directly" }
             ];
         }
     }

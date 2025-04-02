@@ -15,7 +15,7 @@ namespace ProgramInformationV2.Data.FieldList {
                 [FieldType.Technical] = "Technical details used for internal purposes."
             };
             FieldItems = [
-                new() { Title = "Title", CategoryType = CategoryType.Course, FieldType = FieldType.General, IsRequired = true },
+                new() { Title = "Title", CategoryType = CategoryType.Course, FieldType = FieldType.General, IsRequired = true, InitialDescription = "Course title -- do not include the rubric or course number, as it will be added to the title when displayed." },
                 new() { Title = "Rubric", CategoryType = CategoryType.Course, FieldType = FieldType.General },
                 new() { Title = "Course Number", CategoryType = CategoryType.Course, FieldType = FieldType.General },
                 new() { Title = "Summary", CategoryType = CategoryType.Course, FieldType = FieldType.General },
@@ -38,8 +38,8 @@ namespace ProgramInformationV2.Data.FieldList {
                 new() { Title = "Days", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
                 new() { Title = "Time", CategoryType = CategoryType.Course, FieldType = FieldType.Location_Time },
                 new() { Title = "URL Fragment", CategoryType = CategoryType.Course, FieldType = FieldType.Technical },
-                new() { Title = "Id", CategoryType = CategoryType.Course, FieldType = FieldType.Technical },
-                new() { Title = "Edit Link", CategoryType = CategoryType.Course, FieldType = FieldType.Technical }
+                new() { Title = "Id", CategoryType = CategoryType.Course, FieldType = FieldType.Technical, InitialDescription = "The ID of the item, which may be used in a CMS to pull the item and display it on a webpage" },
+                new() { Title = "Edit Link", CategoryType = CategoryType.Course, FieldType = FieldType.Technical, InitialDescription = "This is a quick link to edit this item directly" }
             ];
         }
     }
