@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
+using OpenSearch.Client;
 using OpenSearch.Net;
 using ProgramInformationV2.Search.Models;
 
 namespace ProgramInformationV2.Search.Helpers {
 
-    public class JsonHelper(OpenSearchLowLevelClient? openSearchLowLevelClient) {
+    public class JsonHelper(OpenSearchLowLevelClient? openSearchLowLevelClient, OpenSearchClient? openSearchClient) {
+        private readonly OpenSearchClient _openSearchClient = openSearchClient ?? default!;
         private readonly OpenSearchLowLevelClient _openSearchLowLevelClient = openSearchLowLevelClient ?? default!;
 
         public async Task<string> GetJson(string sourceCode, UrlTypes urltype) {
@@ -21,14 +23,42 @@ namespace ProgramInformationV2.Search.Helpers {
                 return "error";
             }
             foreach (var jsonItem in json) {
-                var body = JsonConvert.SerializeObject(jsonItem._source);
-                string id = jsonItem._id.ToString();
-                if (id.StartsWith(sourceCode + "-")) {
-                    var response = await _openSearchLowLevelClient.IndexAsync<StringResponse>(urltype.ConvertToUrlString(), id, body);
-                    if (response.Success) {
-                        success++;
-                    } else {
-                        failureIds.Add(id);
+                if (jsonItem._source == null) {
+                    try {
+                        if (urltype == UrlTypes.Programs) {
+                            Program stronglyTypedProgram = JsonConvert.DeserializeObject<Program>(jsonItem.ToString());
+                            stronglyTypedProgram.Prepare();
+                            var response = await _openSearchClient.IndexAsync(stronglyTypedProgram, i => i.Index(urltype.ConvertToUrlString()));
+                            if (response.IsValid) {
+                                success++;
+                            } else {
+                                failureIds.Add("unknown program ID");
+                            }
+                        } else if (urltype == UrlTypes.Courses) {
+                            Course stronglyTypedCourse = JsonConvert.DeserializeObject<Course>(jsonItem.ToString());
+                            stronglyTypedCourse.Prepare();
+                            var response = await _openSearchClient.IndexAsync(stronglyTypedCourse, i => i.Index(urltype.ConvertToUrlString()));
+                            if (response.IsValid) {
+                                success++;
+                            } else {
+                                failureIds.Add("unknown course ID");
+                            }
+                        } else {
+                            failureIds.Add("cannot process requirement sets from old system");
+                        }
+                    } catch (Exception e) {
+                        failureIds.Add($"Error processing item: {e.Message}");
+                    }
+                } else {
+                    var body = JsonConvert.SerializeObject(jsonItem._source);
+                    string id = jsonItem._id.ToString();
+                    if (id.StartsWith(sourceCode + "-")) {
+                        var response = await _openSearchLowLevelClient.IndexAsync<StringResponse>(urltype.ConvertToUrlString(), id, body);
+                        if (response.Success) {
+                            success++;
+                        } else {
+                            failureIds.Add(id);
+                        }
                     }
                 }
             }

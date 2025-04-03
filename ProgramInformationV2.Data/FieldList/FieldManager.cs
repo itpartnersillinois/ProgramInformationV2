@@ -24,6 +24,9 @@ namespace ProgramInformationV2.Data.FieldList {
         }
 
         public async Task<(bool IsUsed, IEnumerable<IGrouping<FieldType, FieldItem>> fieldItems)> MergeFieldItems(BaseGroup baseGroup, string sourceCode) {
+            if (string.IsNullOrWhiteSpace(sourceCode)) {
+                return (false, Enumerable.Empty<IGrouping<FieldType, FieldItem>>());
+            }
             var source = await _programRepository.ReadAsync(pr => pr.Sources.First(fs => fs.Code == sourceCode));
             var items = (await _programRepository.ReadAsync(pr => pr.FieldSources.Where(fs => fs.SourceId == source.Id))).ToList();
 

@@ -8,11 +8,13 @@ using ProgramInformationV2.Helpers;
 namespace ProgramInformationV2.Components.Pages {
 
     public partial class Home {
-        private string _source = "";
 
         [Inject]
         public AuthenticationStateProvider AuthenticationStateProvider { get; set; } = default!;
 
+        public int NumberOfSources { get; set; }
+        public string SelectedSource { get; set; } = "";
+        public string SelectedSourceTitle { get; set; } = "";
         public bool UseCourses { get; set; }
 
         public bool UseCredentials { get; set; }
@@ -30,31 +32,35 @@ namespace ProgramInformationV2.Components.Pages {
         protected Dictionary<string, string> Sources { get; set; } = default!;
 
         protected async Task ChangeSource(ChangeEventArgs e) {
-            _source = e.Value?.ToString() ?? "";
+            SelectedSource = e.Value?.ToString() ?? "";
+            SelectedSourceTitle = Sources[SelectedSource];
             var email = await UserHelper.GetUser(AuthenticationStateProvider);
-            CacheHolder.SetCacheSource(email, _source);
+            CacheHolder.SetCacheSource(email, SelectedSource);
             await ChangeBoxes();
         }
 
         protected override async Task OnInitializedAsync() {
             var email = await UserHelper.GetUser(AuthenticationStateProvider);
             Sources = await SourceHelper.GetSources(email);
-            if (Sources.Count == 1) {
-                _source = Sources.First().Key;
-                CacheHolder.SetCacheSource(email, _source);
+            NumberOfSources = Sources.Count;
+            if (NumberOfSources == 1) {
+                SelectedSource = Sources.First().Key;
+                SelectedSourceTitle = Sources[SelectedSource];
+                CacheHolder.SetCacheSource(email, SelectedSource);
             } else if (CacheHolder.HasCachedItem(email)) {
-                _source = CacheHolder.GetCacheSource(email) ?? "";
+                SelectedSource = CacheHolder.GetCacheSource(email) ?? "";
+                SelectedSourceTitle = Sources[SelectedSource];
             }
             await ChangeBoxes();
             base.OnInitialized();
         }
 
         private async Task ChangeBoxes() {
-            if (!string.IsNullOrWhiteSpace(_source)) {
-                UseCredentials = await SourceHelper.DoesSourceUseItem(_source, CategoryType.Credential);
-                UseCourses = await SourceHelper.DoesSourceUseItem(_source, CategoryType.Course);
-                UseRequirementSets = await SourceHelper.DoesSourceUseItem(_source, CategoryType.RequirementSet);
-                UsePrograms = await SourceHelper.DoesSourceUseItem(_source, CategoryType.Program);
+            if (!string.IsNullOrWhiteSpace(SelectedSource)) {
+                UseCredentials = await SourceHelper.DoesSourceUseItem(SelectedSource, CategoryType.Credential);
+                UseCourses = await SourceHelper.DoesSourceUseItem(SelectedSource, CategoryType.Course);
+                UseRequirementSets = await SourceHelper.DoesSourceUseItem(SelectedSource, CategoryType.RequirementSet);
+                UsePrograms = await SourceHelper.DoesSourceUseItem(SelectedSource, CategoryType.Program);
             }
         }
     }

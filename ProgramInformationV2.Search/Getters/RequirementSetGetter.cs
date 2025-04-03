@@ -26,14 +26,22 @@ namespace ProgramInformationV2.Search.Getters {
         }
 
         public async Task<RequirementSet> GetRequirementSet(string id) {
+            if (string.IsNullOrWhiteSpace(id)) {
+                return new();
+            }
             var response = await _openSearchClient.GetAsync<RequirementSet>(id);
             LogDebug(response);
             return response.IsValid ? response.Source : new RequirementSet();
         }
 
         public async Task<List<RequirementSet>> GetRequirementSets(IEnumerable<string> ids) {
+            if (ids == null || !ids.Any()) {
+                return [];
+            }
             var response = await _openSearchClient.SearchAsync<RequirementSet>(s => s.Index(UrlTypes.RequirementSets.ConvertToUrlString())
-                .Query(q => q.Ids(f => f.Values(ids))));
+                .Query(q => q
+                .Bool(b => b
+                .Filter(f => f.Terms(m => m.Field(fld => fld.Id).Terms(ids))))));
             LogDebug(response);
             return response.IsValid ? [.. response.Documents] : [];
         }

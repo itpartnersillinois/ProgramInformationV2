@@ -40,12 +40,12 @@ namespace ProgramInformationV2.Components.Pages.FieldsUsed {
         }
 
         protected override async Task OnInitializedAsync() {
-            await Layout.SetSidebar(SidebarEnum.FieldsUsed, "Fields Used");
             var sourceCode = await Layout.CheckSource();
             var targetGroup = new SectionGroup();
             Instructions = targetGroup.Instructions;
             FieldGroupInstructions = targetGroup.FieldTypeInstructions;
             (IsUsed, FieldItems) = await FieldManager.MergeFieldItems(targetGroup, sourceCode);
+            await Layout.SetSidebar(SidebarEnum.FieldsUsed, "Fields Used");
             await base.OnInitializedAsync();
         }
     }

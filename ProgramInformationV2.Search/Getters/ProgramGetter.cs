@@ -8,6 +8,7 @@ namespace ProgramInformationV2.Search.Getters {
 
         public async Task<List<GenericItem>> GetAllProgramsBySource(string source, string search) {
             var response = await _openSearchClient.SearchAsync<Program>(s => s.Index(UrlTypes.Programs.ConvertToUrlString())
+                    .Size(1000)
                     .Query(q => q
                     .Bool(b => b
                     .Filter(f => f.Term(m => m.Field(fld => fld.Source).Value(source)))
@@ -17,6 +18,9 @@ namespace ProgramInformationV2.Search.Getters {
         }
 
         public async Task<Program> GetProgram(string id, bool activeOnly = false) {
+            if (string.IsNullOrWhiteSpace(id)) {
+                return new();
+            }
             var response = await _openSearchClient.GetAsync<Program>(id);
             LogDebug(response);
             return !response.IsValid || response.Source == null
@@ -34,20 +38,23 @@ namespace ProgramInformationV2.Search.Getters {
                             f => f.Term(m => m.Field(fld => fld.IsActive).Value(true)))
                     .Must(m => m.Match(m => m.Field(fld => fld.Fragment).Query(fragment))))));
             LogDebug(response);
-            return response.IsValid ? response.Documents?.FirstOrDefault() ?? new Program() : new Program();
+            return response.IsValid ? response.Documents?.FirstOrDefault() ?? new() : new();
         }
 
         public async Task<Program> GetProgramByCredential(string credentialId) {
+            if (string.IsNullOrWhiteSpace(credentialId)) {
+                return new();
+            }
             var response = await _openSearchClient.SearchAsync<Program>(s => s.Index(UrlTypes.Programs.ConvertToUrlString())
-                    .Query(q => q.Match(m => m.Field(fld => fld.CredentialIdList).Query(credentialId))));
+                    .Query(q => q
+                    .Match(m => m.Field(fld => fld.CredentialIdList).Query(credentialId))));
             LogDebug(response);
-            return response.IsValid ? response.Documents.FirstOrDefault() ?? new Program() : new Program();
+            return response.IsValid ? response.Documents.FirstOrDefault() ?? new() : new();
         }
 
-        public async Task<SearchObject<Program>> GetPrograms(string source, IEnumerable<string> tags, IEnumerable<string> tags2, IEnumerable<string> tags3, IEnumerable<string> skills, string search, IEnumerable<string> departments, IEnumerable<string> formats, IEnumerable<string> credentials, int skip, int size) {
+        public async Task<SearchObject<Program>> GetPrograms(string source, string search, IEnumerable<string> tags, IEnumerable<string> tags2, IEnumerable<string> tags3, IEnumerable<string> skills, IEnumerable<string> departments, IEnumerable<string> formats, IEnumerable<string> credentials) {
             var response = await _openSearchClient.SearchAsync<Program>(s => s.Index(UrlTypes.Programs.ConvertToUrlString())
-                    .From(skip)
-                    .Size(size)
+                    .Size(1000)
                     .Query(q => q
                     .Bool(b => b
                     .Filter(f => f.Term(m => m.Field(fld => fld.Source).Value(source)),
@@ -71,7 +78,6 @@ namespace ProgramInformationV2.Search.Getters {
             LogDebug(response);
 
             List<Program> documents = response.IsValid ? [.. response.Documents] : [];
-            documents.ForEach(documents => documents.PrepareForJson());
             return new SearchObject<Program>() {
                 Error = !response.IsValid ? response.ServerError.Error.ToString() : "",
                 DidYouMean = response.Suggest.Values.FirstOrDefault()?.ToString() ?? "",
@@ -81,10 +87,7 @@ namespace ProgramInformationV2.Search.Getters {
         }
 
         public async Task<List<string>> GetSuggestions(string source, string search, int take) {
-            var response = await _openSearchClient.SearchAsync<Program>(s => s.Index(UrlTypes.Programs.ConvertToUrlString())
-                    .Query(m => m.Match(m => m.Field(fld => fld.Source).Query(source)) && m.Match(m => m.Field(fld => fld.Title).Query(search))));
-            LogDebug(response);
-            return new List<string>();
+            return [];
         }
     }
 }

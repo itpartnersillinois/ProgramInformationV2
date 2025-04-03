@@ -93,6 +93,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
             if (string.IsNullOrWhiteSpace(id)) {
                 NavigationManager.NavigateTo("/");
             }
+            _sourceCode = await Layout.CheckSource();
             RequirementSetItem = await RequirementSetGetter.GetRequirementSet(id);
             CourseRequirements = [.. RequirementSetItem.CourseRequirements];
             _useCourses = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.Course);

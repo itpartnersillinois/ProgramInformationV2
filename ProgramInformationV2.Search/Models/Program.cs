@@ -20,18 +20,25 @@ namespace ProgramInformationV2.Search.Models {
 
         public IEnumerable<string> CredentialFragmentList => Credentials.Where(c => c.IsActive).Select(c => c.Fragment);
 
+        [Keyword]
         public IEnumerable<string> CredentialIdList => Credentials.Where(c => c.IsActive).Select(c => c.Id);
 
+        [Keyword]
         public List<Credential> Credentials { get; set; } = default!;
 
+        [Keyword]
         public IEnumerable<string> CredentialsFullList => Credentials.Where(c => c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
 
+        [Keyword]
         public IEnumerable<string> CredentialsHybridList => Credentials.Where(c => (c.FormatType & FormatType.Hybrid) == FormatType.Hybrid && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
 
+        [Keyword]
         public IEnumerable<string> CredentialsOffcampusList => Credentials.Where(c => (c.FormatType & FormatType.Off__Campus) == FormatType.Off__Campus && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
 
+        [Keyword]
         public IEnumerable<string> CredentialsOncampusList => Credentials.Where(c => (c.FormatType & FormatType.On__Campus) == FormatType.On__Campus && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
 
+        [Keyword]
         public IEnumerable<string> CredentialsOnlineList => Credentials.Where(c => (c.FormatType & FormatType.Online) == FormatType.Online && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
 
         public string DetailImageAltText { get; set; } = "";
@@ -69,6 +76,7 @@ namespace ProgramInformationV2.Search.Models {
             VideoUrl = ConvertVideoToEmbed(VideoUrl);
             ProcessLists();
             if (Credentials != null && Credentials?.Count > 0) {
+                Credentials = Credentials.OrderBy(c => c.CredentialType).ThenBy(c => c.Title).ToList();
                 DepartmentList = DepartmentList.Union(Credentials.Where(c => c.DepartmentList != null).SelectMany(c => c.DepartmentList)).Distinct();
                 SkillList = SkillList.Union(Credentials.Where(c => c.SkillList != null).SelectMany(c => c.SkillList)).Distinct();
                 TagList = TagList.Union(Credentials.Where(c => c.TagList != null).SelectMany(c => c.TagList)).Distinct();
@@ -78,11 +86,6 @@ namespace ProgramInformationV2.Search.Models {
                     c.CleanHtmlFields();
                 });
             }
-        }
-
-        public Program PrepareForJson() {
-            Credentials = Credentials.OrderBy(c => c.CredentialType).ThenBy(c => c.Title).ToList();
-            return this;
         }
 
         public override void SetFragment() {

@@ -38,7 +38,7 @@ namespace ProgramInformationV2.Search.Models {
 
         public string ImageUrl { get; set; } = "";
 
-        public override string InternalTitle => string.IsNullOrWhiteSpace(ProgramTitle) ? Title : $"{Title} ({ProgramTitle})";
+        public override string InternalTitle => string.IsNullOrWhiteSpace(ProgramTitle) || ProgramTitle == Title ? $"{Title} ({CredentialTypeString})" : $"{Title} ({ProgramTitle} / {CredentialTypeString})";
         public bool IsTranscriptable { get; set; }
 
         public string Length { get; set; } = "";

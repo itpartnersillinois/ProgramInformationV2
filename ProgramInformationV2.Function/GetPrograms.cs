@@ -20,12 +20,13 @@ namespace ProgramInformationV2.Function {
         [OpenApiParameter(name: "fragment", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The fragment. If multiple programs have the same fragment, this will return the first one it finds.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(Program), Description = "The program and all credentials")]
         public async Task<HttpResponseData> Fragment([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequestData req) {
+            _logger.LogInformation("Called ProgramFragment.");
             var requestHelper = RequestHelperFactory.Create();
             requestHelper.Initialize(req);
             var source = requestHelper.GetRequest(req, "source");
             var fragment = requestHelper.GetRequest(req, "fragment");
             requestHelper.Validate();
-            var returnItem = (await _programGetter.GetProgram(source, fragment)).PrepareForJson();
+            var returnItem = await _programGetter.GetProgram(source, fragment);
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(returnItem);
             return response;
@@ -36,11 +37,12 @@ namespace ProgramInformationV2.Function {
         [OpenApiParameter(name: "id", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The id of the program (this includes the source).")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(Program), Description = "The program and all credentials")]
         public async Task<HttpResponseData> Id([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequestData req) {
+            _logger.LogInformation("Called Program.");
             var requestHelper = RequestHelperFactory.Create();
             requestHelper.Initialize(req);
             var id = requestHelper.GetRequest(req, "id");
             requestHelper.Validate();
-            var returnItem = (await _programGetter.GetProgram(id)).PrepareForJson();
+            var returnItem = await _programGetter.GetProgram(id);
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(returnItem);
             return response;
@@ -57,10 +59,9 @@ namespace ProgramInformationV2.Function {
         [OpenApiParameter(name: "q", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "A full text search string -- it will search the title and description for the search querystring.")]
         [OpenApiParameter(name: "formats", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "Either 'On-Campus', 'Online', 'Off-Campus', or 'Hybrid'. Can choose multiple by separating them with the characters '[-]'")]
         [OpenApiParameter(name: "credentials", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "The credential type (BS, MS, EdM, PhD, Certificate, etc.) Can choose multiple by separating them with the characters '[-]'")]
-        [OpenApiParameter(name: "take", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "How many courses do you want? Defaults to 0.")]
-        [OpenApiParameter(name: "skip", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "A skip value to help with pagination. Defaults to 1000.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(IEnumerable<Program>), Description = "All programs that meet the search criteria. If you filter by credentials, it will filter the credential list for each program.")]
         public async Task<HttpResponseData> Search([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequestData req) {
+            _logger.LogInformation("Called ProgramSearch.");
             var requestHelper = RequestHelperFactory.Create();
             requestHelper.Initialize(req);
             var source = requestHelper.GetRequest(req, "source");
@@ -72,11 +73,9 @@ namespace ProgramInformationV2.Function {
             var departments = requestHelper.GetArray(req, "departments");
             var formats = requestHelper.GetArray(req, "formats");
             var credentials = requestHelper.GetArray(req, "credentials");
-            var skip = requestHelper.GetInteger(req, "skip", 0);
-            var take = requestHelper.GetInteger(req, "take", 1000);
             requestHelper.Validate();
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(await _programGetter.GetPrograms(source, tags, tags2, tags3, skills, query, departments, formats, credentials, skip, take));
+            await response.WriteAsJsonAsync(await _programGetter.GetPrograms(source, query, tags, tags2, tags3, skills, departments, formats, credentials));
             return response;
         }
 
@@ -87,6 +86,7 @@ namespace ProgramInformationV2.Function {
         [OpenApiParameter(name: "take", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "How many suggestions do you want? Defaults to 10.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(IEnumerable<string>), Description = "An array of strings")]
         public async Task<HttpResponseData> Suggest([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequestData req) {
+            _logger.LogInformation("Called ProgramSuggest.");
             var requestHelper = RequestHelperFactory.Create();
             requestHelper.Initialize(req);
             var source = requestHelper.GetRequest(req, "source");

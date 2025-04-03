@@ -34,7 +34,7 @@
             return format;
         }
 
-        public static string ConvertDaysToString(this IEnumerable<DayOfWeek> daysOfWeek) => daysOfWeek.Count() > 4 ? "Multiple" : string.Join(",", daysOfWeek.OrderBy(d => d).Select(d => daysList[d]));
+        public static string ConvertDaysToString(this IEnumerable<DayOfWeek> daysOfWeek) => daysOfWeek == null ? "" : (daysOfWeek.Count() > 4 ? "Multiple" : string.Join(",", daysOfWeek.OrderBy(d => d).Select(d => daysList[d])));
 
         public static IEnumerable<string> ConvertFormatList(this FormatType e) => e.ToString("G").Split(',').Select(ConvertToString);
 
