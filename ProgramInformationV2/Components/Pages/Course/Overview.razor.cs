@@ -20,6 +20,8 @@ namespace ProgramInformationV2.Components.Pages.Course {
         [CascadingParameter]
         public SidebarLayout Layout { get; set; } = default!;
 
+        public string QuickLinkUrl { get; set; } = string.Empty;
+
         [Inject]
         protected CourseGetter CourseGetter { get; set; } = default!;
 
@@ -63,6 +65,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             _fieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Overview);
             var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section) ? SidebarEnum.CourseWithSection : SidebarEnum.Course;
             await Layout.SetSidebar(sidebar, CourseItem.Title);
+            QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();
         }
     }

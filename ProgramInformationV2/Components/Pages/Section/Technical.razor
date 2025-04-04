@@ -11,8 +11,7 @@
 {
     <StatusOnSite @bind-Value="SectionItem.IsActive"></StatusOnSite>
     <MediumText Title="URL Fragment" FieldItems="FieldItems" @bind-Value="SectionItem.Url"></MediumText>
-    <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
-    <ilw-content><h2>Information to Copy</h2></ilw-content>
+    <button class="ilw-button ilw-theme-orange-2" @onclick="Save" @onblur="Layout.RemoveMessage">Save</button>    <ilw-content><h2>Information to Copy</h2></ilw-content>
     <IdList Title="Id" FieldItems="FieldItems" Id="@SectionItem.Id"></IdList>
     <IdList Title="Edit Link" FieldItems="FieldItems" Id="@SectionItem.EditLink"></IdList>
     <DeleteNotice DeleteClicked="Delete" ItemTitle="@SectionItem.Title"></DeleteNotice>

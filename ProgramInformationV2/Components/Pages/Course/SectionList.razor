@@ -9,7 +9,7 @@
     {
         <div class="ils-input-entry">
             <label for="section">Select a Section</label>
-            <select id="section" name="credential" @bind="SectionId">
+            <select id="section" @bind="SectionId" class="select-list">
                 <option value="">Select</option>
                 @foreach (var sectionItem in CourseItem.Sections)
                 {

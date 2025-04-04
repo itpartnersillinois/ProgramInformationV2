@@ -15,6 +15,8 @@ namespace ProgramInformationV2.Components.Pages.Course {
         [CascadingParameter]
         public SidebarLayout Layout { get; set; } = default!;
 
+        public string QuickLinkUrl { get; set; } = string.Empty;
+
         [Inject]
         protected CourseGetter CourseGetter { get; set; } = default!;
 
@@ -45,6 +47,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             CourseItem = await CourseGetter.GetCourse(id);
             await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Location_Time);
+            QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();
         }
     }

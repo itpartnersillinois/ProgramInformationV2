@@ -14,5 +14,17 @@
     <ImageControl @ref="@_imageCourseImage" Title="Image URL" FieldItems="FieldItems" @bind-Value="CourseItem.ImageUrl" ItemId="@CourseItem.Id"></ImageControl>
     <MediumText Title="Image Alt Text" FieldItems="FieldItems" @bind-Value="CourseItem.ImageAltText"></MediumText>
     <UrlText Title="Video URL" FieldItems="FieldItems" @bind-Value="CourseItem.VideoUrl"></UrlText>
-    <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+    <ilw-content>
+        <ul class="ilw-buttons" id="save-group">
+            <li>
+                <button class="ilw-button ilw-theme-orange-2" @onclick="Save" @onblur="Layout.RemoveMessage">Save</button>
+            </li>
+            @if (!string.IsNullOrWhiteSpace(QuickLinkUrl))
+            {
+                <li>
+                    <a class="ilw-button" href="@QuickLinkUrl">Back</a>
+                </li>
+            }
+        </ul>
+    </ilw-content>
 }

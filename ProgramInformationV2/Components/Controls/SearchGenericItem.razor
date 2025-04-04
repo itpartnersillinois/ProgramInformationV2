@@ -1,19 +1,30 @@
 ﻿@if (GenericItems != null)
 {
-        <ilw-content>
-            <div class="ils-input-entry">
-                <label for="filter">Search for a @ItemTitle</label>
-                <input id="filter" type="text" class="ils-input-long" @onchange="(ChangeEventArgs e) => FilterChange(e)" />
-            </div>
-            <div class="ils-input-entry">
-                <label for="choose">Choose a @ItemTitle to edit</label>
-                <select id="choose" size="10" class="ils-input-long" @bind="SelectedItemId">
+    <ilw-content class="search-generic-item">
+        <div class="ils-input-entry">
+            <label for="filter">Search for a @ItemTitle</label>
+            <input id="filter" type="text" class="ils-input-long" @onchange="(ChangeEventArgs e) => FilterChange(e)" />
+        </div>
+        <div class="ils-input-entry">
+            <label for="choose">Choose a @ItemTitle to edit</label>
+            <select id="choose" size="10" class="ils-input-long" @bind="SelectedItemId">
                 @foreach (var item in GenericItems)
                 {
-                        <option value="@item.Id">@item.Title @(item.IsActive ? "" : " - inactive")</option>
+                    <option value="@item.Id">@item.Title @(item.IsActive ? "" : " - inactive")</option>
                 }
-                </select>
-            </div>
-        <button class="ilw-button" disabled="@IsEditDisabled" @onclick="Edit">@ActionButtonTitle</button>
+            </select>
+        </div>
+        <ul class="ilw-buttons">
+            <li>
+                <button class="ilw-button" disabled="@IsEditDisabled" @onclick="Edit">@ActionButtonTitle</button>
+            </li>
+            @if (UseAddButton)
+            {
+                <li>
+                    <button class="ilw-button" @onclick="Add">@AddButtonTitle</button>
+                </li>
+            }
+        </ul>
+        
         </ilw-content>
 }

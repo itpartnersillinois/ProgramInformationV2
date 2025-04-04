@@ -1,0 +1,15 @@
+﻿select.select-list {
+    width: 75%;
+}
+
+main#app-main input[type="file"] {
+    width: calc(100%-20px);
+}
+
+main#app-main p.help-text {
+    color: var(--il-storm);
+    font: 1rem / 1.125rem var(--il-font-sans);
+    padding-top: 3px;
+    width: fit-content;
+    margin: 0 0 30px 0;
+}

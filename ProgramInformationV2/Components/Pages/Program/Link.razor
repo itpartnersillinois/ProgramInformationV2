@@ -17,6 +17,6 @@
     <ImageControl Title="Detail Program Image" @ref="@_imageDetailProgramImage" FieldItems="FieldItems" @bind-Value="ProgramItem.DetailImageUrl" ItemId="@ProgramItem.Id"></ImageControl>
     <MediumText Title="Detail Program Image Alternative Text" FieldItems="FieldItems" @bind-Value="ProgramItem.DetailImageAltText"></MediumText>
     <MediumText Title="Video URL" FieldItems="FieldItems" @bind-Value="ProgramItem.VideoUrl"></MediumText>
-    <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+    <button class="ilw-button ilw-theme-orange-2" @onclick="Save" @onblur="Layout.RemoveMessage">Save</button>
 }
 

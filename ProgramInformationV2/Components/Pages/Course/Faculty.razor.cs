@@ -19,6 +19,8 @@ namespace ProgramInformationV2.Components.Pages.Course {
         public string NewProfileUrl { get; set; } = "";
         public bool NewShowInProfile { get; set; }
 
+        public string QuickLinkUrl { get; set; } = "";
+
         [Inject]
         protected CourseGetter CourseGetter { get; set; } = default!;
 
@@ -56,6 +58,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             }
             CourseItem = await CourseGetter.GetCourse(id);
             await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();
         }
     }

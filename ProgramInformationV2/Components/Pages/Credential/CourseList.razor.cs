@@ -118,6 +118,6 @@ namespace ProgramInformationV2.Components.Pages.Credential {
             ChosenRequirementSetList.MoveItemUp(ChosenRequirementSetList[i]);
         }
 
-        private async Task SetQuickCacheLink() => await Layout.SetCacheQuickLink("Back to credential " + CredentialItem.Title, "/credential/courselist", CredentialItem.Id);
+        private async Task SetQuickCacheLink() => await Layout.SetCacheQuickLink("/credential/courselist", CredentialItem.Id);
     }
 }

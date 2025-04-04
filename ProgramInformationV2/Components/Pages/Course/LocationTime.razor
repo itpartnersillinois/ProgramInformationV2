@@ -16,6 +16,18 @@
         <TermSelectList Title="Term" FieldItems="FieldItems" @bind-Value="CourseItem.Term"></TermSelectList>
         <DayOfWeekCheckboxList Title="Days" FieldItems="FieldItems" @bind-Value="CourseItem.DaysOfWeekList"></DayOfWeekCheckboxList>
         <SmallText Title="Time" FieldItems="FieldItems" @bind-Value="CourseItem.DefaultTime"></SmallText>
-        <button class="ilw-button" @onclick="Save" @onblur="Layout.RemoveMessage">Save Changes</button>
+        <ilw-content>
+            <ul class="ilw-buttons" id="save-group">
+                <li>
+                    <button class="ilw-button ilw-theme-orange-2" @onclick="Save" @onblur="Layout.RemoveMessage">Save</button>
+                </li>
+                @if (!string.IsNullOrWhiteSpace(QuickLinkUrl))
+                {
+                    <li>
+                        <a class="ilw-button" href="@QuickLinkUrl">Back</a>
+                    </li>
+                }
+            </ul>
+        </ilw-content>
     }
 </ilw-content>

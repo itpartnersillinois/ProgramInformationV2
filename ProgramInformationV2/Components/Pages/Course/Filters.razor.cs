@@ -17,6 +17,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
         [CascadingParameter]
         public SidebarLayout Layout { get; set; } = default!;
 
+        public string QuickLinkUrl { get; set; } = "";
         public IEnumerable<TagSource>? SkillTags => FilterTags?.Where(f => f.Key == TagType.Skill).SelectMany(x => x);
 
         public IEnumerable<TagSource>? Tags => FilterTags?.Where(f => f.Key == TagType.Tag).SelectMany(x => x);
@@ -58,6 +59,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             CourseItem = await CourseGetter.GetCourse(id);
             var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section) ? SidebarEnum.CourseWithSection : SidebarEnum.Course;
             await Layout.SetSidebar(sidebar, CourseItem.Title);
+            QuickLinkUrl = await Layout.GetCachedQuickLink();
             foreach (var tag in FilterTags.SelectMany(x => x)) {
                 if (CourseItem.DepartmentList.Contains(tag.Title) && tag.TagType == TagType.Department) {
                     tag.EnabledBySource = true;

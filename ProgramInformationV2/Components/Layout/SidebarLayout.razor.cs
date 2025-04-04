@@ -56,9 +56,9 @@ namespace ProgramInformationV2.Components.Layout {
             return cacheItem?.ParentId ?? "";
         }
 
-        public async Task<(string text, string url)> GetCachedQuickLink() {
+        public async Task<string> GetCachedQuickLink() {
             var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
-            return (cacheItem?.QuickLinkText ?? "", cacheItem?.QuickLinkUrl ?? "");
+            return cacheItem?.QuickLinkUrl ?? "";
         }
 
         public async Task<string> GetNetId() => await AuthenticationStateProvider.GetUser();
@@ -76,7 +76,7 @@ namespace ProgramInformationV2.Components.Layout {
             var cacheItem = CacheHolder.GetItem(await AuthenticationStateProvider.GetUser());
             var id = cacheItem?.QuickLinkId ?? "";
             if (!string.IsNullOrWhiteSpace(id)) {
-                CacheHolder.SetCacheQuickLink(netid, "", "", "");
+                CacheHolder.SetCacheQuickLink(netid, "", "");
                 CacheHolder.SetCacheItem(netid, id);
             }
         }
@@ -92,17 +92,16 @@ namespace ProgramInformationV2.Components.Layout {
             CacheHolder.SetCacheParentItem(netid, parentId);
         }
 
-        public async Task SetCacheQuickLink(string quickLinkText, string quickLinkUrl, string quickLinkId) {
+        public async Task SetCacheQuickLink(string quickLinkUrl, string quickLinkId) {
             var netid = await AuthenticationStateProvider.GetUser();
-            CacheHolder.SetCacheQuickLink(netid, quickLinkText, quickLinkUrl, quickLinkId);
+            CacheHolder.SetCacheQuickLink(netid, quickLinkUrl, quickLinkId);
             IsDirty = false;
         }
 
         public void SetDirty() => IsDirty = true;
 
         public async Task SetSidebar(SidebarEnum s, string title, bool hideForNew = false) {
-            (var quickLinkText, var quickLinkUrl) = await GetCachedQuickLink();
-            SidebarControl.Rebuild(hideForNew ? SidebarEnum.None : s, title, quickLinkText, quickLinkUrl);
+            SidebarControl.Rebuild(hideForNew ? SidebarEnum.None : s, title);
             BreadcrumbControl.Rebuild(s);
             IsDirty = false;
         }

@@ -26,6 +26,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
         [Parameter]
         public bool? Quicklink { get; set; }
 
+        public string QuickLinkUrl { get; set; } = "";
         public ProgramInformationV2.Search.Models.RequirementSet RequirementSetItem { get; set; } = default!;
 
         [Inject]
@@ -99,9 +100,10 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
             _useCourses = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.Course);
             await GetCourses();
             await Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
+            QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();
         }
 
-        private async Task SetQuickCacheLink() => await Layout.SetCacheQuickLink("Back to requirement set " + RequirementSetItem.InternalTitle, "/requirementset/courses", RequirementSetItem.Id);
+        private async Task SetQuickCacheLink() => await Layout.SetCacheQuickLink("/requirementset/courses", RequirementSetItem.Id);
     }
 }

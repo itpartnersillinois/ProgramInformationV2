@@ -28,12 +28,11 @@
             }
         }
 
-        public void SetCacheQuickLink(string netid, string text, string url, string id) {
+        public void SetCacheQuickLink(string netid, string url, string id) {
             if (_dictionary.ContainsKey(netid)) {
-                _dictionary[netid].QuickLinkText = text;
                 _dictionary[netid].QuickLinkUrl = string.IsNullOrWhiteSpace(url) ? "" : url + "?quicklink=true";
                 _dictionary[netid].QuickLinkId = id;
-                if (!string.IsNullOrWhiteSpace(text)) {
+                if (!string.IsNullOrWhiteSpace(url)) {
                     _dictionary[netid].ParentId = "";
                     _dictionary[netid].ItemId = "";
                 }

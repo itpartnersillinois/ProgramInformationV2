@@ -16,6 +16,8 @@ namespace ProgramInformationV2.Components.Pages.Course {
         [CascadingParameter]
         public SidebarLayout Layout { get; set; } = default!;
 
+        public string QuickLinkUrl { get; set; } = "";
+
         [Inject]
         protected CourseGetter CourseGetter { get; set; } = default!;
 
@@ -30,7 +32,6 @@ namespace ProgramInformationV2.Components.Pages.Course {
 
         [Inject]
         protected SourceHelper SourceHelper { get; set; } = default!;
-
 
         public async Task Delete() {
             Layout.RemoveDirty();
@@ -56,6 +57,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Technical);
             var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section) ? SidebarEnum.CourseWithSection : SidebarEnum.Course;
             await Layout.SetSidebar(sidebar, CourseItem.Title);
+            QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();
         }
     }

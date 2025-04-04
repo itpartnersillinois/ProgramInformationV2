@@ -13,14 +13,11 @@ namespace ProgramInformationV2.Components.Layout {
         private List<PageLink>? _sidebarLinks { get; set; } = default!;
         private string _title { get; set; } = "";
 
-        public void Rebuild(SidebarEnum s, string title, string quickLinkText, string quickLinkUrl) {
+        public void Rebuild(SidebarEnum s, string title) {
             _baseUrl = "/" + NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
             _title = title;
             _sidebar = s;
             _sidebarLinks = PageGroup.GetSidebar(s);
-            if (_sidebarLinks != null && !string.IsNullOrWhiteSpace(quickLinkText)) {
-                _sidebarLinks.Add(new PageLink(quickLinkText, quickLinkUrl) { IsEmphasized = true });
-            }
             StateHasChanged();
         }
     }

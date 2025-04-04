@@ -6,6 +6,10 @@ ilw-content .requirement-box, ilw-content .credential-box, ilw-content .security
     column-gap: 40px;
 }
 
+    ilw-content .requirement-box a, ilw-content .credential-box a, ilw-content .security-box a {
+        color: var(--il-industrial);
+    }
+
 ilw-content .requirement-box, ilw-content .security-box {
     grid-template-columns: 1fr 125px;
 }
@@ -75,4 +79,8 @@ ilw-icon.rotate {
 
 button.ilw-button.small {
     padding: 0 5px;
+}
+
+ul.ilw-buttons#save-group {
+    justify-content: start;
 }

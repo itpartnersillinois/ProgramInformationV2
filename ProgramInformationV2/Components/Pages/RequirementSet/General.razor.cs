@@ -14,6 +14,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
         [CascadingParameter]
         public SidebarLayout Layout { get; set; } = default!;
 
+        public string QuickLinkUrl { get; set; } = "";
         public ProgramInformationV2.Search.Models.RequirementSet RequirementSetItem { get; set; } = default!;
 
         [Inject]
@@ -54,6 +55,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
                 await Layout.SetSidebar(SidebarEnum.RequirementSet, "New Requirement Set", true);
             }
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new RequirementSetGroup(), FieldType.General);
+            QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();
         }
     }

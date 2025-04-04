@@ -9,6 +9,12 @@ namespace ProgramInformationV2.Components.Controls {
         public string ActionButtonTitle { get; set; } = "";
 
         [Parameter]
+        public string AddButtonTitle { get; set; } = "";
+
+        [Parameter]
+        public EventCallback<string> AddClicked { get; set; }
+
+        [Parameter]
         public EventCallback<string> EditClicked { get; set; }
 
         [Parameter]
@@ -28,6 +34,12 @@ namespace ProgramInformationV2.Components.Controls {
         public string SelectedItemId { get; set; } = "";
 
         public string SelectedItemTitle => GenericItems.FirstOrDefault(gi => gi.Id == SelectedItemId)?.Title ?? "";
+
+        public bool UseAddButton => !string.IsNullOrWhiteSpace(AddButtonTitle);
+
+        public void Add() {
+            AddClicked.InvokeAsync();
+        }
 
         public void Edit() {
             EditClicked.InvokeAsync();
