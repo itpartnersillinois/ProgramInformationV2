@@ -15,7 +15,6 @@ namespace ProgramInformationV2.Components.Pages.Credential {
         private SearchGenericItem _searchGenericItem = default!;
 
         private string _sourceCode = "";
-
         public List<GenericItem> ChosenRequirementSetList { get; set; } = default!;
         public Search.Models.Credential CredentialItem { get; set; } = new Search.Models.Credential();
 
@@ -27,6 +26,7 @@ namespace ProgramInformationV2.Components.Pages.Credential {
         public bool? Quicklink { get; set; }
 
         public List<GenericItem> RequirementSetList { get; set; } = default!;
+        public bool UsePrograms { get; set; }
 
         [Inject]
         protected CredentialGetter CredentialGetter { get; set; } = default!;
@@ -49,10 +49,17 @@ namespace ProgramInformationV2.Components.Pages.Credential {
         [Inject]
         protected SourceHelper SourceHelper { get; set; } = default!;
 
+        public async Task BackToProgram() {
+            await Layout.SetCacheId(CredentialItem?.ProgramId ?? "");
+            NavigationManager.NavigateTo("/program/credentiallist", true);
+        }
+
         public async Task Save() {
             Layout.RemoveDirty();
             CredentialItem.RequirementSetIds = ChosenRequirementSetList.Select(r => r.Id);
             _ = await ProgramSetter.SetCredential(CredentialItem);
+            var sourceCode = await Layout.CheckSource();
+            UsePrograms = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Program);
             await Layout.Log(CategoryType.Credential, FieldType.CourseList, CredentialItem);
             await Layout.AddMessage("Credential saved successfully.");
         }
@@ -108,7 +115,7 @@ namespace ProgramInformationV2.Components.Pages.Credential {
             }
             CredentialItem = await CredentialGetter.GetCredential(id);
             ChosenRequirementSetList = await RequirementSetGetter.GetRequirementSetsChosen(CredentialItem.RequirementSetIds);
-            await Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
+            Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
             await GetRequirementSet();
             await base.OnInitializedAsync();
         }

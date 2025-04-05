@@ -28,6 +28,11 @@ namespace ProgramInformationV2.Components.Pages.Section {
         [Inject]
         protected NavigationManager NavigationManager { get; set; } = default!;
 
+        public async Task BackToCourse() {
+            await Layout.SetCacheId(SectionItem?.CourseId ?? "");
+            NavigationManager.NavigateTo("/course/sectionlist", true);
+        }
+
         public async Task Delete() {
             Layout.RemoveDirty();
             _ = await CourseSetter.DeleteSection(SectionItem.Id);
@@ -50,7 +55,7 @@ namespace ProgramInformationV2.Components.Pages.Section {
             }
             SectionItem = await CourseGetter.GetSection(id);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new SectionGroup(), FieldType.Technical);
-            await Layout.SetSidebar(SidebarEnum.Section, SectionItem.Title);
+            Layout.SetSidebar(SidebarEnum.Section, SectionItem.Title);
             await base.OnInitializedAsync();
         }
     }

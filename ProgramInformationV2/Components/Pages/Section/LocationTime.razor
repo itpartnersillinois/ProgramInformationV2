@@ -19,6 +19,13 @@
         <DateText Title="End Date" FieldItems="FieldItems" @bind-Value="SectionItem.EndDate"></DateText>
         <DayOfWeekCheckboxList Title="Days" FieldItems="FieldItems" @bind-Value="SectionItem.DaysOfWeekList"></DayOfWeekCheckboxList>
         <SmallText Title="Time" FieldItems="FieldItems" @bind-Value="SectionItem.Time"></SmallText>
-        <button class="ilw-button ilw-theme-orange-2" @onclick="Save" @onblur="Layout.RemoveMessage">Save</button>
+        <ul class="ilw-buttons" id="save-group">
+            <li>
+                <button class="ilw-button ilw-theme-orange-2" @onclick="Save" @onblur="Layout.RemoveMessage">Save</button>
+            </li>
+            <li>
+                <a class="ilw-button" @onclick="BackToCourse">Back</a>
+            </li>
+        </ul>
     }
 </ilw-content>

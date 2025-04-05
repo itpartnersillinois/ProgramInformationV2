@@ -38,7 +38,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
             Layout.RemoveDirty();
             _ = await ProgramSetter.SetProgram(ProgramItem);
             await Layout.SetCacheId(ProgramItem.Id);
-            await Layout.SetSidebar(_sidebar, ProgramItem.Title);
+            Layout.SetSidebar(_sidebar, ProgramItem.Title);
             await Layout.Log(CategoryType.Program, FieldType.General, ProgramItem);
             await Layout.AddMessage("Program saved successfully.");
         }
@@ -50,12 +50,12 @@ namespace ProgramInformationV2.Components.Pages.Program {
 
             if (!string.IsNullOrWhiteSpace(id)) {
                 ProgramItem = await ProgramGetter.GetProgram(id);
-                await Layout.SetSidebar(_sidebar, ProgramItem.Title);
+                Layout.SetSidebar(_sidebar, ProgramItem.Title);
             } else {
                 ProgramItem = new Search.Models.Program() {
                     Source = sourceCode
                 };
-                await Layout.SetSidebar(SidebarEnum.Program, "New Program", true);
+                Layout.SetSidebar(SidebarEnum.Program, "New Program", true);
             }
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.General);
 

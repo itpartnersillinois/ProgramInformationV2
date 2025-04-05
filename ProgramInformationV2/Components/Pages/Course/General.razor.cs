@@ -45,7 +45,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             Layout.RemoveDirty();
             _ = await CourseSetter.SetCourse(CourseItem);
             await Layout.SetCacheId(CourseItem.Id);
-            await Layout.SetSidebar(_sidebar, CourseItem.Title);
+            Layout.SetSidebar(_sidebar, CourseItem.Title);
             await Layout.Log(CategoryType.Course, FieldType.General, CourseItem);
             await Layout.AddMessage("Course saved successfully.");
             if (!string.IsNullOrWhiteSpace(_oldTitle) && (_oldTitle != CourseItem.Title)) {
@@ -62,12 +62,12 @@ namespace ProgramInformationV2.Components.Pages.Course {
             if (!string.IsNullOrWhiteSpace(id)) {
                 CourseItem = await CourseGetter.GetCourse(id);
                 _oldTitle = CourseItem.Title;
-                await Layout.SetSidebar(_sidebar, CourseItem.Title);
+                Layout.SetSidebar(_sidebar, CourseItem.Title);
             } else {
                 CourseItem = new ProgramInformationV2.Search.Models.Course {
                     Source = sourceCode
                 };
-                await Layout.SetSidebar(SidebarEnum.None, "New Course", true);
+                Layout.SetSidebar(SidebarEnum.None, "New Course", true);
             }
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.General);
             QuickLinkUrl = await Layout.GetCachedQuickLink();

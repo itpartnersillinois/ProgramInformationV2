@@ -44,7 +44,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
             _useCredentials = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Credential);
             var id = await Layout.GetCachedId();
             ProgramItem = await ProgramGetter.GetProgram(id);
-            await Layout.SetSidebar(SidebarEnum.ProgramWithCredential, ProgramItem.Title);
+            Layout.SetSidebar(SidebarEnum.ProgramWithCredential, ProgramItem.Title);
             await base.OnInitializedAsync();
         }
     }

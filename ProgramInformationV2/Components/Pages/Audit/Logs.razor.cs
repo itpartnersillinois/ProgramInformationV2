@@ -18,7 +18,7 @@ namespace ProgramInformationV2.Components.Pages.Audit {
 
         protected override async Task OnInitializedAsync() {
             await base.OnInitializedAsync();
-            await Layout.SetSidebar(SidebarEnum.Audit, "Audit");
+            Layout.SetSidebar(SidebarEnum.Audit, "Audit");
             LogItems = await LogHelper.GetLog(await Layout.CheckSource());
         }
     }

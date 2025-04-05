@@ -64,7 +64,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
             }
             RequirementSetItem = await RequirementSetGetter.GetRequirementSet(id);
             CredentialsUsingRequirementSet = await CredentialGetter.GetAllCredentialsByRequirementId(id);
-            await Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
+            Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new RequirementSetGroup(), FieldType.General);
             QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();

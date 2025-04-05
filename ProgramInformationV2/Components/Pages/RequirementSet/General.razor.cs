@@ -32,7 +32,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await RequirementSetSetter.SetRequirementSet(RequirementSetItem);
-            await Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
+            Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
             await Layout.SetCacheId(RequirementSetItem.Id);
             await Layout.Log(CategoryType.RequirementSet, FieldType.General, RequirementSetItem);
             await Layout.AddMessage("Requirement Set saved successfully.");
@@ -43,7 +43,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
             var id = await Layout.GetCachedId();
             if (!string.IsNullOrWhiteSpace(id)) {
                 RequirementSetItem = await RequirementSetGetter.GetRequirementSet(id);
-                await Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
+                Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
             } else {
                 var credentialId = await Layout.GetCachedParentId();
                 RequirementSetItem = new ProgramInformationV2.Search.Models.RequirementSet {
@@ -52,7 +52,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
                     IsReused = string.IsNullOrWhiteSpace(credentialId),
                     IsActive = true
                 };
-                await Layout.SetSidebar(SidebarEnum.RequirementSet, "New Requirement Set", true);
+                Layout.SetSidebar(SidebarEnum.RequirementSet, "New Requirement Set", true);
             }
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new RequirementSetGroup(), FieldType.General);
             QuickLinkUrl = await Layout.GetCachedQuickLink();

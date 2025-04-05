@@ -43,7 +43,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             _useSections = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section);
             var id = await Layout.GetCachedId();
             CourseItem = await CourseGetter.GetCourse(id);
-            await Layout.SetSidebar(SidebarEnum.CourseWithSection, CourseItem.Title);
+            Layout.SetSidebar(SidebarEnum.CourseWithSection, CourseItem.Title);
             await base.OnInitializedAsync();
         }
     }

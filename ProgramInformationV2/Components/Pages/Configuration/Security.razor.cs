@@ -56,7 +56,7 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
             await base.OnInitializedAsync();
             var source = await Layout.CheckSource();
             NetIds = await SecurityHelper.GetNames(source);
-            await Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
+            Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
         }
     }
 }

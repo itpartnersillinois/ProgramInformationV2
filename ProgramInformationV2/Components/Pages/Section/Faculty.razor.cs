@@ -16,7 +16,9 @@ namespace ProgramInformationV2.Components.Pages.Section {
         public string NewName { get; set; } = "";
         public string NewNetId { get; set; } = "";
         public string NewProfileUrl { get; set; } = "";
+
         public bool NewShowInProfile { get; set; }
+
         public Search.Models.Section SectionItem { get; set; } = new Search.Models.Section();
 
         [Inject]
@@ -38,6 +40,11 @@ namespace ProgramInformationV2.Components.Pages.Section {
             });
         }
 
+        public async Task BackToCourse() {
+            await Layout.SetCacheId(SectionItem?.CourseId ?? "");
+            NavigationManager.NavigateTo("/course/sectionlist", true);
+        }
+
         public void Remove(int i) {
             SectionItem.FacultyNameList.RemoveAt(i);
         }
@@ -55,7 +62,7 @@ namespace ProgramInformationV2.Components.Pages.Section {
                 NavigationManager.NavigateTo("/");
             }
             SectionItem = await CourseGetter.GetSection(id);
-            await Layout.SetSidebar(SidebarEnum.Section, SectionItem.Title);
+            Layout.SetSidebar(SidebarEnum.Section, SectionItem.Title);
             await base.OnInitializedAsync();
         }
     }

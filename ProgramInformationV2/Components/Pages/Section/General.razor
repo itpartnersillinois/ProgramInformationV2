@@ -15,6 +15,13 @@
     <SmallText Title="CRN" FieldItems="FieldItems" @bind-Value="SectionItem.CRN"></SmallText>
     <CheckboxList Title="Format Type" FieldItems="FieldItems" @bind-Value="SectionItem.FormatType"></CheckboxList>
     <SmallText Title="Credit Hours" FieldItems="FieldItems" @bind-Value="SectionItem.CreditHours"></SmallText>
-    <button class="ilw-button ilw-theme-orange-2" @onclick="Save" @onblur="Layout.RemoveMessage">Save</button>
+    <ul class="ilw-buttons" id="save-group">
+        <li>
+            <button class="ilw-button ilw-theme-orange-2" @onclick="Save" @onblur="Layout.RemoveMessage">Save</button>
+        </li>
+        <li>
+            <a class="ilw-button" @onclick="BackToCourse">Back</a>
+        </li>
+    </ul>
 }
 

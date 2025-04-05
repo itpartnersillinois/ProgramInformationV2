@@ -46,7 +46,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
         }
 
         protected override async Task OnInitializedAsync() {
-            await Layout.SetSidebar(SidebarEnum.Courses, "Courses");
+            Layout.SetSidebar(SidebarEnum.Courses, "Courses");
             _sourceCode = await Layout.CheckSource();
             _useCourses = await SourceHelper.DoesSourceUseItem(_sourceCode, Data.DataModels.CategoryType.Course);
             await GetCourses();

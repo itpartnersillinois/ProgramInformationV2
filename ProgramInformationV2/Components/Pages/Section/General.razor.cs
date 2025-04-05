@@ -28,11 +28,16 @@ namespace ProgramInformationV2.Components.Pages.Section {
         [Inject]
         protected NavigationManager NavigationManager { get; set; } = default!;
 
+        public async Task BackToCourse() {
+            await Layout.SetCacheId(SectionItem?.CourseId ?? "");
+            NavigationManager.NavigateTo("/course/sectionlist", true);
+        }
+
         public async Task Save() {
             Layout.RemoveDirty();
             _ = await CourseSetter.SetSection(SectionItem);
             await Layout.SetCacheId(SectionItem.Id);
-            await Layout.SetSidebar(SidebarEnum.Section, SectionItem.Title);
+            Layout.SetSidebar(SidebarEnum.Section, SectionItem.Title);
             await Layout.Log(CategoryType.Section, FieldType.General, SectionItem);
             await Layout.AddMessage("Section saved successfully.");
         }
@@ -42,13 +47,13 @@ namespace ProgramInformationV2.Components.Pages.Section {
             var id = await Layout.GetCachedId();
             if (!string.IsNullOrWhiteSpace(id)) {
                 SectionItem = await CourseGetter.GetSection(id);
-                await Layout.SetSidebar(SidebarEnum.Section, SectionItem.Title);
+                Layout.SetSidebar(SidebarEnum.Section, SectionItem.Title);
             } else {
                 SectionItem = new Search.Models.Section() {
                     Source = sourceCode,
                     CourseId = await Layout.GetCachedParentId()
                 };
-                await Layout.SetSidebar(SidebarEnum.Section, "New Section", true);
+                Layout.SetSidebar(SidebarEnum.Section, "New Section", true);
             }
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new SectionGroup(), FieldType.General);
             await base.OnInitializedAsync();

@@ -58,7 +58,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             }
             CourseItem = await CourseGetter.GetCourse(id);
             var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section) ? SidebarEnum.CourseWithSection : SidebarEnum.Course;
-            await Layout.SetSidebar(sidebar, CourseItem.Title);
+            Layout.SetSidebar(sidebar, CourseItem.Title);
             QuickLinkUrl = await Layout.GetCachedQuickLink();
             foreach (var tag in FilterTags.SelectMany(x => x)) {
                 if (CourseItem.DepartmentList.Contains(tag.Title) && tag.TagType == TagType.Department) {

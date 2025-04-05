@@ -45,7 +45,7 @@ namespace ProgramInformationV2.Components.Pages.FieldsUsed {
             Instructions = targetGroup.Instructions;
             FieldGroupInstructions = targetGroup.FieldTypeInstructions;
             (IsUsed, FieldItems) = await FieldManager.MergeFieldItems(targetGroup, sourceCode);
-            await Layout.SetSidebar(SidebarEnum.FieldsUsed, "Fields Used");
+            Layout.SetSidebar(SidebarEnum.FieldsUsed, "Fields Used");
             await base.OnInitializedAsync();
         }
     }

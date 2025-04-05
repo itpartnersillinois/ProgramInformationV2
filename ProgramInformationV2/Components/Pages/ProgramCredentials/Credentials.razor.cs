@@ -45,7 +45,7 @@ namespace ProgramInformationV2.Components.Pages.ProgramCredentials {
         }
 
         protected override async Task OnInitializedAsync() {
-            await Layout.SetSidebar(SidebarEnum.ProgramCredential, "Programs and Credentials");
+            Layout.SetSidebar(SidebarEnum.ProgramCredential, "Programs and Credentials");
             _sourceCode = await Layout.CheckSource();
             _useCredentials = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.Credential);
             _usePrograms = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.Program);

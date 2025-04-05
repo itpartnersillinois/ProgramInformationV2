@@ -52,7 +52,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
                 NavigationManager.NavigateTo("/");
             }
             ProgramItem = await ProgramGetter.GetProgram(id);
-            await Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
+            Layout.SetSidebar(SidebarEnum.Program, ProgramItem.Title);
             foreach (var tag in FilterTags.SelectMany(x => x)) {
                 if (ProgramItem.DepartmentList.Contains(tag.Title) && tag.TagType == TagType.Department) {
                     tag.EnabledBySource = true;

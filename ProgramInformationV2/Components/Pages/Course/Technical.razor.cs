@@ -56,7 +56,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             CourseItem = await CourseGetter.GetCourse(id);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Technical);
             var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Section) ? SidebarEnum.CourseWithSection : SidebarEnum.Course;
-            await Layout.SetSidebar(sidebar, CourseItem.Title);
+            Layout.SetSidebar(sidebar, CourseItem.Title);
             QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();
         }

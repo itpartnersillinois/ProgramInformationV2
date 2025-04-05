@@ -11,15 +11,14 @@ namespace ProgramInformationV2.Components.Pages.Credential {
     public partial class Filters {
         public Search.Models.Credential CredentialItem { get; set; } = default!;
         public IEnumerable<TagSource>? DepartmentTags => FilterTags?.Where(f => f.Key == TagType.Department).SelectMany(x => x);
-
         public IEnumerable<IGrouping<TagType, TagSource>> FilterTags { get; set; } = [];
 
         [CascadingParameter]
         public SidebarLayout Layout { get; set; } = default!;
 
         public IEnumerable<TagSource>? SkillTags => FilterTags?.Where(f => f.Key == TagType.Skill).SelectMany(x => x);
-
         public IEnumerable<TagSource>? Tags => FilterTags?.Where(f => f.Key == TagType.Tag).SelectMany(x => x);
+        public bool UsePrograms { get; set; }
 
         [Inject]
         protected CredentialGetter CredentialGetter { get; set; } = default!;
@@ -28,10 +27,21 @@ namespace ProgramInformationV2.Components.Pages.Credential {
         protected FilterHelper FilterHelper { get; set; } = default!;
 
         [Inject]
+        protected NavigationManager NavigationManager { get; set; } = default!;
+
+        [Inject]
         protected ProgramGetter ProgramGetter { get; set; } = default!;
 
         [Inject]
         protected ProgramSetter ProgramSetter { get; set; } = default!;
+
+        [Inject]
+        protected SourceHelper SourceHelper { get; set; } = default!;
+
+        public async Task BackToProgram() {
+            await Layout.SetCacheId(CredentialItem?.ProgramId ?? "");
+            NavigationManager.NavigateTo("/program/credentiallist", true);
+        }
 
         public async Task Save() {
             CredentialItem.DepartmentList = DepartmentTags?.Where(t => t.EnabledBySource).Select(t => t.Title).ToList() ?? [];
@@ -44,10 +54,11 @@ namespace ProgramInformationV2.Components.Pages.Credential {
         }
 
         protected override async Task OnInitializedAsync() {
-            await Layout.SetSidebar(SidebarEnum.Credential, "Configuration");
+            Layout.SetSidebar(SidebarEnum.Credential, "Configuration");
             var sourceCode = await Layout.CheckSource();
             FilterTags = await FilterHelper.GetAllFilters(sourceCode);
             var id = await Layout.GetCachedId();
+            UsePrograms = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Program);
             CredentialItem = await CredentialGetter.GetCredential(id);
             foreach (var tag in FilterTags.SelectMany(x => x)) {
                 if (CredentialItem.DepartmentList.Contains(tag.Title) && tag.TagType == TagType.Department) {

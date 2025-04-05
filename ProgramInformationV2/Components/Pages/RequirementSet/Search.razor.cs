@@ -42,7 +42,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
         }
 
         protected override async Task OnInitializedAsync() {
-            await Layout.SetSidebar(SidebarEnum.RequirementSets, "Requirement Sets");
+            Layout.SetSidebar(SidebarEnum.RequirementSets, "Requirement Sets");
             _sourceCode = await Layout.CheckSource();
             _useRequirementSets = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.RequirementSet);
             _useCredentials = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.Credential);

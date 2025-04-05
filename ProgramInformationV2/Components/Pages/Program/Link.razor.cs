@@ -59,7 +59,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
             ProgramItem = await ProgramGetter.GetProgram(id);
             var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Credential) ? SidebarEnum.ProgramWithCredential : SidebarEnum.Program;
 
-            await Layout.SetSidebar(sidebar, ProgramItem.Title);
+            Layout.SetSidebar(sidebar, ProgramItem.Title);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.Link);
             await base.OnInitializedAsync();
         }

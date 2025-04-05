@@ -100,7 +100,7 @@ namespace ProgramInformationV2.Components.Layout {
 
         public void SetDirty() => IsDirty = true;
 
-        public async Task SetSidebar(SidebarEnum s, string title, bool hideForNew = false) {
+        public void SetSidebar(SidebarEnum s, string title, bool hideForNew = false) {
             SidebarControl.Rebuild(hideForNew ? SidebarEnum.None : s, title);
             BreadcrumbControl.Rebuild(s);
             IsDirty = false;

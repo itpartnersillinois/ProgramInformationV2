@@ -52,7 +52,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
             ProgramItem = await ProgramGetter.GetProgram(id);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.Technical);
             var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Credential) ? SidebarEnum.ProgramWithCredential : SidebarEnum.Program;
-            await Layout.SetSidebar(sidebar, ProgramItem.Title);
+            Layout.SetSidebar(sidebar, ProgramItem.Title);
             await base.OnInitializedAsync();
         }
     }

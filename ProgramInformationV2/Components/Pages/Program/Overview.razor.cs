@@ -58,7 +58,7 @@ namespace ProgramInformationV2.Components.Pages.Program {
             _rteDescription.InitialValue = ProgramItem.Description;
             _rteWhoShouldApply.InitialValue = ProgramItem.WhoShouldApply;
             var sidebar = await SourceHelper.DoesSourceUseItem(sourceCode, CategoryType.Credential) ? SidebarEnum.ProgramWithCredential : SidebarEnum.Program;
-            await Layout.SetSidebar(sidebar, ProgramItem.Title);
+            Layout.SetSidebar(sidebar, ProgramItem.Title);
             _fieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new ProgramGroup(), FieldType.Overview);
             await base.OnInitializedAsync();
         }

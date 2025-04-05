@@ -109,7 +109,7 @@ namespace ProgramInformationV2.Components.Pages.RequirementSet {
             CourseRequirements = [.. RequirementSetItem.CourseRequirements];
             _useCourses = await SourceHelper.DoesSourceUseItem(_sourceCode, CategoryType.Course);
             await GetCourses();
-            await Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
+            Layout.SetSidebar(SidebarEnum.RequirementSet, RequirementSetItem.InternalTitle);
             QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();
         }

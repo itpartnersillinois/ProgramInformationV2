@@ -33,7 +33,7 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
         protected override async Task OnInitializedAsync() {
             base.OnInitialized();
             var sidebar = string.IsNullOrWhiteSpace(await Layout.CheckSource(false)) ? SidebarEnum.ConfigurationNoSource : SidebarEnum.Configuration;
-            await Layout.SetSidebar(sidebar, "Configuration");
+            Layout.SetSidebar(sidebar, "Configuration");
             SourceEntries = await SourceHelper.GetSourcesAndOwners();
         }
 

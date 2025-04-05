@@ -33,7 +33,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
             Layout.RemoveDirty();
             _ = await CourseSetter.SetCourse(CourseItem);
             await Layout.SetCacheId(CourseItem.Id);
-            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             await Layout.Log(CategoryType.Course, FieldType.Location_Time, CourseItem);
             await Layout.AddMessage("Course saved successfully.");
         }
@@ -45,7 +45,7 @@ namespace ProgramInformationV2.Components.Pages.Course {
                 NavigationManager.NavigateTo("/");
             }
             CourseItem = await CourseGetter.GetCourse(id);
-            await Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
+            Layout.SetSidebar(SidebarEnum.Course, CourseItem.Title);
             FieldItems = await FieldManager.GetMergedFieldItems(sourceCode, new CourseGroup(), FieldType.Location_Time);
             QuickLinkUrl = await Layout.GetCachedQuickLink();
             await base.OnInitializedAsync();

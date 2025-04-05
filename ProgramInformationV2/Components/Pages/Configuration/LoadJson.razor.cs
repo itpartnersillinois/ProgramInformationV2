@@ -36,7 +36,7 @@ namespace ProgramInformationV2.Components.Pages.Configuration {
 
         protected override async Task OnInitializedAsync() {
             await Layout.CheckSource();
-            await Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
+            Layout.SetSidebar(SidebarEnum.Configuration, "Configuration");
             base.OnInitialized();
         }
 
