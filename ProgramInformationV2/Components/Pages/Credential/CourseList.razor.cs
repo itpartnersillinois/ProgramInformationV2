@@ -114,7 +114,13 @@ namespace ProgramInformationV2.Components.Pages.Credential {
                 NavigationManager.NavigateTo("/");
             }
             CredentialItem = await CredentialGetter.GetCredential(id);
-            ChosenRequirementSetList = await RequirementSetGetter.GetRequirementSetsChosen(CredentialItem.RequirementSetIds);
+            var requirementSets = await RequirementSetGetter.GetRequirementSetsChosen(CredentialItem.RequirementSetIds);
+            ChosenRequirementSetList = [];
+            foreach (var reqId in CredentialItem.RequirementSetIds) {
+                if (requirementSets.Any(r => r.Id == reqId)) {
+                    ChosenRequirementSetList.Add(requirementSets.First(r => r.Id == reqId));
+                }
+            }
             Layout.SetSidebar(SidebarEnum.Credential, CredentialItem.Title);
             await GetRequirementSet();
             await base.OnInitializedAsync();

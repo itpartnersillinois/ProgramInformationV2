@@ -6,21 +6,24 @@ namespace ProgramInformationV2.Search.Getters {
     public class RequirementSetGetter(OpenSearchClient? openSearchClient) : BaseGetter<RequirementSet>(openSearchClient) {
 
         public async Task<List<GenericItem>> GetAllRequirementSetsBySource(string source, string search) {
-            var response = string.IsNullOrWhiteSpace(search) ?
-                await _openSearchClient.SearchAsync<RequirementSet>(s => s.Index(UrlTypes.RequirementSets.ConvertToUrlString()).Query(q => q.Match(m => m.Field(fld => fld.Source).Query(source)) && q.Term(m => m.IsReused, true))) :
-                await _openSearchClient.SearchAsync<RequirementSet>(s => s.Index(UrlTypes.RequirementSets.ConvertToUrlString())
-                    .Query(m => m.Match(m => m.Field(fld => fld.Source).Query(source)) && m.Match(m => m.Field(fld => fld.InternalTitle).Query(search)) && m.Term(m => m.IsReused, true)));
+            var response = await _openSearchClient.SearchAsync<RequirementSet>(s => s.Index(UrlTypes.RequirementSets.ConvertToUrlString())
+                    .Size(1000)
+                    .Query(q => q
+                    .Bool(b => b
+                    .Filter(f => f.Term(m => m.Field(fld => fld.Source).Value(source)))
+                    .Must(m => string.IsNullOrWhiteSpace(search) ? m.MatchAll() : m.Match(m => m.Field(fld => fld.Title).Query(search))))));
             LogDebug(response);
             return response.IsValid ? response.Documents.Select(r => r.GetGenericItem()).OrderBy(g => g.Title).ToList() : [];
         }
 
         public async Task<List<GenericItem>> GetAllRequirementSetsBySourceIncludingPrivate(string source, string search, string credentialId) {
-            var response = string.IsNullOrWhiteSpace(search) ?
-                await _openSearchClient.SearchAsync<RequirementSet>(s => s.Index(UrlTypes.RequirementSets.ConvertToUrlString())
-                    .Query(q => q.Match(m => m.Field(fld => fld.Source).Query(source)) && (q.Term(m => m.IsReused, true) || q.Term(m => m.CredentialId, credentialId))))
-                :
-                await _openSearchClient.SearchAsync<RequirementSet>(s => s.Index(UrlTypes.RequirementSets.ConvertToUrlString())
-                    .Query(m => m.Match(m => m.Field(fld => fld.Source).Query(source)) && m.Match(m => m.Field(fld => fld.InternalTitle).Query(search)) && m.Term(m => m.IsReused, true)));
+            var response = await _openSearchClient.SearchAsync<RequirementSet>(s => s.Index(UrlTypes.RequirementSets.ConvertToUrlString())
+                    .Size(1000)
+                    .Query(q => q
+                    .Bool(b => b
+                    .Filter(f => f.Term(m => m.Field(fld => fld.Source).Value(source)))
+                    .Must(m => string.IsNullOrWhiteSpace(search) ? m.MatchAll() : m.Match(m => m.Field(fld => fld.Title).Query(search)))
+                    .Should(m => m.Term(t => t.IsReused, true), m => m.Term(t => t.CredentialId, credentialId)))));
             LogDebug(response);
             return response.IsValid ? response.Documents.Select(r => r.GetGenericItem()).OrderBy(g => g.Title).ToList() : [];
         }
@@ -39,11 +42,12 @@ namespace ProgramInformationV2.Search.Getters {
                 return [];
             }
             var response = await _openSearchClient.SearchAsync<RequirementSet>(s => s.Index(UrlTypes.RequirementSets.ConvertToUrlString())
+                .Size(50)
                 .Query(q => q
                 .Bool(b => b
                 .Filter(f => f.Terms(m => m.Field(fld => fld.Id).Terms(ids))))));
             LogDebug(response);
-            return response.IsValid ? [.. response.Documents] : [];
+            return response.IsValid ? [.. response.Documents.OrderBy(d => d.Title)] : [];
         }
 
         public async Task<List<GenericItem>> GetRequirementSetsChosen(IEnumerable<string> ids) => [.. (await GetRequirementSets(ids)).Select(r => r.GetGenericItem())];

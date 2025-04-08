@@ -7,12 +7,12 @@ namespace ProgramInformationV2.LoadFromEdw {
 
     internal static class LoadCourses {
 
-        internal static async Task Run(string rubricList, string source, string searchUrl) {
+        internal static async Task Run(string rubricList, string source, string searchUrl, string urlTemplate, string searchKey, string searchSecret) {
             Console.WriteLine($"Starting EDW Load: {DateTime.Now.ToLongTimeString()}");
             Console.WriteLine($"Search URL: {searchUrl}");
             Console.WriteLine($"Source: {source}");
 
-            var openSearchClient = OpenSearchFactory.CreateClient(searchUrl, "", "", true);
+            var openSearchClient = OpenSearchFactory.CreateClient(searchUrl, searchKey, searchSecret, true);
             var courseGetter = new CourseGetter(openSearchClient);
             var courseLoader = new CourseSetter(openSearchClient, courseGetter);
 
@@ -26,10 +26,11 @@ namespace ProgramInformationV2.LoadFromEdw {
                     Console.WriteLine($"{itemGroup.Key} (number of semesters: {itemGroup.Count()}): {DateTime.Now.ToLongTimeString()}");
                     var scheduledCourse = XmlImporter.GetCourse(itemGroup);
                     if (string.IsNullOrWhiteSpace(scheduledCourse.Title)) {
-                        Console.WriteLine($"Course {itemGroup.Key} not found in system");
+                        Console.WriteLine($"************** Course {itemGroup.Key} not found in system **************");
                     } else {
                         var course = ScheduleTranslator.Translate(scheduledCourse, source, true);
-                        course.Url = $"https://education.illinois.edu/course/{course.Rubric}/{course.CourseNumber}";
+                        course.Url = urlTemplate.Replace("{rubric}", course.Rubric).Replace("{coursenumber}", course.CourseNumber);
+                        course.Prepare();
                         var courseId = await courseLoader.SetCourse(course);
                         Console.WriteLine($"Course Imported: {courseId}.");
                     }

@@ -40,7 +40,7 @@ namespace ProgramInformationV2.Search.Getters {
                 Error = response.Error,
                 DidYouMean = response.DidYouMean,
                 Total = credentialList.Count,
-                Items = credentialList.OrderBy(c => c.Title).ToList()
+                Items = [.. credentialList.OrderBy(c => c.Title)]
             };
         }
 
@@ -49,11 +49,16 @@ namespace ProgramInformationV2.Search.Getters {
             if (!credential.IsActive) {
                 return new();
             }
-
+            var requirementSets = await _requirementSetGetter.GetRequirementSets(credential.RequirementSetIds);
             var returnValue = new CredentialWithRequirementSets {
                 Credential = credential,
-                RequirementSets = await _requirementSetGetter.GetRequirementSets(credential.RequirementSetIds)
+                RequirementSets = []
             };
+            foreach (var reqId in credential.RequirementSetIds) {
+                if (requirementSets.Any(r => r.Id == reqId)) {
+                    returnValue.RequirementSets.Add(requirementSets.First(r => r.Id == reqId));
+                }
+            }
             return returnValue;
         }
 
@@ -69,11 +74,16 @@ namespace ProgramInformationV2.Search.Getters {
             if (!credential.IsActive) {
                 return new();
             }
-
+            var requirementSets = await _requirementSetGetter.GetRequirementSets(credential.RequirementSetIds);
             var returnValue = new CredentialWithRequirementSets {
                 Credential = credential,
-                RequirementSets = await _requirementSetGetter.GetRequirementSets(credential.RequirementSetIds)
+                RequirementSets = []
             };
+            foreach (var reqId in credential.RequirementSetIds) {
+                if (requirementSets.Any(r => r.Id == reqId)) {
+                    returnValue.RequirementSets.Add(requirementSets.First(r => r.Id == reqId));
+                }
+            }
             return returnValue;
         }
     }
