@@ -9,6 +9,8 @@ Console.WriteLine("Starting load");
 
 /*
 
+// College of Education values: CI,EDPR,EDUC,EOL,EPOL,EPS,ERAM,EPSY,HRD,HRE,SPED
+
 if (args.Length == 3 && args[0].Equals("courseload")) {
     await LoadCourses.Run(args[1], args[2], searchUrl, searchKey, searchSecret, "https://education.illinois.edu/course/{rubric}/{coursenumber}");
 } else {
