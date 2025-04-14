@@ -64,7 +64,7 @@ namespace ProgramInformationV2.Components.Layout {
         public async Task<string> GetNetId() => await AuthenticationStateProvider.GetUser();
 
         public async Task Log(CategoryType categoryType, FieldType fieldType, BaseObject data, string subject = "") {
-            _ = await LogHelper.Log(CategoryType.Course, FieldType.Filters, await GetNetId(), await CheckSource(), data, subject);
+            _ = await LogHelper.Log(categoryType, fieldType, await GetNetId(), await CheckSource(), data, subject);
         }
 
         public void RemoveDirty() => IsDirty = false;

@@ -10,8 +10,8 @@ namespace ProgramInformationV2.Data.DataHelpers {
 
         public async Task<IEnumerable<Log>> GetLog(string sourceName) {
             var date = DateTime.UtcNow.AddDays(-30);
-            return (await _programRepository.ReadAsync(c => c.Logs.Include(l => l.Source).Where(l => l.Source != null &&
-                l.Source.Code == sourceName && l.LastUpdated > date).OrderByDescending(s => s.LastUpdated))).ToList();
+            return [.. await _programRepository.ReadAsync(c => c.Logs.Include(l => l.Source).Where(l => l.Source != null &&
+                l.Source.Code == sourceName && l.LastUpdated > date).OrderByDescending(s => s.LastUpdated).Take(500))];
         }
 
         public async Task<bool> Log(CategoryType categoryType, FieldType fieldType, string netId, string sourceName, BaseObject data, string subject = "") {

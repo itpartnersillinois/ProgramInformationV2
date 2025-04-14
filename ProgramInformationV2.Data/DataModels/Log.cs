@@ -8,7 +8,7 @@ namespace ProgramInformationV2.Data.DataModels {
         public string ChangedByNetId { get; set; } = "";
         public string ChangeType { get; set; } = "";
         public string Data { get; set; } = "";
-        public string DateCreated => LastUpdated.ToString("f");
+        public string DateCreated => LastUpdated.ToString("g");
         public bool EmailSent { get; set; }
         public FieldType FieldType { get; set; }
 
