@@ -56,7 +56,7 @@ ilw-icon.rotate {
 .image-box {
     border: 1px solid var(--il-blue);
     padding: 10px;
-    margin: 10px 0;
+    margin: 40px 0;
 }
 
 button.ilw-button.small {
