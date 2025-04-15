@@ -55,7 +55,7 @@ namespace ProgramInformationV2.Search.Models {
             CleanHtmlFields();
         }
 
-        public virtual void SetFragment() => Fragment = string.IsNullOrWhiteSpace(Fragment) ? "" : new string(Fragment.Where(c => char.IsLetterOrDigit(c) || c == ' ' || c == '-').ToArray()).Replace(" ", "-").ToLowerInvariant();
+        public virtual void SetFragment() => Fragment = string.IsNullOrWhiteSpace(Fragment) ? "" : new string([.. Fragment.Where(c => char.IsLetterOrDigit(c) || c == ' ' || c == '-' || c == '/')]).Replace(" ", "-").ToLowerInvariant();
 
         public virtual void SetId() => Id = string.IsNullOrWhiteSpace(Id) ? CreateId : Id;
 
