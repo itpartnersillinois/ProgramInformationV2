@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Staging WIGG Build and deploy ASP.Net Core app to Azure Web App
+name: Production WIGG Build and deploy ASP.Net Core app to Azure Web App
 
 on:
   push:
     branches:
-      - develop
+      - main
   workflow_dispatch:
 
 env:
@@ -54,6 +54,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'test-itp-program'
+          app-name: itp-app-programrepository
           package: .
-          publish-profile: ${{ secrets.AZURE_WEB_PUBLISH_PROFILE_STAGING }}
+          publish-profile: ${{ secrets.AZURE_WEB_PUBLISH_PROFILE_PRODUCTION }}
+          slot-name: 'deploy'
