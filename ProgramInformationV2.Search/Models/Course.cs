@@ -94,7 +94,7 @@ namespace ProgramInformationV2.Search.Models {
                 }
                 Sections?.ForEach(s => s.CleanHtmlFields());
             }
-            Faculty = string.Join("; ", FacultyNameList.Distinct().OrderBy(s => s.Name).Select(s => s.ToString()));
+            Faculty = FacultyNameList == null || FacultyNameList.Count == 0 ? "" : string.Join("; ", FacultyNameList.Distinct().OrderBy(s => s.Name).Select(s => s.ToString()));
         }
 
         public override void SetId() {
