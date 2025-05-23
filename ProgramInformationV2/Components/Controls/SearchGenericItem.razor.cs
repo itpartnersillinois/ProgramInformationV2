@@ -49,12 +49,17 @@ namespace ProgramInformationV2.Components.Controls {
         }
 
         public void Search() {
+            SelectedItemId = "";
             SearchClicked.InvokeAsync();
         }
 
         protected async Task FilterChange(ChangeEventArgs e) {
             SearchItem = e.Value?.ToString() ?? "";
+            SelectedItemId = "";
             await SearchClicked.InvokeAsync();
+            if (GenericItems.Count == 1) {
+                SelectedItemId = GenericItems[0].Id;
+            }
         }
 
         protected override void OnInitialized() {

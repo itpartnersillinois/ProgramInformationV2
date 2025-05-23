@@ -18,16 +18,16 @@ namespace ProgramInformationV2.Search.Models {
 
         public string Description { get; set; } = "";
 
-        public override string InternalTitle => IsReused ? $"{Title} ({InternalTitleOverride})" : Title;
+        [Keyword]
+        public override string EditLink => _editLink + "requirementset/" + Id;
+
+        public override string InternalTitle => string.IsNullOrWhiteSpace(InternalTitleOverride) ? Title : $"{Title} ({InternalTitleOverride})";
 
         public string InternalTitleOverride { get; set; } = "";
 
         public bool IsReused { get; set; }
 
         public int MaximumCreditHours { get; set; }
-        [Keyword]
-        public override string EditLink => _editLink + "requirementset/" + Id;
-
         public int MinimumCreditHours { get; set; }
 
         public override void CleanHtmlFields() {
