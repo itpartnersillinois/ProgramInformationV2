@@ -48,6 +48,22 @@ namespace ProgramInformationV2.Function {
             return response;
         }
 
+        [Function("ProgramByCredentialId")]
+        [OpenApiOperation(operationId: "ProgramByCredentialId", tags: "Get Credential Information", Description = "Get a program by credential ID.")]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The ID of the credential (the source is included in the ID).")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(Program), Description = "The program and all credentials")]
+        public async Task<HttpResponseData> ProgramByCredentialId([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequestData req) {
+            _logger.LogInformation("Called ProgramByCredentialId.");
+            var requestHelper = RequestHelperFactory.Create();
+            requestHelper.Initialize(req);
+            var id = requestHelper.GetRequest(req, "id");
+            requestHelper.Validate();
+            var returnItem = await _programGetter.GetProgramByCredential(id);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(returnItem);
+            return response;
+        }
+
         [Function("ProgramSearch")]
         [OpenApiOperation(operationId: "ProgramSearch", tags: "Get Program Information", Description = "Search for programs. This includes just active programs.")]
         [OpenApiParameter(name: "source", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **source** parameter given to you, can use 'test' to test.")]
