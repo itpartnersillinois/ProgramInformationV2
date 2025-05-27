@@ -31,7 +31,7 @@ jobs:
         shell: pwsh
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          dotnet build --configuration Release --output ./output -r linux-x64 --self-contained true /p:UseAppHost=true
+          dotnet build --configuration Release --output ./output -r linux-x64 /p:UseAppHost=true
           popd
       
       - name: 'Run Azure Functions Action'
