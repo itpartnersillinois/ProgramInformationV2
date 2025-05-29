@@ -35,6 +35,24 @@ namespace ProgramInformationV2.Search.Getters {
         public async Task<SearchObject<Credential>> GetCredentials(string source, string search, IEnumerable<string> tags, IEnumerable<string> tags2, IEnumerable<string> tags3, IEnumerable<string> skills, IEnumerable<string> departments, IEnumerable<string> formats, IEnumerable<string> credentials) {
             var response = await _programGetter.GetPrograms(source, search, tags, tags2, tags3, skills, departments, formats, credentials);
             var credentialList = response.Items.SelectMany(p => p.Credentials).Where(c => c.IsActive).OrderBy(c => c.Title).ToList();
+            if (tags.Any()) {
+                credentialList = credentialList.Where(c => c.TagList.Any(t => tags.Contains(t))).ToList();
+            }
+            if (tags2.Any()) {
+                credentialList = credentialList.Where(c => c.TagList.Any(t => tags2.Contains(t))).ToList();
+            }
+            if (tags3.Any()) {
+                credentialList = credentialList.Where(c => c.TagList.Any(t => tags3.Contains(t))).ToList();
+            }
+            if (skills.Any()) {
+                credentialList = credentialList.Where(c => c.SkillList.Any(s => skills.Contains(s))).ToList();
+            }
+            if (departments.Any()) {
+                credentialList = credentialList.Where(c => c.DepartmentList.Any(d => departments.Contains(d))).ToList();
+            }
+            if (credentials.Any()) {
+                credentialList = credentialList.Where(c => credentials.Contains(c.CredentialTypeString)).ToList();
+            }
 
             return new SearchObject<Credential>() {
                 Error = response.Error,

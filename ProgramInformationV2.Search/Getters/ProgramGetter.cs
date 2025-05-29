@@ -64,10 +64,10 @@ namespace ProgramInformationV2.Search.Getters {
                         f => tags3.Any() ? f.Terms(m => m.Field(fld => fld.TagList).Terms(tags3)) : f.MatchAll(),
                         f => credentials.Any()
                              ? formats.Count() == 1 ?
-                                (formats.Single() == "online" ? f.Terms(m => m.Field(fld => fld.CredentialsOnlineList).Terms(credentials))
-                                : formats.Single() == "oncampus" ? f.Terms(m => m.Field(fld => fld.CredentialsOncampusList).Terms(credentials))
-                                : formats.Single() == "offcampus" ? f.Terms(m => m.Field(fld => fld.CredentialsOffcampusList).Terms(credentials))
-                                : formats.Single() == "hybrid" ? f.Terms(m => m.Field(fld => fld.CredentialsHybridList).Terms(credentials))
+                                (formats.Single() == "Online" ? f.Terms(m => m.Field(fld => fld.CredentialsOnlineList).Terms(credentials))
+                                : formats.Single() == "On-Campus" ? f.Terms(m => m.Field(fld => fld.CredentialsOnCampusList).Terms(credentials))
+                                : formats.Single() == "Off-Campus" ? f.Terms(m => m.Field(fld => fld.CredentialsOffCampusList).Terms(credentials))
+                                : formats.Single() == "Hybrid" ? f.Terms(m => m.Field(fld => fld.CredentialsHybridList).Terms(credentials))
                                 : f.Terms(m => m.Field(fld => fld.CredentialsFullList).Terms(credentials)))
                               : f.Terms(m => m.Field(fld => fld.CredentialsFullList).Terms(credentials)) : f.MatchAll(),
                         f => formats.Any() ? f.Terms(m => m.Field(fld => fld.Formats).Terms(formats)) : f.MatchAll(),

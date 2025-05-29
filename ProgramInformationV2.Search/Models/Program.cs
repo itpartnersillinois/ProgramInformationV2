@@ -32,10 +32,10 @@ namespace ProgramInformationV2.Search.Models {
         public IEnumerable<string> CredentialsHybridList => Credentials.Where(c => (c.FormatType & FormatType.Hybrid) == FormatType.Hybrid && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
 
         [Keyword]
-        public IEnumerable<string> CredentialsOffcampusList => Credentials.Where(c => (c.FormatType & FormatType.Off__Campus) == FormatType.Off__Campus && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
+        public IEnumerable<string> CredentialsOffCampusList => Credentials.Where(c => (c.FormatType & FormatType.Off__Campus) == FormatType.Off__Campus && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
 
         [Keyword]
-        public IEnumerable<string> CredentialsOncampusList => Credentials.Where(c => (c.FormatType & FormatType.On__Campus) == FormatType.On__Campus && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
+        public IEnumerable<string> CredentialsOnCampusList => Credentials.Where(c => (c.FormatType & FormatType.On__Campus) == FormatType.On__Campus && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
 
         [Keyword]
         public IEnumerable<string> CredentialsOnlineList => Credentials.Where(c => (c.FormatType & FormatType.Online) == FormatType.Online && c.IsActive).Distinct().Select(c => c.CredentialType.ConvertToSingleString());
