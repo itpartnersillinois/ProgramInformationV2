@@ -58,7 +58,7 @@ namespace ProgramInformationV2.Search.Getters {
                 Error = response.Error,
                 DidYouMean = response.DidYouMean,
                 Total = credentialList.Count,
-                Items = [.. credentialList.OrderBy(c => c.Title)]
+                Items = string.IsNullOrWhiteSpace(search) ? [.. credentialList.OrderBy(c => c.Title)] : [.. credentialList]
             };
         }
 

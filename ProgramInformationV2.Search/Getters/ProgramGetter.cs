@@ -77,7 +77,7 @@ namespace ProgramInformationV2.Search.Getters {
                     .Suggest(a => a.Phrase("didyoumean", p => p.Text(search).Field(fld => fld.Title))));
             LogDebug(response);
 
-            List<Program> documents = response.IsValid ? [.. response.Documents] : [];
+            List<Program> documents = response.IsValid ? (string.IsNullOrEmpty(search) ? [.. response.Documents.OrderBy(p => p.Title)] : [.. response.Documents]) : [];
             return new SearchObject<Program>() {
                 Error = !response.IsValid ? response.ServerError.Error.ToString() : "",
                 DidYouMean = response.Suggest["didyoumean"].FirstOrDefault()?.Options?.FirstOrDefault()?.Text ?? "",
