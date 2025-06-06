@@ -92,7 +92,7 @@ namespace ProgramInformationV2.Search.Getters {
                 Credential = credential,
                 RequirementSets = []
             };
-            returnValue.CredentialOptions = [.. otherCredentials.Where(oc => oc.Id != credential.Id && oc.IsActive).OrderBy(oc => oc.CredentialType).Select(oc => new CredentialOption {
+            returnValue.OtherCredentials = [.. otherCredentials.Where(oc => oc.Id != credential.Id && oc.IsActive).OrderBy(oc => oc.CredentialType).Select(oc => new CredentialOption {
                 Title = oc.Title, Url = oc.Url, UrlFull = oc.UrlFull, CredentialType = oc.CredentialType, Id = oc.Id, FormatType = oc.FormatType
             })];
             foreach (var reqId in credential.RequirementSetIds) {
