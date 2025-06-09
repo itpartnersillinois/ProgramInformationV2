@@ -66,7 +66,7 @@ namespace ProgramInformationV2.Search.Getters {
             var program = await _programGetter.GetProgramByCredential(credentialId);
             var credential = program.Credentials?.SingleOrDefault(c => c.Id == credentialId) ?? new();
 
-            return await AddRequirementSets(credential, program?.Credentials ?? []);
+            return await AddRequirementSets(credential, program ?? new());
         }
 
         public async Task<CredentialWithRequirementSets> GetCredentialWithRequirementSet(string source, string fragment) {
@@ -79,10 +79,10 @@ namespace ProgramInformationV2.Search.Getters {
             LogDebug(response);
             var program = response.IsValid ? response.Documents?.FirstOrDefault() : new();
             var credential = program?.Credentials.FirstOrDefault(c => c.Fragment == fragment) ?? new();
-            return await AddRequirementSets(credential, program?.Credentials ?? []);
+            return await AddRequirementSets(credential, program ?? new());
         }
 
-        private async Task<CredentialWithRequirementSets> AddRequirementSets(Credential credential, List<Credential> otherCredentials) {
+        private async Task<CredentialWithRequirementSets> AddRequirementSets(Credential credential, Program program) {
             if (!credential.IsActive) {
                 return new();
             }
@@ -90,9 +90,17 @@ namespace ProgramInformationV2.Search.Getters {
             var requirementSets = await _requirementSetGetter.GetRequirementSets(credential.RequirementSetIds);
             var returnValue = new CredentialWithRequirementSets {
                 Credential = credential,
-                RequirementSets = []
+                RequirementSets = [],
+                Program = new Link { LinkHref = program.Url, Title = program.Title }
             };
-            returnValue.OtherCredentials = [.. otherCredentials.Where(oc => oc.Id != credential.Id && oc.IsActive).OrderBy(oc => oc.CredentialType).Select(oc => new CredentialOption {
+            if (credential.LinkList == null && program.LinkList == null) {
+                credential.LinkList = [];
+            } else if (credential.LinkList == null) {
+                credential.LinkList = program.LinkList.OrderBy(ll => ll.Order).ThenBy(ll => ll.Title);
+            } else {
+                credential.LinkList = credential.LinkList.Concat(program.LinkList ?? []).OrderBy(ll => ll.Order).ThenBy(ll => ll.Title);
+            }
+            returnValue.OtherCredentials = [.. program.Credentials.Where(oc => oc.Id != credential.Id && oc.IsActive).OrderBy(oc => oc.CredentialType).Select(oc => new CredentialOption {
                 Title = oc.Title, Url = oc.Url, UrlFull = oc.UrlFull, CredentialType = oc.CredentialType, Id = oc.Id, FormatType = oc.FormatType
             })];
             foreach (var reqId in credential.RequirementSetIds) {
