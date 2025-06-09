@@ -3,6 +3,21 @@ using ProgramInformationV2.LoadFromEdw;
 
 Console.WriteLine("Starting load");
 
+var path = "C:\\Users\\jonker\\Downloads\\";
+
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_1.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_2.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_3.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_4.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_5.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_6.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_7.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_8.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_9.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_10.json");
+JsonManipulation.TranslateCourses(path, "coe_2025_06_07_courses_11.json");
+
+/*
 var searchUrl = "https://search-sitefinity-search-2022-mxlf4grqurtcjtyyk4gaar6inq.us-east-2.es.amazonaws.com/";
 var searchKey = "";
 var searchSecret = "";
