@@ -5,6 +5,7 @@ namespace ProgramInformationV2.LoadFromEdw {
     internal static class JsonManipulation {
 
         internal static void TranslateCourses(string path, string file) {
+            path = NormalizePath(path);
             using var reader = new StreamReader(path + file);
             var items = JsonConvert.DeserializeObject<List<dynamic>>(reader.ReadToEnd()) ?? [];
             Console.WriteLine("File: " + file);
@@ -30,6 +31,7 @@ namespace ProgramInformationV2.LoadFromEdw {
         }
 
         internal static void TranslatePrograms(string path, string file) {
+            path = NormalizePath(path);
             using var reader = new StreamReader(path + file);
             var items = JsonConvert.DeserializeObject<List<dynamic>>(reader.ReadToEnd()) ?? [];
             Console.WriteLine("Number of items: " + items.Count);
@@ -48,5 +50,7 @@ namespace ProgramInformationV2.LoadFromEdw {
             using var writer = new StreamWriter(path + "new_" + file);
             writer.Write(JsonConvert.SerializeObject(items, Formatting.Indented));
         }
+
+        private static string NormalizePath(string s) => s.TrimEnd('\\') + "\\";
     }
 }
