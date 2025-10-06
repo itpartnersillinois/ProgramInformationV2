@@ -52,7 +52,9 @@ namespace ProgramInformationV2.Search.AuditHelpers {
                         if (courseDetail != null) {
                             foreach (var credential in credentials.Where(c => c.RequirementSetIds.Contains(requirement.Id))) {
                                 if (returnValue.Select(r => r.Id).Contains(courseDetail.Id)) {
-                                    returnValue.First(r => r.Id == courseDetail.Id).Children.Add(new GenericItem { Id = requirement.Id, Title = credential.Title + ": " + requirement.InternalTitle });
+                                    if (!returnValue.First(r => r.Id == courseDetail.Id).Children.Select(child => child.Id).Contains(requirement.Id)) {
+                                        returnValue.First(r => r.Id == courseDetail.Id).Children.Add(new GenericItem { Id = requirement.Id, Title = credential.Title + ": " + requirement.InternalTitle });
+                                    }
                                 } else {
                                     var newItem = new GenericItemWithChildren {
                                         Id = courseDetail.Id,
