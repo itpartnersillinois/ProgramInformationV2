@@ -24,11 +24,18 @@ namespace ProgramInformationV2.Search.Getters {
             }
             var response = await _openSearchClient.GetAsync<Program>(id);
             LogDebug(response);
-            return !response.IsValid || response.Source == null
-                ? new Program()
-                : activeOnly && !response.Source.IsActive
-                ? new Program()
-                : response.Source;
+            if (!response.IsValid || response.Source == null) {
+                return new Program();
+            }
+            if (!activeOnly) {
+                return response.Source;
+            }
+            var program = response.Source;
+            if (!program.IsActive) {
+                return new Program();
+            }
+            program.Credentials = program.Credentials?.Where(c => c.IsActive).ToList() ?? [];
+            return program;
         }
 
         public async Task<Program> GetProgram(string source, string fragment) {
@@ -39,7 +46,15 @@ namespace ProgramInformationV2.Search.Getters {
                             f => f.Term(m => m.Field(fld => fld.IsActive).Value(true)),
                             f => f.Term(m => m.Field(fld => fld.Fragment).Value(fragment))))));
             LogDebug(response);
-            return response.IsValid ? response.Documents?.FirstOrDefault() ?? new() : new();
+            if (!response.IsValid) {
+                return new Program();
+            }
+            var program = response.Documents?.FirstOrDefault();
+            if (program == null) {
+                return new Program();
+            }
+            program.Credentials = program.Credentials?.Where(c => c.IsActive).ToList() ?? [];
+            return program;
         }
 
         public async Task<Program> GetProgramByCredential(string credentialId) {
